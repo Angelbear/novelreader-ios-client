@@ -18,9 +18,7 @@
 		B4EF674F1774406500F54681 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4EF67301774406400F54681 /* Foundation.framework */; };
 		B4EF67571774406500F54681 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4EF67551774406500F54681 /* InfoPlist.strings */; };
 		B4EF675A1774406500F54681 /* xiaoshuoyueduTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4EF67591774406500F54681 /* xiaoshuoyueduTests.m */; };
-		B4F93F5F17744DAA0025A1E8 /* MSExampleControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F93F5A17744DAA0025A1E8 /* MSExampleControlsViewController.m */; };
 		B4F93F6017744DAA0025A1E8 /* MSExampleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F93F5C17744DAA0025A1E8 /* MSExampleTableViewController.m */; };
-		B4F93F6117744DAA0025A1E8 /* MSMonospaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F93F5E17744DAA0025A1E8 /* MSMonospaceViewController.m */; };
 		B4F93F6217744DC40025A1E8 /* MSMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F93F4F17744D790025A1E8 /* MSMasterViewController.m */; };
 		B4F93F7317744E7B0025A1E8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F93F6417744E7B0025A1E8 /* Default-568h@2x.png */; };
 		B4F93F7417744E7B0025A1E8 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B4F93F6517744E7B0025A1E8 /* Default.png */; };
@@ -72,12 +70,8 @@
 		B4EF67591774406500F54681 /* xiaoshuoyueduTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = xiaoshuoyueduTests.m; sourceTree = "<group>"; };
 		B4F93F4E17744D790025A1E8 /* MSMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMasterViewController.h; sourceTree = "<group>"; };
 		B4F93F4F17744D790025A1E8 /* MSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMasterViewController.m; sourceTree = "<group>"; };
-		B4F93F5917744DAA0025A1E8 /* MSExampleControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSExampleControlsViewController.h; sourceTree = "<group>"; };
-		B4F93F5A17744DAA0025A1E8 /* MSExampleControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSExampleControlsViewController.m; sourceTree = "<group>"; };
 		B4F93F5B17744DAA0025A1E8 /* MSExampleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSExampleTableViewController.h; sourceTree = "<group>"; };
 		B4F93F5C17744DAA0025A1E8 /* MSExampleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSExampleTableViewController.m; sourceTree = "<group>"; };
-		B4F93F5D17744DAA0025A1E8 /* MSMonospaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMonospaceViewController.h; sourceTree = "<group>"; };
-		B4F93F5E17744DAA0025A1E8 /* MSMonospaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMonospaceViewController.m; sourceTree = "<group>"; };
 		B4F93F6417744E7B0025A1E8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B4F93F6517744E7B0025A1E8 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B4F93F6617744E7B0025A1E8 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -208,12 +202,8 @@
 		B4F93F4D17744D790025A1E8 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				B4F93F5917744DAA0025A1E8 /* MSExampleControlsViewController.h */,
-				B4F93F5A17744DAA0025A1E8 /* MSExampleControlsViewController.m */,
 				B4F93F5B17744DAA0025A1E8 /* MSExampleTableViewController.h */,
 				B4F93F5C17744DAA0025A1E8 /* MSExampleTableViewController.m */,
-				B4F93F5D17744DAA0025A1E8 /* MSMonospaceViewController.h */,
-				B4F93F5E17744DAA0025A1E8 /* MSMonospaceViewController.m */,
 				B4F93F4E17744D790025A1E8 /* MSMasterViewController.h */,
 				B4F93F4F17744D790025A1E8 /* MSMasterViewController.m */,
 			);
@@ -397,8 +387,6 @@
 				B4F93F6217744DC40025A1E8 /* MSMasterViewController.m in Sources */,
 				B4F93F6017744DAA0025A1E8 /* MSExampleTableViewController.m in Sources */,
 				B4EF673B1774406500F54681 /* main.m in Sources */,
-				B4F93F5F17744DAA0025A1E8 /* MSExampleControlsViewController.m in Sources */,
-				B4F93F6117744DAA0025A1E8 /* MSMonospaceViewController.m in Sources */,
 				B4EF673F1774406500F54681 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

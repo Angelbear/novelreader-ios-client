@@ -30,12 +30,11 @@
 #import "MSNavigationPaneViewController.h"
 
 typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {
-    MSPaneViewControllerTypeAppearanceNone,
-    MSPaneViewControllerTypeAppearanceParallax,
-    MSPaneViewControllerTypeAppearanceZoom,
-    MSPaneViewControllerTypeAppearanceFade,
-    MSPaneViewControllerTypeControls,
-    MSPaneViewControllerTypeMonospace,
+    MSPaneViewControllerTypeBookShelf,
+    MSPaneViewControllerTypeRank,
+    MSPaneViewControllerTypeCategory,
+    MSPaneViewControllerTypeSearch,
+    MSPaneViewControllerTypeMore,
     MSPaneViewControllerTypeCount
 };
 
