@@ -1,6 +1,7 @@
 PODS:
   - AFNetworking (1.3.1)
   - JSONKit (1.5pre)
+  - MBProgressHUD (0.6)
   - MSNavigationPaneViewController (0.2.0):
     - PRTween (~> 0.0.1)
   - PRTween (0.0.1)
@@ -8,11 +9,13 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 1.3.0)
   - JSONKit (~> 1.5pre)
+  - MBProgressHUD (~> 0.6)
   - MSNavigationPaneViewController (~> 0.2.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
+  MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
   MSNavigationPaneViewController: 179285558ba1a61a9de68e84d91e77efccb3f3d6
   PRTween: d0439e7917031328f81de4910c5b02e202389939
 
