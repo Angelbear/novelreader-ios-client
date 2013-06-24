@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
+		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
+		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
+		B4E1A17B177880FC0068877C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A176177880CA0068877C /* SystemConfiguration.framework */; };
 		B4EF672F1774406400F54681 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4EF672E1774406400F54681 /* UIKit.framework */; };
 		B4EF67311774406400F54681 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4EF67301774406400F54681 /* Foundation.framework */; };
 		B4EF67331774406400F54681 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4EF67321774406400F54681 /* CoreGraphics.framework */; };
@@ -52,6 +56,11 @@
 /* Begin PBXFileReference section */
 		81C174DCCC4347C793B9FA56 /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xiaoshuoyuedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
+		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
+		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
+		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
+		B4E1A176177880CA0068877C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B4E1A178177880D60068877C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		B4EF672B1774406400F54681 /* xiaoshuoyuedu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xiaoshuoyuedu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4EF672E1774406400F54681 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B4EF67301774406400F54681 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -96,6 +105,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4F93F8317744EEA0025A1E8 /* QuartzCore.framework in Frameworks */,
+				B4E1A17B177880FC0068877C /* SystemConfiguration.framework in Frameworks */,
+				B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */,
 				B4EF672F1774406400F54681 /* UIKit.framework in Frameworks */,
 				B4EF67311774406400F54681 /* Foundation.framework in Frameworks */,
 				B4EF67331774406400F54681 /* CoreGraphics.framework in Frameworks */,
@@ -140,6 +151,8 @@
 		B4EF672D1774406400F54681 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4E1A178177880D60068877C /* MobileCoreServices.framework */,
+				B4E1A176177880CA0068877C /* SystemConfiguration.framework */,
 				B4F93F8217744EEA0025A1E8 /* QuartzCore.framework */,
 				B4EF672E1774406400F54681 /* UIKit.framework */,
 				B4EF67301774406400F54681 /* Foundation.framework */,
@@ -206,6 +219,9 @@
 				B4F93F5C17744DAA0025A1E8 /* MSExampleTableViewController.m */,
 				B4F93F4E17744D790025A1E8 /* MSMasterViewController.h */,
 				B4F93F4F17744D790025A1E8 /* MSMasterViewController.m */,
+				B4E1A17117787B250068877C /* SearchBookViewController.h */,
+				B4E1A17217787B250068877C /* SearchBookViewController.m */,
+				B4E1A17317787B250068877C /* SearchBookViewController.xib */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -322,6 +338,7 @@
 				B4F93F7517744E7B0025A1E8 /* Default@2x.png in Resources */,
 				B4F93F7C17744E7B0025A1E8 /* Icon.png in Resources */,
 				B4F93F7917744E7B0025A1E8 /* Icon-Small-50@2x.png in Resources */,
+				B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +405,7 @@
 				B4F93F6017744DAA0025A1E8 /* MSExampleTableViewController.m in Sources */,
 				B4EF673B1774406500F54681 /* main.m in Sources */,
 				B4EF673F1774406500F54681 /* AppDelegate.m in Sources */,
+				B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

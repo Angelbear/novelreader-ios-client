@@ -14,26 +14,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-#if defined(STORYBOARD)
-    self.navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
-#else
     self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
-#endif
-    
-#if defined(STORYBOARD)
-    MSMasterViewController *masterViewController = (MSMasterViewController *)[self.navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"MasterViewController"];
-#else
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
-#endif
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
     
-#if !defined(STORYBOARD)
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.navigationPaneViewController;
     [self.window makeKeyAndVisible];
-#endif
-    
     return YES;
 }
 

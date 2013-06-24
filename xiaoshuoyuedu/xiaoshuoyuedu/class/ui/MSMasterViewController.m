@@ -28,6 +28,7 @@
 
 #import "MSMasterViewController.h"
 #import "MSExampleTableViewController.h"
+#import "SearchBookViewController.h";
 
 NSString * const MSMasterViewControllerCellReuseIdentifier = @"MSMasterViewControllerCellReuseIdentifier";
 
@@ -95,7 +96,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
         @(MSPaneViewControllerTypeBookShelf) : MSExampleTableViewController.class,
         @(MSPaneViewControllerTypeRank) : MSExampleTableViewController.class,
         @(MSPaneViewControllerTypeCategory) : MSExampleTableViewController.class,
-        @(MSPaneViewControllerTypeSearch) : MSExampleTableViewController.class,
+        @(MSPaneViewControllerTypeSearch) : SearchBookViewController.class,
         @(MSPaneViewControllerTypeMore) : MSExampleTableViewController.class,
     };
 
