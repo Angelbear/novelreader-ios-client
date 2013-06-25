@@ -9,6 +9,7 @@
 #import "SearchBookViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "BookInfoViewController.h"
 #import "Common.h"
 
 @interface SearchBookViewController ()
@@ -16,16 +17,6 @@
 @end
 
 @implementation SearchBookViewController
-
-- (NSString*) uri_encode:(NSString*) str {
-    NSString* encoded = (NSString*)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(
-                                                         kCFAllocatorDefault,
-                                                         (__bridge CFStringRef)str,
-                                                         NULL,
-                                                         (CFStringRef)@"!*'();:@&=+$,/?%#[]",
-                                                         kCFStringEncodingUTF8));
-	return encoded;
-}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -169,13 +160,16 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    id book = [self.searchResult objectAtIndex:indexPath.row];
+    BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
+    [self.navigationController pushViewController:infoViewController animated:YES];
 }
 
 #pragma mark - UISearchBar delegate
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     __unsafe_unretained SearchBookViewController* weakReferenceSelf = self;
-    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/search_novel?key_word=%@", SERVER_HOST, [self uri_encode:[self.searchDisplayController.searchBar text]]];
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/search_novel?key_word=%@", SERVER_HOST, [URLUtils uri_encode:[self.searchDisplayController.searchBar text]]];
     NSLog(@"%@", searchUrl);
     self.savedSearchTerm = [self.searchDisplayController.searchBar text];
     NSURL *url = [NSURL URLWithString:searchUrl];
@@ -191,7 +185,7 @@
             self.sectionResult = [NSCountedSet setWithArray:[self.searchResult valueForKey:@"from"]];
             [weakReferenceSelf.searchDisplayController.searchResultsTableView reloadData];
         }
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
     {
         NSLog(@"failure %@", [error localizedDescription]);

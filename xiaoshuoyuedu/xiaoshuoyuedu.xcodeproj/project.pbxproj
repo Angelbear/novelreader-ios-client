@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9501779C9C0005F455E /* BookInfoViewController.m */; };
+		B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B41AD9511779C9C0005F455E /* BookInfoViewController.xib */; };
+		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -56,6 +59,11 @@
 /* Begin PBXFileReference section */
 		81C174DCCC4347C793B9FA56 /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xiaoshuoyuedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
+		B41AD94F1779C9C0005F455E /* BookInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookInfoViewController.h; sourceTree = "<group>"; };
+		B41AD9501779C9C0005F455E /* BookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookInfoViewController.m; sourceTree = "<group>"; };
+		B41AD9511779C9C0005F455E /* BookInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookInfoViewController.xib; sourceTree = "<group>"; };
+		B41AD9541779CE07005F455E /* URLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLUtils.h; sourceTree = "<group>"; };
+		B41AD9551779CE07005F455E /* URLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLUtils.m; sourceTree = "<group>"; };
 		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
@@ -132,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				B426FDA31779294F00205904 /* Common.h */,
+				B41AD9541779CE07005F455E /* URLUtils.h */,
+				B41AD9551779CE07005F455E /* URLUtils.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -232,6 +242,9 @@
 				B4E1A17117787B250068877C /* SearchBookViewController.h */,
 				B4E1A17217787B250068877C /* SearchBookViewController.m */,
 				B4E1A17317787B250068877C /* SearchBookViewController.xib */,
+				B41AD94F1779C9C0005F455E /* BookInfoViewController.h */,
+				B41AD9501779C9C0005F455E /* BookInfoViewController.m */,
+				B41AD9511779C9C0005F455E /* BookInfoViewController.xib */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -349,6 +362,7 @@
 				B4F93F7C17744E7B0025A1E8 /* Icon.png in Resources */,
 				B4F93F7917744E7B0025A1E8 /* Icon-Small-50@2x.png in Resources */,
 				B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */,
+				B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +430,8 @@
 				B4EF673B1774406500F54681 /* main.m in Sources */,
 				B4EF673F1774406500F54681 /* AppDelegate.m in Sources */,
 				B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */,
+				B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */,
+				B41AD9561779CE07005F455E /* URLUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,6 +5,9 @@
 //  Created by Yangyang Zhao on 13-6-25.
 //  Copyright (c) 2013年 Yangyang Zhao. All rights reserved.
 //
+
+#import "URLUtils.h"
+
 #define DEBUG 1
 
 #define NOVEL_SERVER @"xiaoshuoyuedu.sinaapp.com"
@@ -15,4 +18,3 @@
 #else
 #define SERVER_HOST NOVEL_SERVER
 #endif
-
