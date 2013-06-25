@@ -56,6 +56,7 @@
 /* Begin PBXFileReference section */
 		81C174DCCC4347C793B9FA56 /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xiaoshuoyuedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
+		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -127,6 +128,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B426FDA21779293000205904 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				B426FDA31779294F00205904 /* Common.h */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
 		B4EF67221774406400F54681 = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +216,7 @@
 		B4F93F4C17744D790025A1E8 /* class */ = {
 			isa = PBXGroup;
 			children = (
+				B426FDA21779293000205904 /* utils */,
 				B4F93F4D17744D790025A1E8 /* ui */,
 			);
 			path = class;

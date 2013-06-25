@@ -11,6 +11,8 @@
 @interface SearchBookViewController : UITableViewController<UISearchBarDelegate>
 
 @property(nonatomic, assign) BOOL searchWasActive;
-@property(nonatomic, weak) NSString* savedSearchTerm;
+@property(nonatomic, strong) NSString* savedSearchTerm;
 @property(nonatomic, assign) NSUInteger savedScopeButtonIndex;
+@property(nonatomic, strong) id searchResult;
+@property(nonatomic, strong) NSCountedSet* sectionResult;
 @end

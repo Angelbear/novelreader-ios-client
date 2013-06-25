@@ -9,6 +9,7 @@
 #import "SearchBookViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "Common.h"
 
 @interface SearchBookViewController ()
 
@@ -38,6 +39,7 @@
 - (id) init
 {
     self = [super initWithNibName:@"SearchBookViewController" bundle:nil];
+    self.savedScopeButtonIndex = 0;
     return self;
 }
 
@@ -73,15 +75,30 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if (tableView == self.tableView) {
+        return 1;
+    } else if(tableView == self.searchDisplayController.searchResultsTableView && self.sectionResult != nil) {
+        return [self.sectionResult count];
+    }
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.tableView) {
         return 0;
-    } else if(tableView == self.searchDisplayController.searchResultsTableView && searchResult != nil) {
-        return [searchResult count];
+    } else if(tableView == self.searchDisplayController.searchResultsTableView && self.sectionResult != nil) {
+        return [self.sectionResult countForObject:[[self.sectionResult allObjects] objectAtIndex:section]];
+    }
+    return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (tableView == self.tableView) {
+        return @"";
+    } else if(tableView == self.searchDisplayController.searchResultsTableView && self.sectionResult != nil) {
+        return [[self.sectionResult allObjects] objectAtIndex:section];
     }
     return 0;
 }
@@ -94,9 +111,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    if(tableView == self.searchDisplayController.searchResultsTableView && searchResult != nil) {
-        cell.textLabel.text =  [[searchResult objectAtIndex:indexPath.row] valueForKey:@"name"];
-        cell.detailTextLabel.text = [[searchResult objectAtIndex:indexPath.row] valueForKey:@"from"];
+    if(tableView == self.searchDisplayController.searchResultsTableView && self.searchResult != nil) {
+        cell.textLabel.text =  [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"author"]];
     }
     
     return cell;
@@ -156,12 +173,11 @@
 
 #pragma mark - UISearchBar delegate
 
-id searchResult;
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     __unsafe_unretained SearchBookViewController* weakReferenceSelf = self;
-    NSString* searchUrl = [NSString stringWithFormat:@"http://xiaoshuoyuedu.sinaapp.com/note/search_novel?key_word=%@", [self uri_encode:[self.searchDisplayController.searchBar text]]];
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/search_novel?key_word=%@", SERVER_HOST, [self uri_encode:[self.searchDisplayController.searchBar text]]];
     NSLog(@"%@", searchUrl);
+    self.savedSearchTerm = [self.searchDisplayController.searchBar text];
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
@@ -170,7 +186,9 @@ id searchResult;
             NSSortDescriptor *sortName = [[NSSortDescriptor alloc] initWithKey:@"from" ascending:YES];
             NSArray *sortDescArray = [NSArray arrayWithObjects:sortName, nil];            
             [JSON sortedArrayUsingDescriptors:sortDescArray];
-            searchResult = JSON;
+            NSLog(@"%@", [JSON description]);
+            self.searchResult = JSON;
+            self.sectionResult = [NSCountedSet setWithArray:[self.searchResult valueForKey:@"from"]];
             [weakReferenceSelf.searchDisplayController.searchResultsTableView reloadData];
         }
         [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -181,6 +199,10 @@ id searchResult;
     }];
     [operation start];
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    self.savedScopeButtonIndex = selectedScope;
 }
 
 @end
