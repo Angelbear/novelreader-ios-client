@@ -103,8 +103,11 @@
     }
     
     if(tableView == self.searchDisplayController.searchResultsTableView && self.searchResult != nil) {
-        cell.textLabel.text =  [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"name"]];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"author"]];
+        NSString* from =  [[self.sectionResult allObjects] objectAtIndex:indexPath.section];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(from == %@)", from];
+        id item = [[self.searchResult filteredArrayUsingPredicate:predicate] objectAtIndex:indexPath.row];
+        cell.textLabel.text =  [NSString stringWithFormat:@"%@",[item valueForKey:@"name"]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [item valueForKey:@"author"]];
     }
     
     return cell;
@@ -153,14 +156,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    id book = [self.searchResult objectAtIndex:indexPath.row];
+    NSString* from =  [[self.sectionResult allObjects] objectAtIndex:indexPath.section];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(from == %@)", from];
+    id book = [[self.searchResult filteredArrayUsingPredicate:predicate] objectAtIndex:indexPath.row];
     BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
     [self.navigationController pushViewController:infoViewController animated:YES];
 }
@@ -177,10 +175,9 @@
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            NSSortDescriptor *sortName = [[NSSortDescriptor alloc] initWithKey:@"from" ascending:YES];
+            NSSortDescriptor *sortName = [[NSSortDescriptor alloc] initWithKey:@"from" ascending:NO];
             NSArray *sortDescArray = [NSArray arrayWithObjects:sortName, nil];            
             [JSON sortedArrayUsingDescriptors:sortDescArray];
-            NSLog(@"%@", [JSON description]);
             self.searchResult = JSON;
             self.sectionResult = [NSCountedSet setWithArray:[self.searchResult valueForKey:@"from"]];
             [weakReferenceSelf.searchDisplayController.searchResultsTableView reloadData];

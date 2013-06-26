@@ -18,6 +18,9 @@
 @property (nonatomic, strong) NSString* fromSite;
 @property (nonatomic, strong) NSString* bookUrl;
 
+@property (nonatomic, strong) UIImage* placeHolderImage;
+@property (nonatomic, strong) AFJSONRequestOperation* currentOperation;
+
 @end
 
 @implementation BookInfoViewController
@@ -38,6 +41,8 @@
     self.fromSite = from;
     self.bookUrl = url;
     self.authorName = author;
+    self.placeHolderImage = [UIImage imageNamed:@"placeholder.jpg"];
+    
     return self;
 }
 
@@ -47,6 +52,7 @@
     self.bookNameLabel.text = self.bookName;
     self.authorNameLabel.text = [NSString stringWithFormat:@"作者：%@", self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:@"来源：%@", self.fromSite];
+    self.title = self.bookName;
 
     __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_book_info?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookUrl]];
@@ -54,7 +60,7 @@
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
             NSLog(@"%@", [JSON description]);
             if ([[JSON objectForKey:@"description"] isKindOfClass:[NSString class]]) {
@@ -63,10 +69,9 @@
                 weakReferenceSelf.descriptionView.text = @"无";
             }
             if ([[JSON objectForKey:@"img"] isKindOfClass:[NSString class]]) {
-                UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[JSON objectForKey:@"img"]]]];
-                self.coverImageView.image = image;
+                [self.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFillIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:self.placeHolderImage diskCacheTimeoutInterval:30];
             } else {
-                
+                [self.coverImageView setImage:self.placeHolderImage];
             }
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
@@ -75,9 +80,16 @@
                                              NSLog(@"failure %@", [error localizedDescription]);
                                              [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
                                          }];
-    [operation start];
+    [self.currentOperation start];
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    if ([self.currentOperation isExecuting]) {
+        [self.currentOperation cancel];
+        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+    }
 }
 
 #pragma button touch event handler

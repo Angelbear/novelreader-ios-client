@@ -1,8 +1,8 @@
 ALWAYS_SEARCH_USER_PATHS = YES
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = ${PODS_HEADERS_SEARCH_PATHS}
-OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework MobileCoreServices -framework QuartzCore -framework Security -framework SystemConfiguration
-PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFNetworking" "${PODS_ROOT}/BuildHeaders/JSONKit" "${PODS_ROOT}/BuildHeaders/MBProgressHUD" "${PODS_ROOT}/BuildHeaders/MSNavigationPaneViewController" "${PODS_ROOT}/BuildHeaders/PRTween"
+OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework MobileCoreServices -framework QuartzCore -framework Security -framework SystemConfiguration -framework UIKit
+PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/AFNetworking" "${PODS_ROOT}/BuildHeaders/GVCache" "${PODS_ROOT}/BuildHeaders/JSONKit" "${PODS_ROOT}/BuildHeaders/MBProgressHUD" "${PODS_ROOT}/BuildHeaders/MSNavigationPaneViewController" "${PODS_ROOT}/BuildHeaders/PRTween" "${PODS_ROOT}/BuildHeaders/WTExtension" "${PODS_ROOT}/BuildHeaders/WTURLImageView"
 PODS_HEADERS_SEARCH_PATHS = ${PODS_PUBLIC_HEADERS_SEARCH_PATHS}
-PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/JSONKit" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/MSNavigationPaneViewController" "${PODS_ROOT}/Headers/PRTween"
+PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/GVCache" "${PODS_ROOT}/Headers/JSONKit" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/MSNavigationPaneViewController" "${PODS_ROOT}/Headers/PRTween" "${PODS_ROOT}/Headers/WTExtension" "${PODS_ROOT}/Headers/WTURLImageView"
 PODS_ROOT = ${SRCROOT}/Pods

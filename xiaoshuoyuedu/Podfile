@@ -5,4 +5,5 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'JSONKit',  '~> 1.5pre'
   pod 'MSNavigationPaneViewController', '~> 0.2.0'
   pod 'MBProgressHUD', '~> 0.6'
+  pod 'WTURLImageView', '~> 1.1.0'
 end

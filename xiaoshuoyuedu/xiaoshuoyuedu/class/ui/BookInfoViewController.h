@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WTURLImageView/WTURLImageView.h>
 
 @interface BookInfoViewController : UIViewController
 
@@ -17,6 +18,6 @@
 @property(nonatomic, strong) IBOutlet UILabel* bookNameLabel;
 @property(nonatomic, strong) IBOutlet UILabel* authorNameLabel;
 @property(nonatomic, strong) IBOutlet UILabel* siteNameLabel;
-@property(nonatomic, strong) IBOutlet UIImageView* coverImageView;
+@property(nonatomic, strong) IBOutlet WTURLImageView* coverImageView;
 @property(nonatomic, strong) IBOutlet UITextView* descriptionView;
 @end

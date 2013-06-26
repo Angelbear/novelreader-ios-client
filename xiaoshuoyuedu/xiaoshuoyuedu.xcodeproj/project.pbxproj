@@ -10,6 +10,7 @@
 		B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9501779C9C0005F455E /* BookInfoViewController.m */; };
 		B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B41AD9511779C9C0005F455E /* BookInfoViewController.xib */; };
 		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
+		B4A0D71E177AA24100157BB0 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D71D177AA24100157BB0 /* placeholder.jpg */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -65,6 +66,7 @@
 		B41AD9541779CE07005F455E /* URLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLUtils.h; sourceTree = "<group>"; };
 		B41AD9551779CE07005F455E /* URLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLUtils.m; sourceTree = "<group>"; };
 		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		B4A0D71D177AA24100157BB0 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 		B4F93F6317744E7B0025A1E8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B4A0D71D177AA24100157BB0 /* placeholder.jpg */,
 				B4F93F6417744E7B0025A1E8 /* Default-568h@2x.png */,
 				B4F93F6517744E7B0025A1E8 /* Default.png */,
 				B4F93F6617744E7B0025A1E8 /* Default@2x.png */,
@@ -363,6 +366,7 @@
 				B4F93F7917744E7B0025A1E8 /* Icon-Small-50@2x.png in Resources */,
 				B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */,
 				B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */,
+				B4A0D71E177AA24100157BB0 /* placeholder.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
