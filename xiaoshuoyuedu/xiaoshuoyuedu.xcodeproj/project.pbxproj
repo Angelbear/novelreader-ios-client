@@ -11,6 +11,10 @@
 		B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B41AD9511779C9C0005F455E /* BookInfoViewController.xib */; };
 		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
 		B4A0D71E177AA24100157BB0 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D71D177AA24100157BB0 /* placeholder.jpg */; };
+		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
+		B4A0D724177C261B00157BB0 /* RankViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D722177C261B00157BB0 /* RankViewController.xib */; };
+		B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */; };
+		B4A0D729177C320400157BB0 /* FixedSearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D727177C320400157BB0 /* FixedSearchBookViewController.xib */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -67,6 +71,12 @@
 		B41AD9551779CE07005F455E /* URLUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLUtils.m; sourceTree = "<group>"; };
 		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B4A0D71D177AA24100157BB0 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
+		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
+		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
+		B4A0D722177C261B00157BB0 /* RankViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RankViewController.xib; sourceTree = "<group>"; };
+		B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSearchBookViewController.h; sourceTree = "<group>"; };
+		B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSearchBookViewController.m; sourceTree = "<group>"; };
+		B4A0D727177C320400157BB0 /* FixedSearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FixedSearchBookViewController.xib; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -247,6 +257,12 @@
 				B41AD94F1779C9C0005F455E /* BookInfoViewController.h */,
 				B41AD9501779C9C0005F455E /* BookInfoViewController.m */,
 				B41AD9511779C9C0005F455E /* BookInfoViewController.xib */,
+				B4A0D720177C261B00157BB0 /* RankViewController.h */,
+				B4A0D721177C261B00157BB0 /* RankViewController.m */,
+				B4A0D722177C261B00157BB0 /* RankViewController.xib */,
+				B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */,
+				B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */,
+				B4A0D727177C320400157BB0 /* FixedSearchBookViewController.xib */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -367,6 +383,8 @@
 				B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */,
 				B41AD9531779C9C0005F455E /* BookInfoViewController.xib in Resources */,
 				B4A0D71E177AA24100157BB0 /* placeholder.jpg in Resources */,
+				B4A0D724177C261B00157BB0 /* RankViewController.xib in Resources */,
+				B4A0D729177C320400157BB0 /* FixedSearchBookViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +454,8 @@
 				B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */,
 				B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */,
 				B41AD9561779CE07005F455E /* URLUtils.m in Sources */,
+				B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */,
+				B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
