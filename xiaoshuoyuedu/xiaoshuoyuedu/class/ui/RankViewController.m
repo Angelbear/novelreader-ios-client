@@ -52,28 +52,11 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullRefresh:) forControlEvents:UIControlEventValueChanged];
     
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
-                                            [NSArray arrayWithObjects:
-                                             @"Monthly",
-                                             @"Weekly",
-                                             @"Daily",
-                                             nil]];
-    [segmentedControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
-    segmentedControl.frame = CGRectMake(0, 0, 180, 30);
-    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    segmentedControl.selectedSegmentIndex = 0;
-    
-    [self.navigationItem setTitleView:segmentedControl];
-    
     self.spinner = [[UIActivityIndicatorView alloc]
                                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     [self retrieveRankInfo:1];
-       // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.title = @"排行榜";
 }
 
 - (void)didReceiveMemoryWarning
@@ -146,13 +129,6 @@
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"author"]];
     }
     return cell;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.currentPage > 0 && self.currentPage < MAX_LOAD_PAGE_NO && indexPath.row == [self.searchResult count]) {
-        //[self retrieveRankInfo:self.currentPage+1];
-    }
 }
 
 /*

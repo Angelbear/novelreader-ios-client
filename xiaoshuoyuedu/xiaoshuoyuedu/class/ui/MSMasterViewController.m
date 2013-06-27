@@ -30,6 +30,7 @@
 #import "MSExampleTableViewController.h"
 #import "SearchBookViewController.h"
 #import "RankViewController.h"
+#import "CategoryViewController.h"
 
 NSString * const MSMasterViewControllerCellReuseIdentifier = @"MSMasterViewControllerCellReuseIdentifier";
 
@@ -81,6 +82,12 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     [self transitionToViewController:MSPaneViewControllerTypeBookShelf];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    [self.navigationControllers removeAllObjects];
+}
+
 #pragma mark - MSMasterViewController
 
 - (void)initialize
@@ -96,7 +103,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     self.paneViewControllerClasses = @{
         @(MSPaneViewControllerTypeBookShelf) : MSExampleTableViewController.class,
         @(MSPaneViewControllerTypeRank) : RankViewController.class,
-        @(MSPaneViewControllerTypeCategory) : MSExampleTableViewController.class,
+        @(MSPaneViewControllerTypeCategory) : CategoryViewController.class,
         @(MSPaneViewControllerTypeSearch) : SearchBookViewController.class,
         @(MSPaneViewControllerTypeMore) : MSExampleTableViewController.class,
     };
@@ -112,6 +119,8 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
         @(MSPaneViewControllerTypeMore),
         @(MSPaneViewControllerTypeCount)
     ];
+    
+    self.navigationControllers = [[NSMutableDictionary alloc] initWithCapacity:MSPaneViewControllerTypeCount];
 }
 
 - (MSPaneViewControllerType)paneViewControllerTypeForIndexPath:(NSIndexPath *)indexPath
@@ -135,13 +144,22 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     
     BOOL animateTransition = self.navigationPaneViewController.paneViewController != nil;
     
-    Class paneViewControllerClass = self.paneViewControllerClasses[@(paneViewControllerType)];
-    NSParameterAssert([paneViewControllerClass isSubclassOfClass:UIViewController.class]);
-    UIViewController *paneViewController = (UIViewController *)[[paneViewControllerClass alloc] init];
+    UINavigationController *paneNavigationViewController = nil;
+    if ( [self.navigationControllers objectForKey:@(paneViewControllerType)] != nil) {
+        id viewController = [self.navigationControllers objectForKey:@(paneViewControllerType)];
+        if ([viewController isKindOfClass:[UINavigationController class]]) {
+            paneNavigationViewController = (UINavigationController*) viewController;
+        }
+    }
+    if (paneNavigationViewController == nil) {
+        Class paneViewControllerClass = self.paneViewControllerClasses[@(paneViewControllerType)];
+        NSParameterAssert([paneViewControllerClass isSubclassOfClass:UIViewController.class]);
+        UIViewController* paneViewController = (UIViewController *)[[paneViewControllerClass alloc] init];
+        paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
+        paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
+        [self.navigationControllers setValue:paneNavigationViewController forKey:@(paneViewControllerType)];
+    }
     
-    paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
-    
-    UINavigationController *paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
     [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
     
     self.paneViewControllerType = paneViewControllerType;

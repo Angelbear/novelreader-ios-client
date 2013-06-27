@@ -42,6 +42,7 @@ typedef NS_ENUM(NSUInteger, MSPaneViewControllerType) {
 
 @property (nonatomic, assign) MSPaneViewControllerType paneViewControllerType;
 @property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
+@property (nonatomic, strong) NSDictionary* navigationControllers;
 
 - (void)transitionToViewController:(MSPaneViewControllerType)paneViewControllerType;
 
