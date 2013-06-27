@@ -14,6 +14,8 @@
 
 @end
 
+#define MAX_LOAD_PAGE_NO 10
+
 @implementation RankViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -28,15 +30,19 @@
 - (id) init
 {
     self = [super initWithNibName:@"RankViewController" bundle:nil];
+    self.currentPage = 0;
+    self.searchResult = [[NSMutableArray alloc] init];
     return self;
 }
 
 
 - (void) segmentChanged:(UISegmentedControl*)sender {
-    
 }
 
 - (void) pullRefresh:(UIRefreshControl*) sender {
+    self.searchResult = [[NSMutableArray alloc] init];
+    self.currentPage = 0;
+    [self.tableView reloadData];
     [self retrieveRankInfo:1];
 }
 
@@ -48,9 +54,9 @@
     
     UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
                                             [NSArray arrayWithObjects:
-                                             @"lixiangwenxue",
+                                             @"Monthly",
                                              @"Weekly",
-                                             @"Total",
+                                             @"Daily",
                                              nil]];
     [segmentedControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
     segmentedControl.frame = CGRectMake(0, 0, 180, 30);
@@ -58,6 +64,9 @@
     segmentedControl.selectedSegmentIndex = 0;
     
     [self.navigationItem setTitleView:segmentedControl];
+    
+    self.spinner = [[UIActivityIndicatorView alloc]
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     [self retrieveRankInfo:1];
        // Uncomment the following line to preserve selection between presentations.
@@ -75,24 +84,29 @@
 
 - (void) retrieveRankInfo:(NSUInteger) pageNo {
     __unsafe_unretained RankViewController* weakReferenceSelf = self;
-    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/rank/get_rank?page=%d", SERVER_HOST, pageNo];
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/rank/get_rank?page=%d&from=lixiangwenxue", SERVER_HOST, pageNo];
     NSLog(@"%@", searchUrl);
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
+    
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            self.searchResult = JSON;
+            [self.searchResult addObjectsFromArray:JSON];
+            self.currentPage = pageNo;
             [weakReferenceSelf.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                         {
-                                             NSLog(@"failure %@", [error localizedDescription]);
-                                             [self.refreshControl endRefreshing];
-                                         }];
+        [self.spinner stopAnimating];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NSLog(@"failure %@", [error localizedDescription]);
+        [self.refreshControl endRefreshing];
+        [self.spinner stopAnimating];
+    }];
     [operation start];
-    [self.refreshControl beginRefreshing];
+    if (pageNo == 0) {
+        [self.refreshControl beginRefreshing];
+    }
 }
 
 #pragma mark - Table view data source
@@ -104,21 +118,41 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.searchResult count];;
+    if (self.currentPage < MAX_LOAD_PAGE_NO) {
+        return [self.searchResult count] + 1;
+    } else {
+        return [self.searchResult count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    
+    UITableViewCell *cell = nil;
+    if (self.currentPage < MAX_LOAD_PAGE_NO && indexPath.row == [self.searchResult count]) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"RefreshTableCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RefreshTableCell"];
+            cell.textLabel.text = @"加载更多";
+            cell.accessoryView = self.spinner;
+        }
+    } else {
+        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        }
+        cell.textLabel.text =  [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"name"]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"author"]];
     }
-    
-    cell.textLabel.text =  [NSString stringWithFormat:@"%@",[[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"name"]];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [[self.searchResult objectAtIndex:indexPath.row] valueForKey:@"author"]];
-    
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.currentPage > 0 && self.currentPage < MAX_LOAD_PAGE_NO && indexPath.row == [self.searchResult count]) {
+        //[self retrieveRankInfo:self.currentPage+1];
+    }
 }
 
 /*
@@ -164,9 +198,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id book = [self.searchResult objectAtIndex:indexPath.row];
-    BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
-    [self.navigationController pushViewController:infoViewController animated:YES];
+    if (self.currentPage == MAX_LOAD_PAGE_NO || indexPath.row != [self.searchResult count]) {
+        id book = [self.searchResult objectAtIndex:indexPath.row];
+        BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
+        [self.navigationController pushViewController:infoViewController animated:YES];
+    } else {
+        [self.spinner startAnimating];
+        [self retrieveRankInfo:self.currentPage+1];
+    }
 }
 
 @end

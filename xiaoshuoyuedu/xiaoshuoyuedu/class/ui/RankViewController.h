@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface RankViewController : UITableViewController
-@property(nonatomic, strong) id searchResult;
-@property(nonatomic, strong) NSCountedSet* sectionResult;
+@property(nonatomic, strong) NSMutableArray* searchResult;
+@property(nonatomic, strong) NSString* rankSource;
+@property(nonatomic, strong) UIActivityIndicatorView *spinner;
+@property(nonatomic, assign) NSUInteger currentPage;
 @end
