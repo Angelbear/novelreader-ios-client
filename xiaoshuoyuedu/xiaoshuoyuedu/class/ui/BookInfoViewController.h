@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <WTURLImageView/WTURLImageView.h>
+#import "Book.h"
 
 @interface BookInfoViewController : UIViewController
 
@@ -20,4 +21,5 @@
 @property(nonatomic, strong) IBOutlet UILabel* siteNameLabel;
 @property(nonatomic, strong) IBOutlet WTURLImageView* coverImageView;
 @property(nonatomic, strong) IBOutlet UITextView* descriptionView;
+@property(nonatomic, strong) id bookInfo;
 @end

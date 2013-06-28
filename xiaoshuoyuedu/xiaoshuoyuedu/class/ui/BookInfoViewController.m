@@ -10,6 +10,7 @@
 #import "Common.h"
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "DataBase.h"
 
 @interface BookInfoViewController ()
 
@@ -62,7 +63,7 @@
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
     self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            NSLog(@"%@", [JSON description]);
+            weakReferenceSelf.bookInfo = JSON;
             if ([[JSON objectForKey:@"description"] isKindOfClass:[NSString class]]) {
                 weakReferenceSelf.descriptionView.text = [JSON objectForKey:@"description"];
             } else {
@@ -95,7 +96,19 @@
 #pragma button touch event handler
 
 - (IBAction) clickDownloadBook:(id)sender {
-    NSLog(@"clickDownloadBook");
+    if (self.bookInfo != nil) {
+        Book* book = [[Book alloc] init];
+        book.name = [self.bookInfo objectForKey:@"name"];
+        book.from = self.fromSite;
+        book.author = self.authorName;
+        if ([self.coverImageView image]) {
+            book.cover = [self.coverImageView image];
+        } else {
+            book.cover = self.placeHolderImage;
+        }
+        [DataBase insertBook:book];
+    }
+    NSLog(@"%@", [[DataBase getAllBooks] description]);
 }
 
 - (IBAction) clickBookmarkBook:(id)sender {

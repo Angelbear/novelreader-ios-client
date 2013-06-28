@@ -18,6 +18,10 @@
 		B4A0D724177C261B00157BB0 /* RankViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D722177C261B00157BB0 /* RankViewController.xib */; };
 		B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */; };
 		B4A0D729177C320400157BB0 /* FixedSearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D727177C320400157BB0 /* FixedSearchBookViewController.xib */; };
+		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
+		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
+		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
+		B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D844177D85C900157BB0 /* BookShelfViewController.m */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -85,6 +89,14 @@
 		B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSearchBookViewController.h; sourceTree = "<group>"; };
 		B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSearchBookViewController.m; sourceTree = "<group>"; };
 		B4A0D727177C320400157BB0 /* FixedSearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FixedSearchBookViewController.xib; sourceTree = "<group>"; };
+		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
+		B4A0D83A177D477700157BB0 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
+		B4A0D83D177D4C6300157BB0 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		B4A0D83E177D4C6300157BB0 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		B4A0D840177D4C6F00157BB0 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
+		B4A0D841177D4C6F00157BB0 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
+		B4A0D843177D85C800157BB0 /* BookShelfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfViewController.h; sourceTree = "<group>"; };
+		B4A0D844177D85C900157BB0 /* BookShelfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfViewController.m; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -162,8 +174,28 @@
 				B426FDA31779294F00205904 /* Common.h */,
 				B41AD9541779CE07005F455E /* URLUtils.h */,
 				B41AD9551779CE07005F455E /* URLUtils.m */,
+				B4A0D839177D477700157BB0 /* DataBase.h */,
+				B4A0D83A177D477700157BB0 /* DataBase.m */,
 			);
 			path = utils;
+			sourceTree = "<group>";
+		};
+		B4A0D72A177D31CE00157BB0 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		B4A0D83C177D4C5000157BB0 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				B4A0D83D177D4C6300157BB0 /* Book.h */,
+				B4A0D83E177D4C6300157BB0 /* Book.m */,
+				B4A0D840177D4C6F00157BB0 /* Section.h */,
+				B4A0D841177D4C6F00157BB0 /* Section.m */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		B4EF67221774406400F54681 = {
@@ -205,6 +237,7 @@
 		B4EF67341774406400F54681 /* xiaoshuoyuedu */ = {
 			isa = PBXGroup;
 			children = (
+				B4A0D72A177D31CE00157BB0 /* lib */,
 				B4F93F4C17744D790025A1E8 /* class */,
 				B4EF673D1774406500F54681 /* AppDelegate.h */,
 				B4EF673E1774406500F54681 /* AppDelegate.m */,
@@ -246,6 +279,7 @@
 		B4F93F4C17744D790025A1E8 /* class */ = {
 			isa = PBXGroup;
 			children = (
+				B4A0D83C177D4C5000157BB0 /* model */,
 				B426FDA21779293000205904 /* utils */,
 				B4F93F4D17744D790025A1E8 /* ui */,
 			);
@@ -276,6 +310,8 @@
 				B46EC4E3177C6B3400C6873B /* CategoryViewController.xib */,
 				B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */,
 				B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */,
+				B4A0D843177D85C800157BB0 /* BookShelfViewController.h */,
+				B4A0D844177D85C900157BB0 /* BookShelfViewController.m */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -472,6 +508,10 @@
 				B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */,
 				B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */,
 				B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */,
+				B4A0D83B177D477700157BB0 /* DataBase.m in Sources */,
+				B4A0D83F177D4C6300157BB0 /* Book.m in Sources */,
+				B4A0D842177D4C6F00157BB0 /* Section.m in Sources */,
+				B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,7 +619,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/xiaoshuoyuedu/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -595,7 +640,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/xiaoshuoyuedu/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

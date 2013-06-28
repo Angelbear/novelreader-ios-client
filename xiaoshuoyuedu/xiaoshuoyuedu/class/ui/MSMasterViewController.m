@@ -31,6 +31,7 @@
 #import "SearchBookViewController.h"
 #import "RankViewController.h"
 #import "CategoryViewController.h"
+#import "BookShelfViewController.h"
 
 NSString * const MSMasterViewControllerCellReuseIdentifier = @"MSMasterViewControllerCellReuseIdentifier";
 
@@ -101,7 +102,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
         @(MSPaneViewControllerTypeMore) : @"More",
     };
     self.paneViewControllerClasses = @{
-        @(MSPaneViewControllerTypeBookShelf) : MSExampleTableViewController.class,
+        @(MSPaneViewControllerTypeBookShelf) : BookShelfViewController.class,
         @(MSPaneViewControllerTypeRank) : RankViewController.class,
         @(MSPaneViewControllerTypeCategory) : CategoryViewController.class,
         @(MSPaneViewControllerTypeSearch) : SearchBookViewController.class,
@@ -145,8 +146,8 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     BOOL animateTransition = self.navigationPaneViewController.paneViewController != nil;
     
     UINavigationController *paneNavigationViewController = nil;
-    if ( [self.navigationControllers objectForKey:@(paneViewControllerType)] != nil) {
-        id viewController = [self.navigationControllers objectForKey:@(paneViewControllerType)];
+    if ( [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]] != nil) {
+        id viewController = [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]];
         if ([viewController isKindOfClass:[UINavigationController class]]) {
             paneNavigationViewController = (UINavigationController*) viewController;
         }
@@ -157,7 +158,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
         UIViewController* paneViewController = (UIViewController *)[[paneViewControllerClass alloc] init];
         paneViewController.navigationItem.title = self.paneViewControllerTitles[@(paneViewControllerType)];
         paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
-        [self.navigationControllers setValue:paneNavigationViewController forKey:@(paneViewControllerType)];
+        [self.navigationControllers setValue:paneNavigationViewController forKey:[@(paneViewControllerType) stringValue]];
     }
     
     [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];

@@ -11,4 +11,7 @@
 #define NOVEL_SERVER @"xiaoshuoyuedu.sinaapp.com"
 #define NOVEL_SERVER_LOCAL @"localhost:8080"
 
-#define SERVER_HOST NOVEL_SERVER
+#define SERVER_HOST NOVEL_SERVER_LOCAL
+
+
+#define DATABASE_NAME @"data.db"

@@ -9,11 +9,13 @@
 #import "AppDelegate.h"
 #import "MSNavigationPaneViewController.h"
 #import "MSMasterViewController.h"
+#import "DataBase.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [DataBase initialize_database];
     self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
