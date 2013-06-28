@@ -34,12 +34,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.editButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                    style:UIBarButtonItemStyleDone target:self action:@selector(enterEditMode:)];
+    self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                       style:UIBarButtonItemStyleDone target:self action:@selector(enterEditMode:)];
+    self.navigationItem.rightBarButtonItem = self.editButton;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)enterEditMode:(id)sender {
+    if ([self.tableView isEditing]) {
+        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
+        [self.tableView setEditing:NO animated:YES];
+        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    }
+    else {
+        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.tableView setEditing:YES animated:YES];
+    }
 }
 
 #pragma mark - Table view data source
@@ -68,14 +85,14 @@
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+
 
 /*
 // Override to support editing the table view.

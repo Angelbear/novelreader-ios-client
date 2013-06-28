@@ -10,4 +10,7 @@
 
 @interface BookShelfViewController : UITableViewController
 @property(nonatomic, strong) NSMutableArray* books;
+@property(nonatomic, strong) UIBarButtonItem* editButton;
+@property(nonatomic, strong) UIBarButtonItem* doneButton;
+
 @end
