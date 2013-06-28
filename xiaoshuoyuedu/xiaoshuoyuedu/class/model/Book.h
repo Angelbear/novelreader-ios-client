@@ -14,6 +14,7 @@
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* author;
 @property(nonatomic, strong) NSString* from;
+@property(nonatomic, strong) NSString* url;
 @property(nonatomic, strong) UIImage* cover;
 @property(nonatomic, assign) NSUInteger last_update_time;
 @end

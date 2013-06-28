@@ -23,8 +23,8 @@
 
 + (void) initialize_database {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString*   create_books_sql = @"CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT, cover BLOB, source TEXT, last_update_time INTEGER);";
-    NSString*   create_sections_sql = @"CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, name TEXT, text TEXT, source TEXT, last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE);";
+    NSString*   create_books_sql = @"CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT, cover BLOB, source TEXT, url TEXT UNIQUE, last_update_time INTEGER);";
+    NSString*   create_sections_sql = @"CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, name TEXT, text TEXT, source TEXT, url TEXT UNIQUE,  last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE);";
     [db open];
     [db executeUpdate:create_books_sql];
     [db executeUpdate:create_sections_sql];
@@ -45,6 +45,7 @@
         book.author = [resultSet stringForColumn:@"author"];
         book.cover  = [[UIImage alloc] initWithData:[resultSet dataForColumn:@"cover"]];
         book.from   = [resultSet stringForColumn:@"source"];
+        book.url    = [resultSet stringForColumn:@"url"];
         book.last_update_time = [resultSet intForColumn:@"last_update_time"];
         [books addObject:book];
     }
@@ -67,6 +68,7 @@
         section.name   = [resultSet stringForColumn:@"name"];
         section.text   = [resultSet stringForColumn:@"text"];
         section.from   = [resultSet stringForColumn:@"source"];
+        section.url    = [resultSet stringForColumn:@"url"];
         section.last_update_time = [resultSet intForColumn:@"last_update_time"];
         [sections addObject:section];
     }
@@ -79,14 +81,17 @@
     return [NSNumber numberWithLong:epoch];
 }
 
-+ (BOOL) insertBook:(Book*) book {
++ (NSUInteger) insertBook:(Book*) book {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString* sql_insert_book = @"INSERT INTO books (name, author, cover, source, last_update_time) VALUES (?,?,?,?,?)";
+    NSString* sql_insert_book = @"INSERT INTO books (name, author, cover, source, url, last_update_time) VALUES (?,?,?,?,?,?)";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:book.name, book.author, [[NSData alloc] initWithData:UIImagePNGRepresentation(book.cover)], book.from, [self currentTimeStamp], nil];
-    BOOL result =  [db executeUpdate:sql_insert_book withArgumentsInArray:args];
+    NSError* error;
+    [db update:sql_insert_book withErrorAndBindings:&error,book.name, book.author, [[NSData alloc] initWithData:UIImagePNGRepresentation(book.cover)], book.from, book.url, [self currentTimeStamp]];
+    if (error != nil) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
     [db close];
-    return result;
+    return db.lastInsertRowId;
 }
 
 + (BOOL) deleteBook:(Book*) book {
@@ -101,22 +106,22 @@
 
 + (BOOL) updateBook:(Book*) book {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString* sql_update_book = @"UPDATE books SET name = ?, author = ?, cover = ?, source = ?, last_update_time = ? WHERE id = ?";
+    NSString* sql_update_book = @"UPDATE books SET name = ?, author = ?, cover = ?, source = ?, url = ? last_update_time = ? WHERE id = ?";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:book.name, book.author, [[NSData alloc] initWithData:UIImagePNGRepresentation(book.cover)], book.from,  [self currentTimeStamp], @(book.book_id), nil];
+    NSArray* args = [[NSArray alloc] initWithObjects:book.name, book.author, [[NSData alloc] initWithData:UIImagePNGRepresentation(book.cover)], book.from, book.url, [self currentTimeStamp], @(book.book_id), nil];
     BOOL result =  [db executeUpdate:sql_update_book withArgumentsInArray:args];
     [db close];
     return result;
 }
 
-+ (BOOL) insertSection:(Section*) section {
++ (NSUInteger) insertSection:(Section*) section {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString* sql_insert_sections = @"INSERT INTO sections (book_id, name, text, source, last_update_time) VALUES (?,?,?,?,?)";
+    NSString* sql_insert_sections = @"INSERT INTO sections (book_id, name, text, source, url, last_update_time) VALUES (?,?,?,?,?,?)";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.text, section.from,  [self currentTimeStamp], nil];
-    BOOL result =  [db executeUpdate:sql_insert_sections withArgumentsInArray:args];
+    NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.text, section.from, section.url,  [self currentTimeStamp], nil];
+    [db executeUpdate:sql_insert_sections withArgumentsInArray:args];
     [db close];
-    return result;
+    return db.lastInsertRowId;
 }
 
 + (BOOL) deleteSection:(Section*) section {
@@ -131,9 +136,9 @@
 
 + (BOOL) updateSection:(Section*) section {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString* sql_update_section = @"UPDATE sections SET name = ?, text = ?, from = ?, last_update_time = ? WHERE section_id = ?";
+    NSString* sql_update_section = @"UPDATE sections SET name = ?, text = ?, from = ?, url = ?, last_update_time = ? WHERE section_id = ?";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:section.name, section.text, section.from, [self currentTimeStamp], @(section.section_id), nil];
+    NSArray* args = [[NSArray alloc] initWithObjects:section.name, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id), nil];
     BOOL result =  [db executeUpdate:sql_update_section withArgumentsInArray:args];
     [db close];
     return result;

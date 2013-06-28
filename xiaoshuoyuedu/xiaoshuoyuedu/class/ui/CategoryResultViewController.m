@@ -10,7 +10,7 @@
 #import "Common.h"
 #import <AFNetworking/AFNetworking.h>
 #import "BookInfoViewController.h"
-
+#import <MBProgressHUD/MBProgressHUD.h>
 @implementation CategoryResultViewController
 
 - (id) initWithType:(NSUInteger)type source:(NSString*) from name:(NSString*)name
@@ -45,15 +45,18 @@
         }
         [self.refreshControl endRefreshing];
         [self.spinner stopAnimating];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"failure %@", [error localizedDescription]);
         [self.refreshControl endRefreshing];
         [self.spinner stopAnimating];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     }];
     [operation start];
     if (pageNo == 0) {
         [self.refreshControl beginRefreshing];
     }
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 }
 
 @end

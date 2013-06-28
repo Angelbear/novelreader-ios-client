@@ -14,5 +14,6 @@
 @property(nonatomic, strong) NSString* name;
 @property(nonatomic, strong) NSString* text;
 @property(nonatomic, strong) NSString* from;
+@property(nonatomic, strong) NSString* url;
 @property(nonatomic, assign) NSUInteger last_update_time;
 @end

@@ -13,10 +13,10 @@
 + (void) initialize_database;
 + (NSMutableArray*) getAllBooks;
 + (NSMutableArray*) getAllSectionsOfBook:(Book*)book;
-+ (BOOL) insertBook:(Book*) book;
++ (NSUInteger) insertBook:(Book*) book;
 + (BOOL) deleteBook:(Book*) book;
 + (BOOL) updateBook:(Book*) book;
-+ (BOOL) insertSection:(Section*) section;
++ (NSUInteger) insertSection:(Section*) section;
 + (BOOL) deleteSection:(Section*) section;
 + (BOOL) updateSection:(Section*) section;
 @end

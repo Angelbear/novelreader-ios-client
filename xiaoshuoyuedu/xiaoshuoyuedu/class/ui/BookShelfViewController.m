@@ -9,6 +9,9 @@
 #import "BookShelfViewController.h"
 #import "DataBase.h"
 #import "Book.h"
+#import "BookItemTableViewCell.h"
+#import <AFNetworking/AFNetworking.h>
+
 @interface BookShelfViewController ()
 
 @end
@@ -27,18 +30,32 @@
 - (id) init
 {
     self = [super initWithStyle:UITableViewStylePlain];
-    self.books = [DataBase getAllBooks];
+    self.isRefreshing = NO;
     return self;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.books = [DataBase getAllBooks];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.editButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
-                                                                    style:UIBarButtonItemStyleDone target:self action:@selector(enterEditMode:)];
+    self.editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                                    style:UIBarButtonItemStyleBordered target:self action:@selector(enterEditMode:)];
     self.doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                        style:UIBarButtonItemStyleDone target:self action:@selector(enterEditMode:)];
     self.navigationItem.rightBarButtonItem = self.editButton;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                              target:self
+                                              action:@selector(refresh:)];
+    
+    self.spinner = [[UIActivityIndicatorView alloc]
+                    initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,14 +64,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)enterEditMode:(id)sender {
+- (void) refresh:(id) sender {
+    if (self.isRefreshing == YES) {
+        self.isRefreshing = NO;
+    } else {
+        self.isRefreshing = YES;
+    }
+    [self.tableView reloadData];
+}
+
+- (void) enterEditMode:(id)sender {
     if ([self.tableView isEditing]) {
-        // If the tableView is already in edit mode, turn it off. Also change the title of the button to reflect the intended verb (‘Edit’, in this case).
         [self.tableView setEditing:NO animated:YES];
-        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = self.editButton;
     }
     else {
-        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+        self.navigationItem.rightBarButtonItem = self.doneButton;
         [self.tableView setEditing:YES animated:YES];
     }
 }
@@ -75,14 +100,27 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    BookItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[BookItemTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     Book* book = [self.books objectAtIndex:indexPath.row];
     cell.textLabel.text =  book.name;
-    cell.detailTextLabel.text = book.author;
+    cell.imageView.image = book.cover;
+    
+    if (self.isRefreshing == YES) {
+        [cell.contentView addSubview:cell.dlProgress];        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        [cell.dlProgress removeFromSuperview];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50.0f;
 }
 
 
@@ -94,19 +132,23 @@
 }
 
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        Book* book = [self.books objectAtIndex:indexPath.row];
+        [DataBase deleteBook:book];
+        [self.books removeObject:book];
+        [self.tableView reloadData];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

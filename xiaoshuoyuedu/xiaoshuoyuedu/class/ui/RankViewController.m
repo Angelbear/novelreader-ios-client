@@ -10,6 +10,7 @@
 #import "Common.h"
 #import <AFNetworking/AFNetworking.h>
 #import "BookInfoViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 @interface RankViewController ()
 
 @end
@@ -81,15 +82,18 @@
         }
         [self.refreshControl endRefreshing];
         [self.spinner stopAnimating];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"failure %@", [error localizedDescription]);
         [self.refreshControl endRefreshing];
         [self.spinner stopAnimating];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     }];
     [operation start];
     if (pageNo == 0) {
         [self.refreshControl beginRefreshing];
     }
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -101,7 +105,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.currentPage < MAX_LOAD_PAGE_NO) {
+    if (self.currentPage > 0 && self.currentPage < MAX_LOAD_PAGE_NO) {
         return [self.searchResult count] + 1;
     } else {
         return [self.searchResult count];

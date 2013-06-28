@@ -13,6 +13,8 @@
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E5177C6B3400C6873B /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B46EC4E3177C6B3400C6873B /* CategoryViewController.xib */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
+		B46EC4EB177DCA8200C6873B /* BookItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */; };
+		B46EC4ED177DCAB200C6873B /* BookItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B46EC4EC177DCAB100C6873B /* BookItemTableViewCell.xib */; };
 		B4A0D71E177AA24100157BB0 /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D71D177AA24100157BB0 /* placeholder.jpg */; };
 		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
 		B4A0D724177C261B00157BB0 /* RankViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A0D722177C261B00157BB0 /* RankViewController.xib */; };
@@ -82,6 +84,9 @@
 		B46EC4E3177C6B3400C6873B /* CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryResultViewController.h; sourceTree = "<group>"; };
 		B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryResultViewController.m; sourceTree = "<group>"; };
+		B46EC4E9177DCA8100C6873B /* BookItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookItemTableViewCell.h; sourceTree = "<group>"; };
+		B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookItemTableViewCell.m; sourceTree = "<group>"; };
+		B46EC4EC177DCAB100C6873B /* BookItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookItemTableViewCell.xib; sourceTree = "<group>"; };
 		B4A0D71D177AA24100157BB0 /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
 		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
@@ -312,6 +317,9 @@
 				B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */,
 				B4A0D843177D85C800157BB0 /* BookShelfViewController.h */,
 				B4A0D844177D85C900157BB0 /* BookShelfViewController.m */,
+				B46EC4E9177DCA8100C6873B /* BookItemTableViewCell.h */,
+				B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */,
+				B46EC4EC177DCAB100C6873B /* BookItemTableViewCell.xib */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -435,6 +443,7 @@
 				B4A0D724177C261B00157BB0 /* RankViewController.xib in Resources */,
 				B4A0D729177C320400157BB0 /* FixedSearchBookViewController.xib in Resources */,
 				B46EC4E5177C6B3400C6873B /* CategoryViewController.xib in Resources */,
+				B46EC4ED177DCAB200C6873B /* BookItemTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +521,7 @@
 				B4A0D83F177D4C6300157BB0 /* Book.m in Sources */,
 				B4A0D842177D4C6F00157BB0 /* Section.m in Sources */,
 				B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */,
+				B46EC4EB177DCA8200C6873B /* BookItemTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

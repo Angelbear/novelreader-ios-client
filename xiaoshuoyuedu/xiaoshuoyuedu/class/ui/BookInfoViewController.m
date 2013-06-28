@@ -11,6 +11,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "DataBase.h"
+#import "Section.h"
 
 @interface BookInfoViewController ()
 
@@ -50,6 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.downloadButton setHidden:YES];
     self.bookNameLabel.text = self.bookName;
     self.authorNameLabel.text = [NSString stringWithFormat:@"作者：%@", self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:@"来源：%@", self.fromSite];
@@ -70,10 +72,11 @@
                 weakReferenceSelf.descriptionView.text = @"无";
             }
             if ([[JSON objectForKey:@"img"] isKindOfClass:[NSString class]]) {
-                [self.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFillIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:self.placeHolderImage diskCacheTimeoutInterval:30];
+                [weakReferenceSelf.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFillIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:self.placeHolderImage diskCacheTimeoutInterval:30];
             } else {
-                [self.coverImageView setImage:self.placeHolderImage];
+                [weakReferenceSelf.coverImageView setImage:self.placeHolderImage];
             }
+            [weakReferenceSelf.downloadButton setHidden:NO];
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -96,24 +99,51 @@
 #pragma button touch event handler
 
 - (IBAction) clickDownloadBook:(id)sender {
-    if (self.bookInfo != nil) {
-        Book* book = [[Book alloc] init];
-        book.name = [self.bookInfo objectForKey:@"name"];
-        book.from = self.fromSite;
-        book.author = self.authorName;
-        if ([self.coverImageView image]) {
-            book.cover = [self.coverImageView image];
-        } else {
-            book.cover = self.placeHolderImage;
-        }
-        [DataBase insertBook:book];
+    if (self.bookInfo == nil) {
+        return;
     }
-    NSLog(@"%@", [[DataBase getAllBooks] description]);
+    
+    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    Book* book = [[Book alloc] init];
+    book.name = [self.bookInfo objectForKey:@"name"];
+    book.from = self.fromSite;
+    book.author = self.authorName;
+    book.url   = [self.bookInfo objectForKey:@"url"];
+    if ([self.coverImageView image] != nil) {
+        book.cover = [self.coverImageView image];
+    } else {
+        book.cover = self.placeHolderImage;
+    }
+    NSUInteger book_id = [DataBase insertBook:book];
+    if (book_id > 0) {
+        book.book_id = book_id;
+        [self.bookInfo setValue:@(book_id) forKey:@"id"];
+    }
+    
+    __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:book.url]];
+    NSLog(@"%@", searchUrl);
+    NSURL *url = [NSURL URLWithString:searchUrl];
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
+    
+    self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        if (JSON != nil && weakReferenceSelf !=nil) {
+            Section* section = [[Section alloc] init];
+            section.book_id = [[weakReferenceSelf valueForKey:@"id"] intValue];
+            section.url = [JSON valueForKey:@"url"];
+            section.from = weakReferenceSelf.fromSite;
+            section.name = [weakReferenceSelf valueForKey:@"name"]];
+        }
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NSLog(@"failure %@", [error localizedDescription]);
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
+    }];
+    [self.currentOperation start];
 }
 
-- (IBAction) clickBookmarkBook:(id)sender {
-    NSLog(@"clickBookmarkBook");
-}
 
 - (void)didReceiveMemoryWarning
 {
