@@ -76,6 +76,28 @@
     return sections;
 }
 
++ (Book*) getBookByUrl:(NSString*)url {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* query_sections_sql = @"SELECT * FROM books WHERE url = ?";
+    NSArray* args = [[NSArray alloc] initWithObjects: url, nil];
+    [db open];
+    FMResultSet* resultSet = [db executeQuery:query_sections_sql withArgumentsInArray:args];
+    if( [resultSet next] )
+    {
+        Book* book  = [[Book alloc] init];
+        book.book_id = [resultSet intForColumn:@"id"];
+        book.author = [resultSet stringForColumn:@"author"];
+        book.name   = [resultSet stringForColumn:@"name"];
+        book.from   = [resultSet stringForColumn:@"source"];
+        book.url    = [resultSet stringForColumn:@"url"];
+        book.last_update_time = [resultSet intForColumn:@"last_update_time"];
+        [db close];
+        return book;
+    }
+    [db close];
+    return nil;
+}
+
 + (NSNumber*) currentTimeStamp {
     NSUInteger epoch = (NSUInteger)[[NSDate date] timeIntervalSince1970];
     return [NSNumber numberWithLong:epoch];
@@ -90,8 +112,9 @@
     if (error != nil) {
         NSLog(@"%@", [error localizedDescription]);
     }
+    NSUInteger result = db.lastInsertRowId;
     [db close];
-    return db.lastInsertRowId;
+    return result;
 }
 
 + (BOOL) deleteBook:(Book*) book {
@@ -101,6 +124,7 @@
     NSArray* args = [[NSArray alloc] initWithObjects: @(book.book_id), nil];
     BOOL result =  [db executeUpdate:sql_delete_book withArgumentsInArray:args];
     [db close];
+    result = [self deleteSectionByBookId:book.book_id];
     return result;
 }
 
@@ -118,10 +142,11 @@
     FMDatabase* db    = [DataBase get_database_instance];
     NSString* sql_insert_sections = @"INSERT INTO sections (book_id, name, text, source, url, last_update_time) VALUES (?,?,?,?,?,?)";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.text, section.from, section.url,  [self currentTimeStamp], nil];
+    NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.from, section.url,  [self currentTimeStamp], nil];
     [db executeUpdate:sql_insert_sections withArgumentsInArray:args];
+    NSUInteger result = db.lastInsertRowId;
     [db close];
-    return db.lastInsertRowId;
+    return result;
 }
 
 + (BOOL) deleteSection:(Section*) section {
@@ -134,12 +159,27 @@
     return result;
 }
 
++ (BOOL) deleteSectionByBookId:(NSUInteger) bookId {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql_delete_section = @"DELETE FROM sections WHERE book_id = ?";
+    [db open];
+    NSArray* args = [[NSArray alloc] initWithObjects: @(bookId), nil];
+    BOOL result =  [db executeUpdate:sql_delete_section withArgumentsInArray:args];
+    [db close];
+    return result;
+}
+
 + (BOOL) updateSection:(Section*) section {
     FMDatabase* db    = [DataBase get_database_instance];
-    NSString* sql_update_section = @"UPDATE sections SET name = ?, text = ?, from = ?, url = ?, last_update_time = ? WHERE section_id = ?";
+    NSString* sql_update_section = @"UPDATE sections SET text = ?, source = ?, url = ?, last_update_time = ? WHERE id = ?";
     [db open];
-    NSArray* args = [[NSArray alloc] initWithObjects:section.name, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id), nil];
-    BOOL result =  [db executeUpdate:sql_update_section withArgumentsInArray:args];
+    //NSArray* args = [[NSArray alloc] initWithObjects:section.name, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id), nil];
+    //BOOL result =  [db executeUpdate:sql_update_section withArgumentsInArray:args];
+    NSError* error;
+    BOOL result = [db update:sql_update_section withErrorAndBindings:&error, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id)];
+    if (error != nil) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
     [db close];
     return result;
 }

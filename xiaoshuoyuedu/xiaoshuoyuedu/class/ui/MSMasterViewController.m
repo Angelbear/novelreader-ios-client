@@ -204,7 +204,9 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 {
     MSPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
     [self transitionToViewController:paneViewControllerType];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 #pragma mark - MSNavigationPaneViewControllerDelegate
@@ -212,7 +214,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 - (void)navigationPaneViewController:(MSNavigationPaneViewController *)navigationPaneViewController didUpdateToPaneState:(MSNavigationPaneState)state
 {
     // Ensure that the pane's table view can scroll to top correctly
-    self.tableView.scrollsToTop = (state == MSNavigationPaneStateOpen);
+    //self.tableView.scrollsToTop = (state == MSNavigationPaneStateOpen);
 }
 
 @end

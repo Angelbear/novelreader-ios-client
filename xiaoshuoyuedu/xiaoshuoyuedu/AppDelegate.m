@@ -10,21 +10,54 @@
 #import "MSNavigationPaneViewController.h"
 #import "MSMasterViewController.h"
 #import "DataBase.h"
+#import "MSReaderViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DataBase initialize_database];
+    if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
+    }
+    
     self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
     
+    
+    self.readerPaneViewController = [[MSNavigationPaneViewController alloc] init];
+    [self.readerPaneViewController.touchForwardingClasses addObject:UITableView.class];
+    MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
+    readerMasterViewController.navigationPaneViewController = self.readerPaneViewController;
+    self.readerPaneViewController.masterViewController = readerMasterViewController;
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.navigationPaneViewController;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+- (void) switchToReader:(Book*) book {
+    if ( [self.readerPaneViewController presentingViewController] == nil) {
+        self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
+        [readerMasterViewController setBook:book];
+        [self.window.rootViewController presentViewController: self.readerPaneViewController animated:YES completion:nil];
+    } else {
+        [self switchToNavitation];
+    }
+}
+
+- (void) openReaderPaneView {
+    [self.readerPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
+}
+
+
+- (void) switchToNavitation {
+    [self.window.rootViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -13,6 +13,7 @@
 + (void) initialize_database;
 + (NSMutableArray*) getAllBooks;
 + (NSMutableArray*) getAllSectionsOfBook:(Book*)book;
++ (Book*) getBookByUrl:(NSString*)url;
 + (NSUInteger) insertBook:(Book*) book;
 + (BOOL) deleteBook:(Book*) book;
 + (BOOL) updateBook:(Book*) book;

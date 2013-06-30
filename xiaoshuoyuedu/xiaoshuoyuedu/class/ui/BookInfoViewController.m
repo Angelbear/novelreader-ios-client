@@ -12,6 +12,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "DataBase.h"
 #import "Section.h"
+#import "AppDelegate.h"
 
 @interface BookInfoViewController ()
 
@@ -44,7 +45,7 @@
     self.bookUrl = url;
     self.authorName = author;
     self.placeHolderImage = [UIImage imageNamed:@"placeholder.jpg"];
-    
+    self.bookModel = [[Book alloc] init];
     return self;
 }
 
@@ -52,6 +53,7 @@
 {
     [super viewDidLoad];
     [self.downloadButton setHidden:YES];
+    [self.readButton removeFromSuperview];
     self.bookNameLabel.text = self.bookName;
     self.authorNameLabel.text = [NSString stringWithFormat:@"作者：%@", self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:@"来源：%@", self.fromSite];
@@ -76,7 +78,14 @@
             } else {
                 [weakReferenceSelf.coverImageView setImage:self.placeHolderImage];
             }
-            [weakReferenceSelf.downloadButton setHidden:NO];
+            
+            NSString* url = [JSON objectForKey:@"url"];
+            if ([DataBase getBookByUrl:url] != nil) {
+                [weakReferenceSelf.downloadButton removeFromSuperview];
+                [weakReferenceSelf.view addSubview:self.readButton];
+            } else {
+                [weakReferenceSelf.downloadButton setHidden:NO];
+            }
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
@@ -105,24 +114,23 @@
     
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     
-    Book* book = [[Book alloc] init];
-    book.name = [self.bookInfo objectForKey:@"name"];
-    book.from = self.fromSite;
-    book.author = self.authorName;
-    book.url   = [self.bookInfo objectForKey:@"url"];
-    if ([self.coverImageView image] != nil) {
-        book.cover = [self.coverImageView image];
-    } else {
-        book.cover = self.placeHolderImage;
-    }
-    NSUInteger book_id = [DataBase insertBook:book];
-    if (book_id > 0) {
-        book.book_id = book_id;
-        [self.bookInfo setValue:@(book_id) forKey:@"id"];
-    }
     
+    // Step 1: Insert book info into db
+    self.bookModel.name = [self.bookInfo objectForKey:@"name"];
+    self.bookModel.from = self.fromSite;
+    self.bookModel.author = self.authorName;
+    self.bookModel.url   = [self.bookInfo objectForKey:@"url"];
+    if ([self.coverImageView image] != nil) {
+        self.bookModel.cover = [self.coverImageView image];
+    } else {
+        self.bookModel.cover = self.placeHolderImage;
+    }
+    NSUInteger book_id = [DataBase insertBook:self.bookModel];
+    self.bookModel.book_id = book_id;
+    
+    // Step 2: Download section info
     __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
-    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:book.url]];
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookModel.url]];
     NSLog(@"%@", searchUrl);
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -130,11 +138,19 @@
     
     self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            Section* section = [[Section alloc] init];
-            section.book_id = [[weakReferenceSelf valueForKey:@"id"] intValue];
-            section.url = [JSON valueForKey:@"url"];
-            section.from = weakReferenceSelf.fromSite;
-            section.name = [weakReferenceSelf valueForKey:@"name"]];
+            for (int i = 0; i < [JSON count]; i++) {
+                id sec = [JSON objectAtIndex:i];
+                Section* section = [[Section alloc] init];
+                section.book_id = weakReferenceSelf.bookModel.book_id;
+                section.url = [sec valueForKey:@"url"];
+                section.from = weakReferenceSelf.fromSite;
+                section.name = [sec valueForKey:@"name"];
+                section.text = @"";
+                section.from = weakReferenceSelf.fromSite;
+                [DataBase insertSection:section];
+            }
+            [self.downloadButton removeFromSuperview];
+            [self.view addSubview:self.readButton];
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
@@ -142,6 +158,12 @@
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     }];
     [self.currentOperation start];
+
+}
+
+- (IBAction) clickReadBook:(id)sender {
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [delegate switchToReader:self.bookModel];
 }
 
 

@@ -14,6 +14,7 @@
 
 - (id) initWithBookName:(NSString*)name author:(NSString*)author source:(NSString*)from url:(NSString*)url;
 - (IBAction) clickDownloadBook:(id)sender;
+- (IBAction) clickReadBook:(id)sender;
 
 @property(nonatomic, strong) IBOutlet UILabel* bookNameLabel;
 @property(nonatomic, strong) IBOutlet UILabel* authorNameLabel;
@@ -21,5 +22,7 @@
 @property(nonatomic, strong) IBOutlet WTURLImageView* coverImageView;
 @property(nonatomic, strong) IBOutlet UITextView* descriptionView;
 @property(nonatomic, strong) IBOutlet UIButton* downloadButton;
+@property(nonatomic, strong) IBOutlet UIButton* readButton;
+@property(nonatomic, strong) Book* bookModel;
 @property(nonatomic, strong) id bookInfo;
 @end

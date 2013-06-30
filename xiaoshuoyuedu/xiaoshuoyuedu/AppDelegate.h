@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-@class MSNavigationPaneViewController;
-
+@class MSNavigationPaneViewController, MSReaderViewController;
+@class Book;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
+@property (strong, nonatomic) MSNavigationPaneViewController *readerPaneViewController;
+- (void) switchToReader:(Book*) book;
+- (void) switchToNavitation;
+- (void) openReaderPaneView;
 @end

@@ -24,6 +24,7 @@ NSString * const MSExampleTableViewControllerCellReuseIdentifier = @"MSExampleTa
 {
     self.numberFormatter = [NSNumberFormatter new];
     [self.numberFormatter setNumberStyle:NSNumberFormatterSpellOutStyle];
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
 }
 
 #pragma mark - UITableViewDataSource

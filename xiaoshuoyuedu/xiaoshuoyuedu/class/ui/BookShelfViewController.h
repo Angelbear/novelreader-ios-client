@@ -12,6 +12,6 @@
 @property(nonatomic, strong) NSMutableArray* books;
 @property(nonatomic, strong) UIBarButtonItem* editButton;
 @property(nonatomic, strong) UIBarButtonItem* doneButton;
-@property(nonatomic, strong) UIActivityIndicatorView *spinner;
+@property(nonatomic, strong) UIBarButtonItem* refreshButton;
 @property(nonatomic, assign) NSUInteger isRefreshing;
 @end
