@@ -36,6 +36,12 @@
 #define COCOAPODS_VERSION_MINOR_FMDB_standard 1
 #define COCOAPODS_VERSION_PATCH_FMDB_standard 0
 
+// GSBookShelf
+#define COCOAPODS_POD_AVAILABLE_GSBookShelf
+#define COCOAPODS_VERSION_MAJOR_GSBookShelf 0
+#define COCOAPODS_VERSION_MINOR_GSBookShelf 0
+#define COCOAPODS_VERSION_PATCH_GSBookShelf 1
+
 // GVCache
 #define COCOAPODS_POD_AVAILABLE_GVCache
 #define COCOAPODS_VERSION_MAJOR_GVCache 1
@@ -71,7 +77,7 @@
 #define COCOAPODS_POD_AVAILABLE_WTExtension_UIImage_WTExtension
 #define COCOAPODS_VERSION_MAJOR_WTExtension_UIImage_WTExtension 1
 #define COCOAPODS_VERSION_MINOR_WTExtension_UIImage_WTExtension 2
-#define COCOAPODS_VERSION_PATCH_WTExtension_UIImage_WTExtension 0
+#define COCOAPODS_VERSION_PATCH_WTExtension_UIImage_WTExtension 1
 
 // WTURLImageView
 #define COCOAPODS_POD_AVAILABLE_WTURLImageView

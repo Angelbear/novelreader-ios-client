@@ -8,4 +8,5 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'WTURLImageView', '~> 1.1.0'
   pod 'CKRefreshControl', '~> 1.1.0'
   pod 'FMDB', '~> 2.1'
+  pod 'GSBookShelf', '~> 0.0.1'
 end

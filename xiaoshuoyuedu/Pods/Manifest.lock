@@ -6,13 +6,14 @@ PODS:
   - FMDB/common (2.1)
   - FMDB/standard (2.1):
     - FMDB/common
+  - GSBookShelf (0.0.1)
   - GVCache (1.0.1)
   - JSONKit (1.5pre)
   - MBProgressHUD (0.7)
   - MSNavigationPaneViewController (0.2.0):
     - PRTween (~> 0.0.1)
   - PRTween (0.0.1)
-  - WTExtension/UIImage+WTExtension (1.2.0)
+  - WTExtension/UIImage+WTExtension (1.2.1)
   - WTURLImageView (1.1.0):
     - AFNetworking (>= 1.0)
     - GVCache (>= 1.0)
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - AFNetworking (~> 1.3.0)
   - CKRefreshControl (~> 1.1.0)
   - FMDB (~> 2.1)
+  - GSBookShelf (~> 0.0.1)
   - JSONKit (~> 1.5pre)
   - MBProgressHUD (~> 0.6)
   - MSNavigationPaneViewController (~> 0.2.0)
@@ -31,12 +33,13 @@ SPEC CHECKSUMS:
   AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
   CKRefreshControl: d90d7fe773e2cb0f54d9f917bc78e3a23e6cdc1b
   FMDB: 66010e9b750838dea71748df591fc118598f21c7
+  GSBookShelf: 0b76acb97289e00b375e749ae08200e9493beba6
   GVCache: dcf482c12f3fdbc6848e4f7b1b7a48dd6af0a1d9
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
   MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
   MSNavigationPaneViewController: 179285558ba1a61a9de68e84d91e77efccb3f3d6
   PRTween: d0439e7917031328f81de4910c5b02e202389939
-  WTExtension: 0bc27f99b1d0319257bdeb66146926d96a906ec3
+  WTExtension: 636071786394da7c57e130e7d9274d3c082a1b06
   WTURLImageView: 07fbaad72a1c3ba39e2246fe6a5dbbc93c84a59d
 
 COCOAPODS: 0.20.2
