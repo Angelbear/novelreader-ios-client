@@ -11,6 +11,7 @@
 #import <FMDB/FMDatabase.h>
 #import "Book.h"
 #import "Section.h"
+#import "Bookmark.h"
 
 @implementation DataBase
 
@@ -25,11 +26,54 @@
     FMDatabase* db    = [DataBase get_database_instance];
     NSString*   create_books_sql = @"CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT, cover BLOB, source TEXT, url TEXT UNIQUE, last_update_time INTEGER);";
     NSString*   create_sections_sql = @"CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, name TEXT, text TEXT, source TEXT, url TEXT UNIQUE,  last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE);";
+    NSString*   create_bookmarks_sql = @"CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, section_id INTEGER, offset INTEGER, default_bookmark INTEGER, last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE, FOREIGN KEY(section_id) REFERENCES sections(id) ON DELETE CASCADE)";
     [db open];
     [db executeUpdate:create_books_sql];
     [db executeUpdate:create_sections_sql];
+    [db executeUpdate:create_bookmarks_sql];
     [db close];
 }
+
++ (NSUInteger) createDefaultBookMark:(Book*)book {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql_insert_book = @"INSERT INTO bookmarks (book_id, section_id, offset, default_bookmark, last_update_time) VALUES (?,?,?,?,?)";
+    [db open];
+    NSError* error;
+    NSMutableArray* sections = [DataBase getAllSectionsOfBook:book];
+    if (sections !=nil  && [sections count] > 0) {
+        Section* sec = [sections objectAtIndex:0];
+        [db update:sql_insert_book withErrorAndBindings:&error,@(book.book_id), @(sec.section_id), [NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [self currentTimeStamp]];
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+        }
+    }
+    NSUInteger result = db.lastInsertRowId;
+    [db close];
+    return result;
+}
+
++ (Bookmark*) getDefaultBookmarkForBook:(Book*)book {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql_query_bookmark = @"SELECT * FROM bookmarks WHERE book_id = ? AND default_bookmark = 1";
+    NSArray* args = [NSArray arrayWithObjects:@(book.book_id), nil];
+    [db open];
+    FMResultSet* resultSet = [db executeQuery:sql_query_bookmark withArgumentsInArray:args];
+    if ( [resultSet next] )
+    {
+        Bookmark* bookmark  = [[Bookmark alloc] init];
+        bookmark.bookmark_id = [resultSet intForColumn:@"id"];
+        bookmark.book_id = [resultSet intForColumn:@"book_id"];
+        bookmark.section_id = [resultSet intForColumn:@"section_id"];
+        bookmark.offset = [resultSet intForColumn:@"offset"];
+        bookmark.default_bookmark = 1;
+        bookmark.last_update_time = [resultSet intForColumn:@"last_update_time"];
+        [db close];
+        return bookmark;
+    }
+    [db close];
+    return nil;
+}
+
 
 + (NSMutableArray*) getAllBooks {
     FMDatabase* db    = [DataBase get_database_instance];
@@ -76,6 +120,52 @@
     return sections;
 }
 
++ (NSMutableArray*) getDownloadedSectionsOfBook:(Book*)book {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* query_sections_sql = @"SELECT * FROM sections WHERE book_id = ? AND (text NOT NULL AND text <> '')";
+    NSArray* args = [[NSArray alloc] initWithObjects: @(book.book_id), nil];
+    [db open];
+    FMResultSet* resultSet = [db executeQuery:query_sections_sql withArgumentsInArray:args];
+    NSMutableArray* sections   = [[NSMutableArray alloc] initWithCapacity:0];
+    while( [resultSet next] )
+    {
+        Section* section  = [[Section alloc] init];
+        section.section_id = [resultSet intForColumn:@"id"];
+        section.book_id = [resultSet intForColumn:@"book_id"];
+        section.name   = [resultSet stringForColumn:@"name"];
+        section.text   = [resultSet stringForColumn:@"text"];
+        section.from   = [resultSet stringForColumn:@"source"];
+        section.url    = [resultSet stringForColumn:@"url"];
+        section.last_update_time = [resultSet intForColumn:@"last_update_time"];
+        [sections addObject:section];
+    }
+    [db close];
+    return sections;
+}
+
++ (NSMutableArray*) getNotDownloadedSectionsOfBook:(Book*)book limit:(NSUInteger)limit {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* query_sections_sql = @"SELECT * FROM sections WHERE book_id = ? AND (text IS NULL OR text = '') LIMIT ?";
+    NSArray* args = [[NSArray alloc] initWithObjects: @(book.book_id), @(limit), nil];
+    [db open];
+    FMResultSet* resultSet = [db executeQuery:query_sections_sql withArgumentsInArray:args];
+    NSMutableArray* sections   = [[NSMutableArray alloc] initWithCapacity:0];
+    while( [resultSet next] )
+    {
+        Section* section  = [[Section alloc] init];
+        section.section_id = [resultSet intForColumn:@"id"];
+        section.book_id = [resultSet intForColumn:@"book_id"];
+        section.name   = [resultSet stringForColumn:@"name"];
+        section.text   = [resultSet stringForColumn:@"text"];
+        section.from   = [resultSet stringForColumn:@"source"];
+        section.url    = [resultSet stringForColumn:@"url"];
+        section.last_update_time = [resultSet intForColumn:@"last_update_time"];
+        [sections addObject:section];
+    }
+    [db close];
+    return sections;
+}
+
 + (Book*) getBookByUrl:(NSString*)url {
     FMDatabase* db    = [DataBase get_database_instance];
     NSString* query_sections_sql = @"SELECT * FROM books WHERE url = ?";
@@ -93,6 +183,28 @@
         book.last_update_time = [resultSet intForColumn:@"last_update_time"];
         [db close];
         return book;
+    }
+    [db close];
+    return nil;
+}
+
++ (Section*) getSectionByUrl:(NSString*)url {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* query_sections_sql = @"SELECT * FROM sections WHERE url = ?";
+    NSArray* args = [[NSArray alloc] initWithObjects: url, nil];
+    [db open];
+    FMResultSet* resultSet = [db executeQuery:query_sections_sql withArgumentsInArray:args];
+    if( [resultSet next] )
+    {
+        Section* section  = [[Section alloc] init];
+        section.section_id = [resultSet intForColumn:@"id"];
+        section.book_id = [resultSet intForColumn:@"book_id"];
+        section.name   = [resultSet stringForColumn:@"name"];
+        section.from   = [resultSet stringForColumn:@"source"];
+        section.url    = [resultSet stringForColumn:@"url"];
+        section.last_update_time = [resultSet intForColumn:@"last_update_time"];
+        [db close];
+        return section;
     }
     [db close];
     return nil;

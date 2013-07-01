@@ -20,7 +20,6 @@
 #import "BookView.h"
 #import "BookShelfCellView.h"
 #import "BelowBottomView.h"
-#import "AboveTopView.h"
 
 #define CELL_HEIGHT 139.0f
 
@@ -29,19 +28,8 @@
 @property(nonatomic, strong) NSMutableArray* _activeDownloadClients;
 @end
 
-@interface CustomNavigationBar : UINavigationBar
-@end
-
-@implementation CustomNavigationBar
--(void) drawRect:(CGRect)rect
-{
-    UIImage *image = [UIImage imageNamed: @"navigation_bar_bg"];
-    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-}
-@end
-
 @implementation BookShelfViewController
-
+@synthesize bookShelfView = _bookShelfView;
 
 - (id) init
 {
@@ -65,29 +53,101 @@
 }
 
 - (void) stopAllDownloadTask {
+    for (BookView* bookView in self.bookShelfView.visibleBookViews) {
+        [bookView endDownload];
+    }
     for (AFHTTPClient* client in self._activeDownloadClients) {
         [[client operationQueue] cancelAllOperations];
     }
     [self._activeDownloadClients removeAllObjects];
 }
 
+- (void) checkUpdateForAllBooks {
+    [self showHUDWithCancel:@"正在更新书籍"];
+    self._completedDownloadBooks = 0;
+    [self._activeDownloadClients removeAllObjects];
+    __weak BookShelfViewController* weakReferenceSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        NSString* baseURL = [NSString stringWithFormat:@"http://%@/", SERVER_HOST];
+        AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
+        [client.operationQueue setMaxConcurrentOperationCount:1];
+        [weakReferenceSelf._activeDownloadClients addObject:client];
+         NSMutableArray *operations = [NSMutableArray array];
+        for (Book* book in self.books) {
+            NSString* downloadUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, book.from, [URLUtils uri_encode:book.url]];
+            NSURL *url = [NSURL URLWithString:downloadUrl];
+            NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
+            [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
+            
+            AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+                if (JSON != nil && weakReferenceSelf !=nil) {
+                    for (int i = 0; i < [JSON count]; i++) {
+                        id sec = [JSON objectAtIndex:i];
+                        Section* section = [[Section alloc] init];
+                        section.book_id = book.book_id;
+                        section.url = [sec valueForKey:@"url"];
+                        section.from = book.from;
+                        section.name = [sec valueForKey:@"name"];
+                        section.text = @"";
+                        if ([DataBase getSectionByUrl:section.url] == nil) {
+                            [DataBase insertSection:section];
+                        }
+                    }
+                }
+
+            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+                
+            }];
+            [operations addObject:operation];
+        }
+        [client enqueueBatchOfHTTPRequestOperations:operations
+                                      progressBlock:^(NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations) {
+                                          if (weakReferenceSelf) {
+                                              [weakReferenceSelf.HUD setLabelText:[NSString stringWithFormat:@"正在更新书籍 %d/%d", numberOfCompletedOperations, totalNumberOfOperations]];
+                                          }
+                                      } completionBlock:^(NSArray *operations) {
+                                          weakReferenceSelf._completedDownloadBooks++;
+                                          if (weakReferenceSelf._completedDownloadBooks == [weakReferenceSelf.books count]) {
+                                              [weakReferenceSelf.HUD hide:YES];
+                                              [weakReferenceSelf downloadAllSectionsOfAllBooks];
+                                          }
+                                      }];
+
+    });
+}
+
 - (void) downloadAllSectionsOfAllBooks {
+    [self showHUDWithCancel:@"正在更新章节"];
     self._completedDownloadBooks = 0;
     [self._activeDownloadClients removeAllObjects];
     __weak BookShelfViewController* weakReferenceSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         NSString* baseURL = [NSString stringWithFormat:@"http://%@/", SERVER_HOST];
         for (Book* book in self.books) {
+            NSMutableArray* allSections = [DataBase getAllSectionsOfBook:book];
+            NSMutableArray* downloadedSections = [DataBase getDownloadedSectionsOfBook:book];
+            NSMutableArray* notDownloadedSections = [DataBase getNotDownloadedSectionsOfBook:book limit:[allSections count]];
+            if ([notDownloadedSections count] == 0) {
+                continue;
+            }
+            
+            NSUInteger index = [weakReferenceSelf.books indexOfObject:book];
+            // FIXME:
+            BookView* bookView = (BookView*)[weakReferenceSelf.bookShelfView.visibleBookViews objectAtIndex:index];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [bookView beginDownload];
+            });
             AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
-            [weakReferenceSelf._activeDownloadClients addObject:client];
             [client.operationQueue setMaxConcurrentOperationCount:1];
-            NSMutableArray* sections = [DataBase getAllSectionsOfBook:book];
+            [weakReferenceSelf._activeDownloadClients addObject:client];
+  
             NSMutableArray *operations = [NSMutableArray array];
-            for (Section *sec in sections) {
+            for (Section *sec in notDownloadedSections) {
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, sec.from, [URLUtils uri_encode:sec.url]]];
-                //NSLog(@"%@", url);
+
                 NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
                 [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
+                
                 AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
                     if (JSON != nil) {
                         sec.text = [JSON objectForKey:@"text"];
@@ -95,16 +155,18 @@
                         [DataBase updateSection:sec];
                     }
                 } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-                    NSLog(@"failure %@", [error localizedDescription]);
+                    
                 }];
                 [operations addObject:operation];
             }
             [client enqueueBatchOfHTTPRequestOperations:operations
                   progressBlock:^(NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations) {
- //                     NSIndexPath* path = [NSIndexPath indexPathForRow:[weakReferenceSelf.books indexOfObject:book] inSection:0];
-           //           BookItemTableViewCell* cell = (BookItemTableViewCell*)[weakReferenceSelf.tableView cellForRowAtIndexPath:path];
-                      NSLog(@"download complemete %d %d",  numberOfCompletedOperations, totalNumberOfOperations);
-         //             [cell setProgress:(CGFloat)numberOfCompletedOperations / (CGFloat)totalNumberOfOperations];
+                      if (weakReferenceSelf) {
+                          bookView.downloadProgressView.progress = (CGFloat)(numberOfCompletedOperations + [downloadedSections count]) / (CGFloat)([allSections count]);
+                      }
+                      if (numberOfCompletedOperations == totalNumberOfOperations) {
+                          [bookView endDownload];
+                      }
                   } completionBlock:^(NSArray *operations) {
                       weakReferenceSelf._completedDownloadBooks++;
                       if (weakReferenceSelf._completedDownloadBooks == [weakReferenceSelf.books count]) {
@@ -112,13 +174,14 @@
                       }
             }];
         }
+        
     });
 }
 
 
-- (void)showHUDWithCancel {
+- (void)showHUDWithCancel:(NSString*) title {
     self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    self.HUD.labelText = @"正在更新书籍";
+    self.HUD.labelText = title;
     [self.HUD addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)]];
 }
 
@@ -166,9 +229,8 @@ BOOL animating;
         self.isRefreshing = NO;
     } else {
         self.isRefreshing = YES;
-        [self showHUDWithCancel];
+        [self checkUpdateForAllBooks];
         [self startSpin];
-        [self downloadAllSectionsOfAllBooks];
     }
 }
 
@@ -189,101 +251,21 @@ BOOL animating;
     }
 }
 
-/*
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.books count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    BookItemTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[BookItemTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    Book* book = [self.books objectAtIndex:indexPath.row];
-    cell.textLabel.text =  book.name;
-    cell.imageView.image = book.cover;
-    
-    if (self.isRefreshing == YES) {
-        [cell.contentView addSubview:cell.dlProgress];        
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    } else {
-        [cell.dlProgress removeFromSuperview];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50.0f;
-}
-
-
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-
-
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        Book* book = [self.books objectAtIndex:indexPath.row];
-        [DataBase deleteBook:book];
-        [self.books removeObject:book];
-        [self.tableView reloadData];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self stopSpin];
-    [self stopAllDownloadTask];
-    self.isRefreshing = NO;
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    Book* book = [self.books objectAtIndex:indexPath.row];
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [delegate switchToReader:book];
-    
-}
-*/
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    CGFloat baseWidth = isiPad ? 768 : 320;
+    CGFloat baseHeight = isiPad ? 1024 : 480;
+    
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, baseWidth, 44)];
     [_searchBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    _belowBottomView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, 320, CELL_HEIGHT * 2)];
+    _belowBottomView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, CELL_HEIGHT * 2)];
     [_belowBottomView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    _aboveTopView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, 320, CELL_HEIGHT * 2)];
+    _aboveTopView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, CELL_HEIGHT * 2)];
     [_aboveTopView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
-    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)];
+    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, baseHeight - 20)];
     [_bookShelfView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_bookShelfView setDataSource:self];
     
@@ -331,23 +313,27 @@ BOOL animating;
 - (NSInteger)numberOFBooksInCellOfBookShelfView:(GSBookShelfView *)bookShelfView {
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     if (UIDeviceOrientationIsLandscape(orientation)) {
-        return 4;
+        return isiPad ? 8 : 4;
     }
     else {
-        return 3;
+        return isiPad ? 6 : 3;
     }
 }
 
 - (UIView *)bookShelfView:(GSBookShelfView *)bookShelfView bookViewAtIndex:(NSInteger)index {
     static NSString *identifier = @"bookView";
+    Book* book = [self.books objectAtIndex:index];
     BookView *bookView = (BookView *)[bookShelfView dequeueReuseableBookViewWithIdentifier:identifier];
     if (bookView == nil) {
-        bookView = [[BookView alloc] initWithFrame:CGRectMake(0, 0, 70, 99)];
+        bookView = [[BookView alloc] initWithFrame:CGRectMake(0, 0, 70, 100) book:book withCaller:self];
         bookView.reuseIdentifier = identifier;
     }
     [bookView setIndex:index];
-    Book* book = [self.books objectAtIndex:index];
-    [bookView setImage:book.cover];
+    if (_editMode) {
+        [bookView setEdited:YES];
+    } else {
+        [bookView setEdited:NO];
+    }
     return bookView;
 }
 
@@ -379,23 +365,22 @@ BOOL animating;
 }
 
 - (CGFloat)cellMarginOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    return 20.0f;
+    return 30.0f;
 }
 
 - (CGFloat)bookViewHeightOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    return 88.0f;
+    return 100.0f;
 }
 
 - (CGFloat)bookViewWidthOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    return 74.0f;
+    return 70.0f;
 }
 
 - (CGFloat)bookViewBottomOffsetOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    return 123.0f;
+    return 120.0f;
 }
 
 - (CGFloat)cellShadowHeightOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    //return 0.0f;
     return 55.0f;
 }
 
@@ -426,9 +411,13 @@ BOOL animating;
 
 #pragma mark - BookView Listener
 
-- (void)bookViewClicked:(UIButton *)button {
-    BookView *bookView = (BookView *)button;
-    return;
+- (void) deleteBook:(Book*)book withBookView:(BookView*)view {
+    NSUInteger index = [self.books indexOfObject:book];
+    NSIndexSet* set = [[NSIndexSet alloc] initWithIndex:index];
+    if ([DataBase deleteBook:book] == YES) {
+        [_bookShelfView removeBookViewsAtIndexs:set animate:YES];
+        [self.books removeObject:book];
+    }
 }
 
 @end

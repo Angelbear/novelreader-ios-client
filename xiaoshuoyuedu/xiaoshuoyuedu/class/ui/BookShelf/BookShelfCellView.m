@@ -35,8 +35,7 @@
 
 #import "BookShelfCellView.h"
 #import <QuartzCore/QuartzCore.h>
-
-#define isRetina ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+#import "Common.h"
 
 @implementation BookShelfCellView
 
@@ -51,13 +50,15 @@ static UIImage *shelfImageLandscape = nil;
     if (shadingImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
         
-        UIGraphicsBeginImageContext(CGSizeMake(320 * scale, 139 * scale));
-        UIImage *shadingImageToDraw = [UIImage imageNamed:@"Side Shading-iPhone"];
+        CGFloat baseWidth = isiPad ? 768 : 320;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(baseWidth * scale, 139 * scale));
+        UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
         [shadingImageToDraw drawInRect:CGRectMake(0, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         
         CGAffineTransform ctm1 = CGAffineTransformMakeScale(-1.0f, 1.0f);
         CGContextConcatCTM(UIGraphicsGetCurrentContext(), ctm1);
-        [shadingImageToDraw drawInRect:CGRectMake(-320 * scale, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
+        [shadingImageToDraw drawInRect:CGRectMake((0 - baseWidth) * scale, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         shadingImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
@@ -69,8 +70,10 @@ static UIImage *shelfImageLandscape = nil;
 + (UIImage *)woodImage {
     if (woodImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
+
+        CGFloat baseHeight = isiPad ? 1024 : 480;
         
-        UIGraphicsBeginImageContext(CGSizeMake(480 * scale, 139 * scale));
+        UIGraphicsBeginImageContext(CGSizeMake(baseHeight * scale, 139 * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
         [woodImageToDraw drawInRect:CGRectMake(0, 0, woodImageToDraw.size.width * scale, woodImageToDraw.size.width * scale)];
         woodImage = UIGraphicsGetImageFromCurrentImageContext();

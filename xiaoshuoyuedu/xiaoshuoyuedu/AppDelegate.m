@@ -13,6 +13,9 @@
 #import "MSReaderViewController.h"
 
 @implementation AppDelegate
+@synthesize currentBookView =_bookView;
+@synthesize bookViewOrignCenter = _bookViewOrignCenter;
+@synthesize modalTransitionStyle = _modalTransitionStyle;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -47,6 +50,19 @@
         [readerMasterViewController setBook:book];
         [self.window.rootViewController presentViewController: self.readerPaneViewController animated:YES completion:nil];
     } else {
+        [self switchToNavitation];
+    }
+}
+
+- (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
+    if ( [self.readerPaneViewController presentingViewController] == nil) {
+        self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        self.currentBookView = view;
+        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
+        [readerMasterViewController setBook:book];
+        [self.window.rootViewController presentViewController: self.readerPaneViewController animated:YES completion:nil];
+    } else {
+        self.currentBookView = nil;
         [self switchToNavitation];
     }
 }

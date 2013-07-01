@@ -55,6 +55,7 @@
     [self.downloadButton setHidden:YES];
     [self.readButton removeFromSuperview];
     self.bookNameLabel.text = self.bookName;
+    self.descriptionView.font = isiPad ? [UIFont systemFontOfSize:20.0f] : [UIFont systemFontOfSize:14.0f];
     self.authorNameLabel.text = [NSString stringWithFormat:@"作者：%@", self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:@"来源：%@", self.fromSite];
     self.title = self.bookName;
@@ -80,7 +81,9 @@
             }
             
             NSString* url = [JSON objectForKey:@"url"];
-            if ([DataBase getBookByUrl:url] != nil) {
+            Book* book = [DataBase getBookByUrl:url];
+            if (book != nil) {
+                weakReferenceSelf.bookModel = book;
                 [weakReferenceSelf.downloadButton removeFromSuperview];
                 [weakReferenceSelf.view addSubview:self.readButton];
             } else {
@@ -149,6 +152,7 @@
                 section.from = weakReferenceSelf.fromSite;
                 [DataBase insertSection:section];
             }
+            [DataBase createDefaultBookMark:weakReferenceSelf.bookModel];
             [self.downloadButton removeFromSuperview];
             [self.view addSubview:self.readButton];
         }

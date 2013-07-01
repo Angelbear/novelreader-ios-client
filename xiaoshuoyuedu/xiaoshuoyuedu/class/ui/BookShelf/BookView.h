@@ -35,29 +35,38 @@
 
 #import <UIKit/UIKit.h>
 #import "GSBookView.h"
-@class Book;
+#import <CustomBadge/CustomBadge.h>
+@class Book, BookView;
 
-@interface BookView : UIView <GSBookView>{
-    
+@protocol DeleteBookDelegate <NSObject>
+- (void) deleteBook:(Book*)book withBookView:(BookView*)view;
+@end
+
+@interface BookView : UIView <GSBookView, UIAlertViewDelegate>{
     UIImage *_image;
-
-    UIButton *_button;
-    
+    UIButton *_cover;
     UIButton *_deleteButton;
-    
+    UILabel *_label;
+    UIProgressView* _downloadProgressView;
+    CustomBadge *_badge;
+    BOOL _deleteMode;
+    UIView* _content;
+    __weak id<DeleteBookDelegate> _delegate;
 }
 
 @property (nonatomic, strong) UIImage *image;
-
 @property (nonatomic, strong) NSString *reuseIdentifier;
-
-@property (nonatomic, strong) UIButton *button;
-
+@property (nonatomic, strong) UIButton *cover;
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) CustomBadge *badge;
+@property (nonatomic, strong) UIView* content;
+@property (nonatomic, strong) UIProgressView* downloadProgressView;
 @property (nonatomic, assign) BOOL edited;
-
 @property (nonatomic, assign) NSInteger index;
-
 @property (nonatomic, strong) Book *book;
 
-- (id)initWithFrame:(CGRect)frame book:(Book*)book;
+- (id)initWithFrame:(CGRect)frame book:(Book*)book withCaller:(id<DeleteBookDelegate>) caller;
+- (void) beginDownload;
+- (void) endDownload;
+- (void) refreshBadgeNumber;
 @end

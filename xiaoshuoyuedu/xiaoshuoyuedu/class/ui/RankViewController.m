@@ -30,7 +30,7 @@
 
 - (id) init
 {
-    self = [super initWithNibName:@"RankViewController" bundle:nil];
+    self = [super initWithStyle:UITableViewStylePlain];
     self.currentPage = 0;
     self.searchResult = [[NSMutableArray alloc] init];
     return self;

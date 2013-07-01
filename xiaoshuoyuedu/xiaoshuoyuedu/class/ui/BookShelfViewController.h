@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "GSBookShelfView.h"
+#import "BookView.h"
 
 @class MyBelowBottomView;
 @class BelowBottomView;
 @class AboveTopView;
 
-@interface BookShelfViewController : UIViewController <GSBookShelfViewDelegate, GSBookShelfViewDataSource> {
+@interface BookShelfViewController : UIViewController <GSBookShelfViewDelegate, GSBookShelfViewDataSource, DeleteBookDelegate> {
     GSBookShelfView *_bookShelfView;
     
     NSMutableArray *_bookStatus;
@@ -30,4 +31,5 @@
 @property(nonatomic, strong) UIBarButtonItem* refreshButton;
 @property(nonatomic, strong) MBProgressHUD* HUD;
 @property(nonatomic, assign) NSUInteger isRefreshing;
+@property(nonatomic, strong) GSBookShelfView* bookShelfView;
 @end

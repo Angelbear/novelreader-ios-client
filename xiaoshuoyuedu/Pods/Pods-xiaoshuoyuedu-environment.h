@@ -18,6 +18,12 @@
 #define COCOAPODS_VERSION_MINOR_CKRefreshControl 1
 #define COCOAPODS_VERSION_PATCH_CKRefreshControl 0
 
+// CustomBadge
+#define COCOAPODS_POD_AVAILABLE_CustomBadge
+#define COCOAPODS_VERSION_MAJOR_CustomBadge 2
+#define COCOAPODS_VERSION_MINOR_CustomBadge 0
+#define COCOAPODS_VERSION_PATCH_CustomBadge 0
+
 // FMDB
 #define COCOAPODS_POD_AVAILABLE_FMDB
 #define COCOAPODS_VERSION_MAJOR_FMDB 2
@@ -47,13 +53,6 @@
 #define COCOAPODS_VERSION_MAJOR_GVCache 1
 #define COCOAPODS_VERSION_MINOR_GVCache 0
 #define COCOAPODS_VERSION_PATCH_GVCache 1
-
-// JSONKit
-#define COCOAPODS_POD_AVAILABLE_JSONKit
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 1.5pre.
 
 // MBProgressHUD
 #define COCOAPODS_POD_AVAILABLE_MBProgressHUD

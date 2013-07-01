@@ -33,8 +33,10 @@
     return self;
 }
 
+
 - (void) viewWillAppear:(BOOL)animated {
     self.sections = [DataBase getAllSectionsOfBook:self.book];
+    [self.tableView reloadData];
     [self transitionToViewController:[self.sections objectAtIndex:0]];
 }
 

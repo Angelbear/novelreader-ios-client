@@ -30,7 +30,7 @@
 
 - (id) init
 {
-    self = [super initWithNibName:@"CategoryViewController" bundle:nil];
+    self = [super initWithStyle:UITableViewStylePlain];
     return self;
 }
 

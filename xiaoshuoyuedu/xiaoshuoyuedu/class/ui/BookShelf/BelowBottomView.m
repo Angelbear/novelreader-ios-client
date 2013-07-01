@@ -34,7 +34,7 @@
 */
 
 #import "BelowBottomView.h"
-
+#import "Common.h"
 #import "BookShelfCellView.h"
 
 @implementation BelowBottomView
@@ -43,8 +43,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        BookShelfCellView *cell1 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, 0, 320, 139)];
-        BookShelfCellView *cell2 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, 139, 320, 139)];
+         CGFloat baseWidth = isiPad ? 768 : 320;
+        
+        BookShelfCellView *cell1 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, 139)];
+        BookShelfCellView *cell2 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, 139, baseWidth, 139)];
         
         [cell1 setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [cell2 setAutoresizingMask:UIViewAutoresizingFlexibleWidth];

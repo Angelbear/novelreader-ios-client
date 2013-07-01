@@ -32,7 +32,7 @@
 - (void) retrieveRankInfo:(NSUInteger) pageNo {
     __unsafe_unretained CategoryResultViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/category/get_category?page=%d&type=%d&from=%@", SERVER_HOST, pageNo, self.type, self.fromSource];
-    NSLog(@"%@", searchUrl);
+    
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
