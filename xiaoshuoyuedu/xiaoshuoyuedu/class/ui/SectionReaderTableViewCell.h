@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@interface SectionReaderTableViewCellViewController : UIViewController
+
+@end
+
 @interface SectionReaderTableViewCell : UITableViewCell
-@property(nonatomic, strong) UILabel* labelView;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withContentSize:(CGRect) rect fontSize:(CGFloat)size;
+@property(nonatomic, strong) IBOutlet UITextView* textView;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 @end

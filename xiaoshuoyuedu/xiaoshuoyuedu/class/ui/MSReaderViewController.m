@@ -75,59 +75,22 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     Section * sec = [self.sections objectAtIndex:indexPath.row];
-    if (self.readingSection == indexPath.row) {
-        cell.textLabel.text = [NSString stringWithFormat: @"%@ √", sec.name];
-    } else {
-        cell.textLabel.text = sec.name;
-    }
+    cell.textLabel.text = sec.name;
     if (sec.text !=nil && [sec.text length] > 0) {
-        cell.imageView.image = [UIImage imageNamed:@"checkmark.png"];
+        cell.imageView.image = [UIImage imageNamed:@"checkmark"];
     } else {
-        cell.imageView.image = [UIImage imageNamed:@"sync.png"];
+        cell.imageView.image = [UIImage imageNamed:@"sync"];
     }
+    
+    if (self.readingSection == indexPath.row) {
+        cell.imageView.image = [UIImage imageNamed:@"checkmark-current"];
+    }
+
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 - (void)transitionToViewController:(Section*) section {
@@ -148,7 +111,6 @@
     Section* section = [self.sections objectAtIndex:indexPath.row];
     [self transitionToViewController:section];
     self.readingSection = indexPath.row;
-    //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.tableView reloadData];
 }
 

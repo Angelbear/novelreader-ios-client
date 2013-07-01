@@ -8,10 +8,11 @@
 
 #import "FontUtils.h"
 #import <CoreText/CoreText.h>
+#import "UITextView+Dimensions.h"
 
 @implementation FontUtils
 
-
+/*
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font
 {
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
@@ -33,24 +34,27 @@
     CFRelease(str);
     CFRelease(fnt);
     return result;
-}
+}*/
  
-/*
+
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font {
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
-    CGFloat height = size.height - 25;
+    CGFloat height = size.height;
     CFRange r = {0, 0};
     NSInteger str_len = [string length];
     NSUInteger count = 0;
     do {
-        CGSize calcSize;
+        CGFloat calcHeight;
+        while (r.location < str_len && [string characterAtIndex:r.location] == '\n') {
+            r.location ++;
+        }
         do {
             count++;
             if (r.location + count > str_len) {
                 break;
             }
-            calcSize = [[string substringWithRange:NSMakeRange(r.location, count)] sizeWithFont:font  constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-        } while ( calcSize.height < height);
+            calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+        } while ( calcHeight < height);
         count--;
         [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:count], nil]];
         r.location += count;
@@ -58,5 +62,5 @@
     } while (r.location < str_len);
     return result;
 }
-*/
+
 @end

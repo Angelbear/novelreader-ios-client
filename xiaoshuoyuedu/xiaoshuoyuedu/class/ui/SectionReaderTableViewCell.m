@@ -7,25 +7,22 @@
 //
 
 #import "SectionReaderTableViewCell.h"
+@implementation SectionReaderTableViewCellViewController
+@end
 
 @implementation SectionReaderTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withContentSize:(CGRect) rect fontSize:(CGFloat)size {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size {
+    SectionReaderTableViewCellViewController* controller = [[SectionReaderTableViewCellViewController alloc] initWithNibName:@"SectionReaderTableViewCell" bundle:nil];
+    
+    self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
-
-        self.labelView = [[UILabel alloc] initWithFrame:rect];
-        self.labelView.font = [UIFont systemFontOfSize:size];
-        self.labelView.textColor = [UIColor colorWithRed:0.254f green:0.1875f blue:0.0976f alpha:1.0f];
-        self.labelView.userInteractionEnabled = NO;
-        self.labelView.lineBreakMode = NSLineBreakByWordWrapping;
-        self.labelView.numberOfLines = 0;
-        self.labelView.backgroundColor = [UIColor colorWithRed:0.777f green:0.75f blue:0.65625f alpha:1.0f];
-        [self.contentView addSubview:self.labelView];
+        self.textView.font = [UIFont systemFontOfSize:size];
+        //self.textView.contentInset = UIEdgeInsetsMake(-4,-8,0,0);
+        [self setRestorationIdentifier:reuseIdentifier];
     }
     return self;
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

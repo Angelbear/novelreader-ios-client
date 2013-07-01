@@ -46,7 +46,7 @@
     if (self) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 125)];
         
-        [imageView setImage:[UIImage imageNamed:@"BookShelfCell.png"]];
+        [imageView setImage:[UIImage imageNamed:@"BookShelfCell"]];
         [self addSubview:imageView];
         
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];

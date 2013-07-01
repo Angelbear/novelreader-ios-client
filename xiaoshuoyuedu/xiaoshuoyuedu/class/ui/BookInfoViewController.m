@@ -44,7 +44,7 @@
     self.fromSite = from;
     self.bookUrl = url;
     self.authorName = author;
-    self.placeHolderImage = [UIImage imageNamed:@"placeholder.jpg"];
+    self.placeHolderImage = [UIImage imageNamed:@"placeholder"];
     self.bookModel = [[Book alloc] init];
     return self;
 }

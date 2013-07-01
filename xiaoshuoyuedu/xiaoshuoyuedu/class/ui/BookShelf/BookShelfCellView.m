@@ -52,7 +52,7 @@ static UIImage *shelfImageLandscape = nil;
         
         CGFloat baseWidth = isiPad ? 768 : 320;
         
-        UIGraphicsBeginImageContext(CGSizeMake(baseWidth * scale, 139 * scale));
+        UIGraphicsBeginImageContext(CGSizeMake(baseWidth * scale, CELL_HEIGHT * scale));
         UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
         [shadingImageToDraw drawInRect:CGRectMake(0, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         
@@ -73,7 +73,7 @@ static UIImage *shelfImageLandscape = nil;
 
         CGFloat baseHeight = isiPad ? 1024 : 480;
         
-        UIGraphicsBeginImageContext(CGSizeMake(baseHeight * scale, 139 * scale));
+        UIGraphicsBeginImageContext(CGSizeMake(baseHeight * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
         [woodImageToDraw drawInRect:CGRectMake(0, 0, woodImageToDraw.size.width * scale, woodImageToDraw.size.width * scale)];
         woodImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -114,32 +114,6 @@ static UIImage *shelfImageLandscape = nil;
     self = [super initWithFrame:frame];
     if (self) {
         [self setBackgroundColor:[UIColor whiteColor]];
-        //[self.layer setBorderWidth:2];
-        //[self.layer setBorderColor:[[UIColor greenColor] CGColor]];
-        
-        /*// wood
-        _woodImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 139)];
-        
-        CGFloat scale = isRetina ? 2.0f : 1.0f;
-        [_woodImageView setImage:[UIImage imageWithCGImage:CGImageCreateWithImageInRect([[UIImage imageNamed:@"WoodTile-iPhone.png"] CGImage], CGRectMake(0, 139 * scale * part, 320 * scale, 139 * scale))]];
-        [self addSubview:_woodImageView];
-        
-        _sideImageView_left = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 160, 139)];
-        [_sideImageView_left setImage:[UIImage imageNamed:@"SideShading-iPhone.png"]];
-        
-        [self addSubview:_sideImageView_left];
-        
-        _sideImageView_right = [[UIImageView alloc] initWithFrame:CGRectMake(160, 0, 160, 139)];
-        [_sideImageView_right setImage:[UIImage imageNamed:@"SideShading-iPhone.png"]];
-        [_sideImageView_right setTransform:CGAffineTransformMakeScale(-1.0, 1.0)];
-        [self addSubview:_sideImageView_right];
-        //[_sideImageView_right.layer setBorderWidth:1];
-        //[_sideImageView_right.layer setBorderColor:[[UIColor redColor] CGColor]];
-         
-         
-         _shelfImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 130 - 23, 320, 87)];
-         [_shelfImageView setImage:[UIImage imageNamed:@"Shelf-iPhone.png"]];
-         [self addSubview:_shelfImageView];*/
         
         _shelfImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView shelfImageProtrait]];
         
@@ -148,8 +122,7 @@ static UIImage *shelfImageLandscape = nil;
         _woodImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView woodImage]];
         
         _shadingImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView shadingImage]];
-        //[_shadingImageView setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin];
-        
+    
         [self addSubview:_woodImageView];
         [self addSubview:_shadingImageView];
         [self addSubview:_shelfImageView];

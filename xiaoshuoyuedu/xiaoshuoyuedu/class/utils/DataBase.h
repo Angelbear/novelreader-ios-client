@@ -25,4 +25,5 @@
 + (BOOL) updateSection:(Section*) section;
 + (NSUInteger) createDefaultBookMark:(Book*)book;
 + (Bookmark*) getDefaultBookmarkForBook:(Book*)book;
++ (BOOL) deleteBookMarkByBookId:(NSUInteger) book_id;
 @end

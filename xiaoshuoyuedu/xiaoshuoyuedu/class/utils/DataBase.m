@@ -75,6 +75,17 @@
 }
 
 
++ (BOOL) deleteBookMarkByBookId:(NSUInteger) book_id {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql_delete_bookmarks = @"DELETE FROM bookmarks WHERE book_id = ?";
+    [db open];
+    NSArray* args = [[NSArray alloc] initWithObjects: @(book_id), nil];
+    BOOL result =  [db executeUpdate:sql_delete_bookmarks withArgumentsInArray:args];
+    [db close];
+    return result;
+}
+
+
 + (NSMutableArray*) getAllBooks {
     FMDatabase* db    = [DataBase get_database_instance];
     NSString* query_books_sql = @"SELECT * FROM books";
@@ -237,6 +248,7 @@
     BOOL result =  [db executeUpdate:sql_delete_book withArgumentsInArray:args];
     [db close];
     result = [self deleteSectionByBookId:book.book_id];
+    result = [self deleteBookMarkByBookId:book.book_id];
     return result;
 }
 

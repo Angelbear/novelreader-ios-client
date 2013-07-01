@@ -11,10 +11,11 @@
 #import "Section.h"
 #import "FontUtils.h"
 #import "AppDelegate.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 @interface SectionReaderTableViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
-@property (nonatomic, assign) CGRect contentSize;
+@property (nonatomic, assign) CGSize contentSize;
 @end
 
 @implementation SectionReaderTableViewController
@@ -28,14 +29,14 @@
     return self;
 }
 
-#define DEFAULT_FONT_SIZE 24.0f
-#define MAX_HEIGHT_PIXEL 65535
+#define DEFAULT_FONT_SIZE 23.0f
 
 - (id) init {
     self = [super initWithStyle:UITableViewStylePlain];
     CGRect deviceRect = [ UIScreen mainScreen ].bounds;
-    CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
-    self.contentSize = CGRectMake(deviceRect.origin.x, deviceRect.origin.y, deviceRect.size.width, deviceRect.size.height - statusRect.size.height);
+    //CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 14.0f);
+    self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     return self;
 }
 
@@ -76,12 +77,13 @@
     
     
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\n+" options:0 error:NULL];
-    NSString* str= [regex stringByReplacingMatchesInString:self.section.text options:0 range:NSMakeRange(0, [self.section.text length]) withTemplate:@"\n\n"];
-    self.section.text = str;
-    NSLog(@"%@",str);
-    CGSize size = self.contentSize.size;
-    self.splitInfo = [FontUtils findPageSplits:str size:size font:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE]];
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,8 +106,8 @@
 
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
     CGPoint touchLocation = [recognizer locationInView:self.view];
-    if (   touchLocation.x > self.contentSize.size.width / 3.0f
-        && touchLocation.x < self.contentSize.size.width * 2.0f / 3.0f
+    if (   touchLocation.x > self.contentSize.width / 3.0f
+        && touchLocation.x < self.contentSize.width * 2.0f / 3.0f
         ) {
         NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
         [self.tableView scrollToRowAtIndexPath:path  atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -142,16 +144,17 @@
     
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[SectionReaderTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier withContentSize:self.contentSize fontSize:DEFAULT_FONT_SIZE];
+        cell = [[SectionReaderTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier fontSize:DEFAULT_FONT_SIZE];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
      }
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
-    [cell.labelView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
+
+    [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.contentSize.size.height;
+    return self.contentSize.height + 14.0f;
 }
 
 

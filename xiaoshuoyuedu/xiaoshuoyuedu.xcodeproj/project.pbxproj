@@ -37,15 +37,9 @@
 		B43CC74A178026E9009BFA2E /* BookShelfCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC746178026E9009BFA2E /* BookShelfCell@2x.png */; };
 		B43CC74F178027DD009BFA2E /* MyCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = B43CC74E178027DC009BFA2E /* MyCellView.m */; };
 		B43CC75417802801009BFA2E /* BookView.m in Sources */ = {isa = PBXBuildFile; fileRef = B43CC75117802800009BFA2E /* BookView.m */; };
-		B43CC76D1780563E009BFA2E /* WoodTile@2x~ipad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B43CC7691780563E009BFA2E /* WoodTile@2x~ipad.jpg */; };
-		B43CC76E1780563E009BFA2E /* WoodTile@2x~iphone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B43CC76A1780563E009BFA2E /* WoodTile@2x~iphone.jpg */; };
-		B43CC76F1780563E009BFA2E /* WoodTile~ipad.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B43CC76B1780563E009BFA2E /* WoodTile~ipad.jpg */; };
-		B43CC7701780563E009BFA2E /* WoodTile~iphone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B43CC76C1780563E009BFA2E /* WoodTile~iphone.jpg */; };
 		B43CC77717806C09009BFA2E /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77517806BD3009BFA2E /* placeholder.png */; };
-		B43CC77817806C09009BFA2E /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77617806BE1009BFA2E /* placeholder@2x.png */; };
 		B43CC77B1780714A009BFA2E /* topshelf side shading-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77917807147009BFA2E /* topshelf side shading-iPad.png */; };
 		B43CC77C1780714A009BFA2E /* topshelf side shading-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77A17807149009BFA2E /* topshelf side shading-iPad@2x.png */; };
-		B43CC77E17807161009BFA2E /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77D1780715F009BFA2E /* placeholder.jpg */; };
 		B43CC7811780759C009BFA2E /* shelf_delete.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC77F1780759A009BFA2E /* shelf_delete.png */; };
 		B43CC7821780759C009BFA2E /* shelf_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC7801780759B009BFA2E /* shelf_delete@2x.png */; };
 		B454F027178176EF0026C113 /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */; };
@@ -57,7 +51,6 @@
 		B454F02D178176EF0026C113 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F026178176EF0026C113 /* Default~iphone.png */; };
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
-		B46EC4EB177DCA8200C6873B /* BookItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */; };
 		B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */; };
 		B46EC4F3177EC70500C6873B /* SectionReaderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4F2177EC70300C6873B /* SectionReaderTableViewController.m */; };
 		B46EC4F6177ECE5F00C6873B /* SectionReaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4F5177ECE5D00C6873B /* SectionReaderTableViewCell.m */; };
@@ -75,6 +68,13 @@
 		B46EC53D178006AA00C6873B /* bookshelf_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC539178006AA00C6873B /* bookshelf_edit@2x.png */; };
 		B46EC53E178006AA00C6873B /* bookshelf_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53A178006AA00C6873B /* bookshelf_ok.png */; };
 		B46EC53F178006AA00C6873B /* bookshelf_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */; };
+		B47E103C1781ACA0009DF30B /* SectionReaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47E103B1781ACA0009DF30B /* SectionReaderTableViewCell.xib */; };
+		B47E103E1781B6D5009DF30B /* checkmark-current.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E103D1781B6D5009DF30B /* checkmark-current.png */; };
+		B47E10411781C396009DF30B /* UITextView+Dimensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B47E10401781C396009DF30B /* UITextView+Dimensions.m */; };
+		B47E10461781CA6B009DF30B /* WoodTile@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */; };
+		B47E10471781CA6B009DF30B /* WoodTile@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */; };
+		B47E10481781CA6B009DF30B /* WoodTile~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10441781CA6B009DF30B /* WoodTile~ipad.png */; };
+		B47E10491781CA6B009DF30B /* WoodTile~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10451781CA6B009DF30B /* WoodTile~iphone.png */; };
 		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
 		B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
@@ -158,15 +158,9 @@
 		B43CC74E178027DC009BFA2E /* MyCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCellView.m; sourceTree = "<group>"; };
 		B43CC750178027FF009BFA2E /* BookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookView.h; sourceTree = "<group>"; };
 		B43CC75117802800009BFA2E /* BookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookView.m; sourceTree = "<group>"; };
-		B43CC7691780563E009BFA2E /* WoodTile@2x~ipad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "WoodTile@2x~ipad.jpg"; sourceTree = "<group>"; };
-		B43CC76A1780563E009BFA2E /* WoodTile@2x~iphone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "WoodTile@2x~iphone.jpg"; sourceTree = "<group>"; };
-		B43CC76B1780563E009BFA2E /* WoodTile~ipad.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "WoodTile~ipad.jpg"; sourceTree = "<group>"; };
-		B43CC76C1780563E009BFA2E /* WoodTile~iphone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "WoodTile~iphone.jpg"; sourceTree = "<group>"; };
 		B43CC77517806BD3009BFA2E /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
-		B43CC77617806BE1009BFA2E /* placeholder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder@2x.png"; sourceTree = "<group>"; };
 		B43CC77917807147009BFA2E /* topshelf side shading-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topshelf side shading-iPad.png"; sourceTree = "<group>"; };
 		B43CC77A17807149009BFA2E /* topshelf side shading-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topshelf side shading-iPad@2x.png"; sourceTree = "<group>"; };
-		B43CC77D1780715F009BFA2E /* placeholder.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpg; sourceTree = "<group>"; };
 		B43CC77F1780759A009BFA2E /* shelf_delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shelf_delete.png; sourceTree = "<group>"; };
 		B43CC7801780759B009BFA2E /* shelf_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shelf_delete@2x.png"; sourceTree = "<group>"; };
 		B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -180,8 +174,6 @@
 		B46EC4E2177C6B3400C6873B /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryResultViewController.h; sourceTree = "<group>"; };
 		B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryResultViewController.m; sourceTree = "<group>"; };
-		B46EC4E9177DCA8100C6873B /* BookItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookItemTableViewCell.h; sourceTree = "<group>"; };
-		B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookItemTableViewCell.m; sourceTree = "<group>"; };
 		B46EC4EE177EBA4600C6873B /* MSReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReaderViewController.h; sourceTree = "<group>"; };
 		B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReaderViewController.m; sourceTree = "<group>"; };
 		B46EC4F1177EC70200C6873B /* SectionReaderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionReaderTableViewController.h; sourceTree = "<group>"; };
@@ -203,6 +195,14 @@
 		B46EC539178006AA00C6873B /* bookshelf_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookshelf_edit@2x.png"; sourceTree = "<group>"; };
 		B46EC53A178006AA00C6873B /* bookshelf_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookshelf_ok.png; sourceTree = "<group>"; };
 		B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookshelf_ok@2x.png"; sourceTree = "<group>"; };
+		B47E103B1781ACA0009DF30B /* SectionReaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionReaderTableViewCell.xib; sourceTree = "<group>"; };
+		B47E103D1781B6D5009DF30B /* checkmark-current.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark-current.png"; sourceTree = "<group>"; };
+		B47E103F1781C396009DF30B /* UITextView+Dimensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Dimensions.h"; sourceTree = "<group>"; };
+		B47E10401781C396009DF30B /* UITextView+Dimensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Dimensions.m"; sourceTree = "<group>"; };
+		B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile@2x~ipad.png"; sourceTree = "<group>"; };
+		B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile@2x~iphone.png"; sourceTree = "<group>"; };
+		B47E10441781CA6B009DF30B /* WoodTile~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile~ipad.png"; sourceTree = "<group>"; };
+		B47E10451781CA6B009DF30B /* WoodTile~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile~iphone.png"; sourceTree = "<group>"; };
 		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
 		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
 		B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSearchBookViewController.h; sourceTree = "<group>"; };
@@ -290,6 +290,8 @@
 				B4A0D83A177D477700157BB0 /* DataBase.m */,
 				B46EC4F7177ED1EF00C6873B /* FontUtils.h */,
 				B46EC4F8177ED1EF00C6873B /* FontUtils.m */,
+				B47E103F1781C396009DF30B /* UITextView+Dimensions.h */,
+				B47E10401781C396009DF30B /* UITextView+Dimensions.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -312,12 +314,12 @@
 		B43CC716178026E1009BFA2E /* iBooks */ = {
 			isa = PBXGroup;
 			children = (
+				B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */,
+				B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */,
+				B47E10441781CA6B009DF30B /* WoodTile~ipad.png */,
+				B47E10451781CA6B009DF30B /* WoodTile~iphone.png */,
 				B43CC77917807147009BFA2E /* topshelf side shading-iPad.png */,
 				B43CC77A17807149009BFA2E /* topshelf side shading-iPad@2x.png */,
-				B43CC7691780563E009BFA2E /* WoodTile@2x~ipad.jpg */,
-				B43CC76A1780563E009BFA2E /* WoodTile@2x~iphone.jpg */,
-				B43CC76B1780563E009BFA2E /* WoodTile~ipad.jpg */,
-				B43CC76C1780563E009BFA2E /* WoodTile~iphone.jpg */,
 				B43CC717178026E1009BFA2E /* NavBar-Landscape@2x~iphone.png */,
 				B43CC718178026E1009BFA2E /* NavBar-Landscape~iphone.png */,
 				B43CC719178026E1009BFA2E /* NavBar@2x~ipad.png */,
@@ -476,14 +478,13 @@
 				B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */,
 				B4A0D843177D85C800157BB0 /* BookShelfViewController.h */,
 				B4A0D844177D85C900157BB0 /* BookShelfViewController.m */,
-				B46EC4E9177DCA8100C6873B /* BookItemTableViewCell.h */,
-				B46EC4EA177DCA8200C6873B /* BookItemTableViewCell.m */,
 				B46EC4EE177EBA4600C6873B /* MSReaderViewController.h */,
 				B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */,
 				B46EC4F1177EC70200C6873B /* SectionReaderTableViewController.h */,
 				B46EC4F2177EC70300C6873B /* SectionReaderTableViewController.m */,
 				B46EC4F4177ECE5D00C6873B /* SectionReaderTableViewCell.h */,
 				B46EC4F5177ECE5D00C6873B /* SectionReaderTableViewCell.m */,
+				B47E103B1781ACA0009DF30B /* SectionReaderTableViewCell.xib */,
 				B4D4B92817816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.h */,
 				B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */,
 			);
@@ -493,16 +494,16 @@
 		B4F93F6317744E7B0025A1E8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B43CC716178026E1009BFA2E /* iBooks */,
 				B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
 				B454F022178176EF0026C113 /* Default-Landscape@2x.png */,
 				B454F023178176EF0026C113 /* Default.png */,
 				B454F024178176EF0026C113 /* Default@2x.png */,
+				B47E103D1781B6D5009DF30B /* checkmark-current.png */,
 				B454F025178176EF0026C113 /* Default@2x~iphone.png */,
 				B454F026178176EF0026C113 /* Default~iphone.png */,
-				B43CC716178026E1009BFA2E /* iBooks */,
 				B43CC77517806BD3009BFA2E /* placeholder.png */,
-				B43CC77617806BE1009BFA2E /* placeholder@2x.png */,
 				B43CC745178026E9009BFA2E /* BookShelfCell.png */,
 				B4D4B92117815220008BAA84 /* badge.png */,
 				B4D4B92217815220008BAA84 /* badge@2x.png */,
@@ -512,7 +513,6 @@
 				B46EC538178006AA00C6873B /* bookshelf_edit.png */,
 				B46EC539178006AA00C6873B /* bookshelf_edit@2x.png */,
 				B46EC53A178006AA00C6873B /* bookshelf_ok.png */,
-				B43CC77D1780715F009BFA2E /* placeholder.jpg */,
 				B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */,
 				B46EC5341780034C00C6873B /* bookshelf_update.png */,
 				B46EC5351780034C00C6873B /* bookshelf_update@2x.png */,
@@ -642,15 +642,9 @@
 				B43CC742178026E1009BFA2E /* topshelf side shading-iPhone@2x.png in Resources */,
 				B43CC749178026E9009BFA2E /* BookShelfCell.png in Resources */,
 				B43CC74A178026E9009BFA2E /* BookShelfCell@2x.png in Resources */,
-				B43CC76D1780563E009BFA2E /* WoodTile@2x~ipad.jpg in Resources */,
-				B43CC76E1780563E009BFA2E /* WoodTile@2x~iphone.jpg in Resources */,
-				B43CC76F1780563E009BFA2E /* WoodTile~ipad.jpg in Resources */,
-				B43CC7701780563E009BFA2E /* WoodTile~iphone.jpg in Resources */,
 				B43CC77717806C09009BFA2E /* placeholder.png in Resources */,
-				B43CC77817806C09009BFA2E /* placeholder@2x.png in Resources */,
 				B43CC77B1780714A009BFA2E /* topshelf side shading-iPad.png in Resources */,
 				B43CC77C1780714A009BFA2E /* topshelf side shading-iPad@2x.png in Resources */,
-				B43CC77E17807161009BFA2E /* placeholder.jpg in Resources */,
 				B43CC7811780759C009BFA2E /* shelf_delete.png in Resources */,
 				B43CC7821780759C009BFA2E /* shelf_delete@2x.png in Resources */,
 				B4D4B92317815220008BAA84 /* badge.png in Resources */,
@@ -662,6 +656,12 @@
 				B454F02B178176EF0026C113 /* Default@2x.png in Resources */,
 				B454F02C178176EF0026C113 /* Default@2x~iphone.png in Resources */,
 				B454F02D178176EF0026C113 /* Default~iphone.png in Resources */,
+				B47E103C1781ACA0009DF30B /* SectionReaderTableViewCell.xib in Resources */,
+				B47E103E1781B6D5009DF30B /* checkmark-current.png in Resources */,
+				B47E10461781CA6B009DF30B /* WoodTile@2x~ipad.png in Resources */,
+				B47E10471781CA6B009DF30B /* WoodTile@2x~iphone.png in Resources */,
+				B47E10481781CA6B009DF30B /* WoodTile~ipad.png in Resources */,
+				B47E10491781CA6B009DF30B /* WoodTile~iphone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,7 +739,6 @@
 				B4A0D83F177D4C6300157BB0 /* Book.m in Sources */,
 				B4A0D842177D4C6F00157BB0 /* Section.m in Sources */,
 				B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */,
-				B46EC4EB177DCA8200C6873B /* BookItemTableViewCell.m in Sources */,
 				B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */,
 				B46EC4F3177EC70500C6873B /* SectionReaderTableViewController.m in Sources */,
 				B46EC4F6177ECE5F00C6873B /* SectionReaderTableViewCell.m in Sources */,
@@ -750,6 +749,7 @@
 				B43CC75417802801009BFA2E /* BookView.m in Sources */,
 				B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */,
 				B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */,
+				B47E10411781C396009DF30B /* UITextView+Dimensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

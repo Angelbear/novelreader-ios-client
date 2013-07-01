@@ -10,7 +10,6 @@
 #import "DataBase.h"
 #import "Book.h"
 #import "Section.h"
-#import "BookItemTableViewCell.h"
 #import "Common.h"
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
@@ -21,7 +20,7 @@
 #import "BookShelfCellView.h"
 #import "BelowBottomView.h"
 
-#define CELL_HEIGHT 139.0f
+
 
 @interface BookShelfViewController ()
 @property(nonatomic, assign) NSUInteger _completedDownloadBooks;
@@ -106,11 +105,8 @@
                                               [weakReferenceSelf.HUD setLabelText:[NSString stringWithFormat:@"正在更新书籍 %d/%d", numberOfCompletedOperations, totalNumberOfOperations]];
                                           }
                                       } completionBlock:^(NSArray *operations) {
-                                          weakReferenceSelf._completedDownloadBooks++;
-                                          if (weakReferenceSelf._completedDownloadBooks == [weakReferenceSelf.books count]) {
                                               [weakReferenceSelf.HUD hide:YES];
                                               [weakReferenceSelf downloadAllSectionsOfAllBooks];
-                                          }
                                       }];
 
     });
@@ -265,7 +261,7 @@ BOOL animating;
     _aboveTopView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, CELL_HEIGHT * 2)];
     [_aboveTopView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
-    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, baseHeight - 20)];
+    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, baseHeight)];
     [_bookShelfView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_bookShelfView setDataSource:self];
     
