@@ -39,7 +39,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     CGRect deviceRect = [ UIScreen mainScreen ].bounds;
     //CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 15.0f);
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 25.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     return self;
 }
@@ -67,11 +67,9 @@
 }
 
 
-NSIndexPath* pathToJump;
-
 - (void) prepareForRead {
-    NSLog(@"prepareForRead");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        self.section.text =  [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
         self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:@"FZLTHJW--GB1-0" size:DEFAULT_FONT_SIZE]];
         NSUInteger indexForJump = 0;
         for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
@@ -81,8 +79,9 @@ NSIndexPath* pathToJump;
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            pathToJump = [NSIndexPath indexPathForRow:indexForJump inSection:0];
+            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * [ UIScreen mainScreen ].bounds.size.height;
             [self.tableView reloadData];
+            [self performSelector:@selector(setContentOffset:) withObject:@(height) afterDelay:1.0];
         });
     });
 }
@@ -92,12 +91,8 @@ NSIndexPath* pathToJump;
     [delegate switchToNavitation];
 }
 
--(void) viewDidAppear:(BOOL)animated{
-    if(pathToJump != nil){
-        [self.tableView scrollToRowAtIndexPath:pathToJump atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        pathToJump = nil;
-    }
-    
+-(void) setContentOffset:(NSNumber*)height {
+    [self.tableView setContentOffset:CGPointMake(0.0f, [height floatValue]) animated:NO];
 }
 
 - (void)viewDidLoad
@@ -108,8 +103,9 @@ NSIndexPath* pathToJump;
     UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(backToBookShelf:)];
     self.navigationItem.leftBarButtonItem = backBtn;
     [self.tableView addGestureRecognizer:tap];
+     */
     [self.tableView setScrollEnabled:NO];
-    */
+    
     self.tableView.bounces = YES;
     self.tableView.alwaysBounceVertical = YES;
     
@@ -168,8 +164,6 @@ NSIndexPath* pathToJump;
     if (   touchLocation.x > self.contentSize.width / 3.0f
         && touchLocation.x < self.contentSize.width * 2.0f / 3.0f
         ) {
-        //NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
-        //[self.tableView scrollToRowAtIndexPath:path  atScrollPosition:UITableViewScrollPositionTop animated:NO];
         if ([[[self navigationController] navigationBar] isHidden]) {
             [[self navigationController] setNavigationBarHidden:NO animated:YES];
         } else {
@@ -179,10 +173,9 @@ NSIndexPath* pathToJump;
 
 }
 
--(void) autoSaveBookmark {
+-(void) autoSaveBookmark:(NSUInteger)index {
     self.bookmark.section_id = self.section.section_id;
-    NSIndexPath *firstVisibleIndexPath = [[self.tableView indexPathsForVisibleRows] objectAtIndex:0];
-    NSArray* split = [self.splitInfo objectAtIndex:firstVisibleIndexPath.row + 1];
+    NSArray* split = [self.splitInfo objectAtIndex:index];
     self.bookmark.offset = [[split objectAtIndex:0] intValue];
     [DataBase updateBookMark:self.bookmark];
 }
@@ -198,13 +191,13 @@ NSIndexPath* pathToJump;
         if (path.row > 0) {
             NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row - 1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:newPath  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            [self autoSaveBookmark];
+            [self autoSaveBookmark:newPath.row];
         }
     } else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
         if (path.row < [self tableView:self.tableView numberOfRowsInSection:0] - 1) {
             NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row +1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:newPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            [self autoSaveBookmark];
+            [self autoSaveBookmark:newPath.row];
         }
     }
 }
@@ -221,11 +214,12 @@ NSIndexPath* pathToJump;
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
 
     [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
+    cell.labelView.text = self.section.name;
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.contentSize.height + 15.0f;
+    return [ UIScreen mainScreen ].bounds.size.height;
 }
 
 
@@ -233,7 +227,6 @@ NSIndexPath* pathToJump;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
 @end

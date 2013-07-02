@@ -25,7 +25,7 @@
 		return CATransform3DIdentity;
 	}
 	
-	return CATransform3DMakeRotation((M_PI/180)*degrees, 0.0f, 1.0f, 0.0);
+	return CATransform3DMakeRotation(-(M_PI/180)*degrees, 0.0f, 1.0f, 0.0);
 	
 }
 
@@ -78,10 +78,10 @@
 	[transformLayer addSublayer:frontLayer];
 	
 	CALayer *sideLayer = [CALayer layer];
-	sideLayer.contents = (id)[UIImage imageNamed:@"Wood Tile"].CGImage;
+	sideLayer.contents = (id)[UIImage imageNamed:@"WoodTile"].CGImage;
 	sideLayer.zPosition = FLIP_GAP/2;
-	sideLayer.frame = CGRectMake(transformLayer.bounds.origin.x-(FLIP_GAP/2), transformLayer.bounds.origin.y, FLIP_GAP, transformLayer.bounds.size.height);
-	sideLayer.transform = [self transformWithDegrees:90.0f];
+	sideLayer.frame = CGRectMake(transformLayer.bounds.size.width - (FLIP_GAP/2), transformLayer.bounds.origin.y, FLIP_GAP, transformLayer.bounds.size.height);
+	sideLayer.transform = [self transformWithDegrees:-90.0f];
 	[transformLayer addSublayer:sideLayer];
 	
 	CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"sublayerTransform"];
@@ -106,16 +106,16 @@
 	UIViewController *modalViewController = self.modalViewController;
 	[self animateFromViewController:modalViewController toViewController:self];
 	[super dismissModalViewControllerAnimated:NO];
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
+	//[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
     
 	
 }
 
-- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated{
+- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated {
 	
 	[super presentModalViewController:modalViewController animated:NO];
 	[self animateFromViewController:self toViewController:modalViewController];
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+	//[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
 }
 

@@ -14,5 +14,6 @@ typedef enum {
 } UIModalTransitionStyleCustom;
 
 @interface MSNavigationPaneViewController (iBooksOpen)
-
+- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated;
+- (void)dismissFlipSideViewController:(id)controller;
 @end

@@ -13,5 +13,6 @@
 
 @interface SectionReaderTableViewCell : UITableViewCell
 @property(nonatomic, strong) IBOutlet UITextView* textView;
+@property(nonatomic, strong) IBOutlet UILabel* labelView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 @end

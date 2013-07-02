@@ -11,6 +11,7 @@
 #import "MSMasterViewController.h"
 #import "DataBase.h"
 #import "MSReaderViewController.h"
+#import "MSNavigationPaneViewController+iBooksOpen.h"
 
 @implementation AppDelegate
 @synthesize currentBookView =_bookView;
@@ -45,10 +46,10 @@
 
 - (void) switchToReader:(Book*) book {
     if ( [self.readerPaneViewController presentingViewController] == nil) {
-        self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        //self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
         [readerMasterViewController setBook:book];
-        [self.window.rootViewController presentViewController: self.readerPaneViewController animated:YES completion:nil];
+        [self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
     } else {
         [self switchToNavitation];
     }
@@ -56,11 +57,11 @@
 
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
     if ( [self.readerPaneViewController presentingViewController] == nil) {
-        self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+       // self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         self.currentBookView = view;
         MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
         [readerMasterViewController setBook:book];
-        [self.window.rootViewController presentViewController: self.readerPaneViewController animated:YES completion:nil];
+        [self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
     } else {
         self.currentBookView = nil;
         [self switchToNavitation];
@@ -73,7 +74,8 @@
 
 
 - (void) switchToNavitation {
-    [self.window.rootViewController dismissModalViewControllerAnimated:YES];
+    [self.navigationPaneViewController dismissFlipSideViewController:nil];
+    //[self.window.rootViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

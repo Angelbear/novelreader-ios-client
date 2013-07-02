@@ -46,6 +46,7 @@
             break;
         }
     }
+    self.readingSection = indexForJump;
     [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
 }
 

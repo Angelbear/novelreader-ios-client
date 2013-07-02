@@ -9,7 +9,7 @@
 		<string>FZLanTingHeiS-R-GB.TTF</string>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>小说阅读</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
