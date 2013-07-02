@@ -119,7 +119,7 @@
     
     
     // Step 1: Insert book info into db
-    self.bookModel.name = [self.bookInfo objectForKey:@"name"];
+    self.bookModel.name = self.bookName;
     self.bookModel.from = self.fromSite;
     self.bookModel.author = self.authorName;
     self.bookModel.url   = [self.bookInfo objectForKey:@"url"];

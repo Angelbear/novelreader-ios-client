@@ -93,7 +93,7 @@
         _label = [[UILabel alloc] initWithFrame:CGRectMake(_cover.imageView.frame.origin.x, _cover.imageView.frame.origin.y + _cover.imageView.frame.size.height - 20, _cover.imageView.frame.size.width, 20)];
         _label.backgroundColor = [UIColor colorWithRed:0.26f green:0.50f blue:0.678 alpha:0.95];
         _label.text = book.name;
-        _label.font = [UIFont systemFontOfSize:15.0f];
+        _label.font = [UIFont systemFontOfSize:13.0f];
         _label.textAlignment = NSTextAlignmentCenter;
         _label.textColor = [UIColor whiteColor];
         [_cover addSubview:_label];

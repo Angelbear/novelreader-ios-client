@@ -14,5 +14,7 @@
 @interface SectionReaderTableViewCell : UITableViewCell
 @property(nonatomic, strong) IBOutlet UITextView* textView;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
+@property(nonatomic, strong) IBOutlet UILabel* indexView;
+@property(nonatomic, strong) IBOutlet UILabel* timeView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 @end

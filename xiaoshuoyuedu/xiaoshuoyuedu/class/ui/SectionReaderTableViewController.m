@@ -33,13 +33,13 @@
     return self;
 }
 
-#define DEFAULT_FONT_SIZE 23.0f
+#define DEFAULT_FONT_SIZE 20.0f
 
 - (id) init {
     self = [super initWithStyle:UITableViewStylePlain];
     CGRect deviceRect = [ UIScreen mainScreen ].bounds;
     //CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 25.0f);
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     return self;
 }
@@ -215,6 +215,12 @@
 
     [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
     cell.labelView.text = self.section.name;
+    cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];
+    NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dataComps = [gregorianCal components: (NSHourCalendarUnit | NSMinuteCalendarUnit)
+                                                  fromDate: [NSDate date]];
+ 
+    cell.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
     return cell;
 }
 
