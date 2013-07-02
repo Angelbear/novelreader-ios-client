@@ -26,4 +26,5 @@
 + (NSUInteger) createDefaultBookMark:(Book*)book;
 + (Bookmark*) getDefaultBookmarkForBook:(Book*)book;
 + (BOOL) deleteBookMarkByBookId:(NSUInteger) book_id;
++ (BOOL) updateBookMark:(Bookmark*) bookmark;
 @end

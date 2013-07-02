@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface SectionReaderTableViewCellViewController : UIViewController
 
 @end
@@ -15,5 +14,4 @@
 @interface SectionReaderTableViewCell : UITableViewCell
 @property(nonatomic, strong) IBOutlet UITextView* textView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
-- (void) reloadSection;
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "SectionReaderTableViewCell.h"
+#import <AFNetworking/AFNetworking.h>
+
 @implementation SectionReaderTableViewCellViewController
 @end
 
@@ -25,9 +27,6 @@
     return self;
 }
 
-- (void) reloadSection {
-    
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

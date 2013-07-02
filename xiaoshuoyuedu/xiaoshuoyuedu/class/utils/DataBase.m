@@ -74,6 +74,16 @@
     return nil;
 }
 
++ (BOOL) updateBookMark:(Bookmark*) bookmark {
+    FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql_update_bookmark = @"UPDATE bookmarks SET section_id = ?, offset = ?, last_update_time = ? WHERE id = ? AND book_id = ? AND default_bookmark = ?";
+    [db open];
+    NSArray* args = [[NSArray alloc] initWithObjects:@(bookmark.section_id), @(bookmark.offset), [self currentTimeStamp], @(bookmark.bookmark_id), @(bookmark.book_id), @(bookmark.default_bookmark), nil];
+    BOOL result =  [db executeUpdate:sql_update_bookmark withArgumentsInArray:args];
+    [db close];
+    return result;
+}
+
 
 + (BOOL) deleteBookMarkByBookId:(NSUInteger) book_id {
     FMDatabase* db    = [DataBase get_database_instance];

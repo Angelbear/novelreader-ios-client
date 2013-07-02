@@ -8,6 +8,7 @@
 
 #import "MSReaderViewController.h"
 #import "DataBase.h"
+#import "Bookmark.h"
 #import "Section.h"
 #import "Book.h"
 #import "SectionReaderTableViewController.h"
@@ -37,7 +38,15 @@
 - (void) viewWillAppear:(BOOL)animated {
     self.sections = [DataBase getAllSectionsOfBook:self.book];
     [self.tableView reloadData];
-    [self transitionToViewController:[self.sections objectAtIndex:0]];
+    self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
+    NSUInteger indexForJump = 0;
+    for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
+        Section* section = [self.sections objectAtIndex:indexForJump];
+        if (self.bookmark.section_id == section.section_id) {
+            break;
+        }
+    }
+    [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
 }
 
 - (void)viewDidLoad
@@ -99,6 +108,7 @@
     SectionReaderTableViewController* paneViewController = [[SectionReaderTableViewController alloc] init];
     paneViewController.navigationItem.title = section.name;
     [paneViewController setSection:section];
+    [paneViewController setBookmark:self.bookmark];
     UINavigationController* paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
 
     [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
@@ -111,6 +121,10 @@
     Section* section = [self.sections objectAtIndex:indexPath.row];
     [self transitionToViewController:section];
     self.readingSection = indexPath.row;
+    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
+    self.bookmark.section_id = sec.section_id;
+    self.bookmark.offset = 0;
+    [DataBase updateBookMark:self.bookmark];
     [self.tableView reloadData];
 }
 
