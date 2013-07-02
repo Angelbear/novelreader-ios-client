@@ -35,7 +35,7 @@
     self = [super initWithStyle:UITableViewStylePlain];
     CGRect deviceRect = [ UIScreen mainScreen ].bounds;
     //CGRect statusRect = [[UIApplication sharedApplication] statusBarFrame];
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 14.0f);
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 15.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     return self;
 }
@@ -79,7 +79,7 @@
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE]];
+        self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:@"FZLTHJW--GB1-0" size:DEFAULT_FONT_SIZE]];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -154,7 +154,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return self.contentSize.height + 14.0f;
+    return self.contentSize.height + 15.0f;
 }
 
 

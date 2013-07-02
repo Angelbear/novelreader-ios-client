@@ -54,7 +54,7 @@
                 break;
             }
             calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-        } while ( calcHeight < height);
+        } while ( calcHeight < height );
         count--;
         [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:count], nil]];
         r.location += count;

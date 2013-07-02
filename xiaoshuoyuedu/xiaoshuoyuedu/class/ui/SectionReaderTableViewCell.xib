@@ -48,10 +48,9 @@
 									<object class="IBUITextView" id="358455411">
 										<reference key="NSNextResponder" ref="33659494"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{0, 10}, {320, 444}}</string>
+										<string key="NSFrame">{{0, 10}, {320, 445}}</string>
 										<reference key="NSSuperview" ref="33659494"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIAutoresizesSubviews">NO</bool>
@@ -71,6 +70,10 @@
 										<bool key="IBUIBouncesZoom">NO</bool>
 										<bool key="IBUIEditable">NO</bool>
 										<string key="IBUIText"/>
+										<object class="NSColor" key="IBUITextColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC4yNTA5ODAzOTIyIDAuMTc2NDcwNTg4MiAwLjA5MDE5NjA3ODQzAA</bytes>
+										</object>
 										<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 											<int key="IBUIAutocorrectionType">1</int>
 											<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -93,7 +96,7 @@
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC43NzY0NzA1ODgyIDAuNzUyOTQxMTc2NSAwLjY1MDk4MDM5MjIAA</bytes>
+									<bytes key="NSRGB">MC45NTY4NjI3NDUxIDAuOTI1NDkwMTk2MSAwLjgxOTYwNzg0MzEAA</bytes>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -278,7 +281,7 @@
 								<int key="secondAttribute">4</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
-									<double key="value">6</double>
+									<double key="value">5</double>
 								</object>
 								<float key="priority">1000</float>
 								<reference key="containingView" ref="33659494"/>
@@ -439,7 +442,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">103</int>
+			<int key="maxID">106</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -17,11 +17,16 @@
     
     self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
-        self.textView.font = [UIFont systemFontOfSize:size];
+        self.textView.font = [UIFont fontWithName:@"FZLTHJW--GB1-0" size:size];
+        self.textView.textColor = [UIColor colorWithRed:64.0/256.0 green:45.0/256.0 blue:23.0/256.0 alpha:1.0f];
         //self.textView.contentInset = UIEdgeInsetsMake(-4,-8,0,0);
         [self setRestorationIdentifier:reuseIdentifier];
     }
     return self;
+}
+
+- (void) reloadSection {
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

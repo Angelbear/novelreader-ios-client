@@ -81,6 +81,7 @@
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
 		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
 		B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D844177D85C900157BB0 /* BookShelfViewController.m */; };
+		B4A68C951782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C941782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF */; };
 		B4D4B92317815220008BAA84 /* badge.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92117815220008BAA84 /* badge.png */; };
 		B4D4B92417815220008BAA84 /* badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92217815220008BAA84 /* badge@2x.png */; };
 		B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B9261781575D008BAA84 /* Bookmark.m */; };
@@ -215,6 +216,7 @@
 		B4A0D841177D4C6F00157BB0 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		B4A0D843177D85C800157BB0 /* BookShelfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfViewController.h; sourceTree = "<group>"; };
 		B4A0D844177D85C900157BB0 /* BookShelfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfViewController.m; sourceTree = "<group>"; };
+		B4A68C941782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FZLanTingHeiS-R-GB.TTF"; sourceTree = "<group>"; };
 		B4D4B92117815220008BAA84 /* badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge.png; sourceTree = "<group>"; };
 		B4D4B92217815220008BAA84 /* badge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge@2x.png"; sourceTree = "<group>"; };
 		B4D4B9251781575D008BAA84 /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookmark.h; sourceTree = "<group>"; };
@@ -365,9 +367,26 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		B4A68C8F1782641C00F650F5 /* font */ = {
+			isa = PBXGroup;
+			children = (
+				B4A68C941782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF */,
+			);
+			name = font;
+			path = xiaoshuoyuedu/font;
+			sourceTree = "<group>";
+		};
+		B4A68C991782BC7200F650F5 /* task */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = task;
+			sourceTree = "<group>";
+		};
 		B4EF67221774406400F54681 = {
 			isa = PBXGroup;
 			children = (
+				B4A68C8F1782641C00F650F5 /* font */,
 				B4F93F6317744E7B0025A1E8 /* Images */,
 				B4EF67341774406400F54681 /* xiaoshuoyuedu */,
 				B4EF67521774406500F54681 /* xiaoshuoyueduTests */,
@@ -447,6 +466,7 @@
 		B4F93F4C17744D790025A1E8 /* class */ = {
 			isa = PBXGroup;
 			children = (
+				B4A68C991782BC7200F650F5 /* task */,
 				B4A0D83C177D4C5000157BB0 /* model */,
 				B426FDA21779293000205904 /* utils */,
 				B4F93F4D17744D790025A1E8 /* ui */,
@@ -662,6 +682,7 @@
 				B47E10471781CA6B009DF30B /* WoodTile@2x~iphone.png in Resources */,
 				B47E10481781CA6B009DF30B /* WoodTile~ipad.png in Resources */,
 				B47E10491781CA6B009DF30B /* WoodTile~iphone.png in Resources */,
+				B4A68C951782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
