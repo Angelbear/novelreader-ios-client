@@ -229,9 +229,12 @@
 }
 
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
-    CGPoint touchLocation = [recognizer locationInView:self.view];
+    SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
+    CGPoint touchLocation = [recognizer locationInView:cell.textView];
     if (   touchLocation.x > self.contentSize.width / 3.0f
         && touchLocation.x < self.contentSize.width * 2.0f / 3.0f
+        && touchLocation.y > self.contentSize.height / 3.0f
+        && touchLocation.y < self.contentSize.height * 2.0f / 3.0f
         ) {
         SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
         [cell toggleShowMenu:recognizer];
