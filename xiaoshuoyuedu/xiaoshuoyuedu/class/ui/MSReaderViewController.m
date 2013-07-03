@@ -108,10 +108,6 @@
     } else {
         cell.imageView.image = [UIImage imageNamed:@"sync"];
     }
-    
-    if (self.readingSection == indexPath.row) {
-        cell.imageView.image = [UIImage imageNamed:@"checkmark-current"];
-    }
 
     return cell;
 }

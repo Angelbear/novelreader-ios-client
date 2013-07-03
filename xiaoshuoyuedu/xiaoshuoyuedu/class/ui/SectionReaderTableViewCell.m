@@ -21,14 +21,12 @@
     self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
         UIColor* brown = [UIColor colorWithRed:64.0/256.0 green:45.0/256.0 blue:23.0/256.0 alpha:1.0f];
-        self.textView.font = [UIFont fontWithName:@"FZLTHJW--GB1-0" size:size];
         self.textView.textColor = brown;
         self.fontButton.imageView.image = [UIImage imageNamed:@"AAglyp"];
+        [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         self.fontButton.hidden = YES;
-        [self.backButton.layer setMasksToBounds:YES];
-        [self.backButton.layer setCornerRadius:5.0];
-        [self.backButton.layer setBorderWidth:1.0];
-        [self.backButton.layer setBorderColor:[brown CGColor]];
+        self.backButton.imageView.image = [UIImage imageNamed:@"Toc"];
+        [self.backButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         self.backButton.hidden = YES;
         [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;

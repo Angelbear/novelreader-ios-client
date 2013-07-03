@@ -48,6 +48,14 @@
         _fontSize = DEFAULT_FONT_SIZE;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-name"] != nil) {
+        _fontName = [[NSUserDefaults standardUserDefaults] objectForKey:@"font-name"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE].fontName forKey:@"font-name"];
+        _fontName = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE].fontName;
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+
     return self;
 }
 
@@ -78,7 +86,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:@"FZLTHJW--GB1-0" size:_fontSize]];
+            self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
             _initialized = NO;
             [self.tableView reloadData];
         });
@@ -119,25 +127,18 @@
 
 #pragma FontMenuDelegate
 - (void) increaseFontSize {
-    if (_fontSize < MAX_FONT_SIZE) {
-        _fontSize += 0.5f;
-        [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self prepareForRead];
-    }
+    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
+    [self prepareForRead];
 }
 
 - (void) decreaseFontSize {
-    if (_fontSize > MIN_FONT_SIZE) {
-        _fontSize -= 0.5f;
-        [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self prepareForRead];
-    }
+    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
+    [self prepareForRead];
 }
 
 - (void) changeFont:(NSString*) fontName {
-    
+    _fontName = fontName;
+    [self prepareForRead];
 }
 - (void) changeTheme:(NSString*) themeName {
     
@@ -275,7 +276,8 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
      }
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
-
+    
+    cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
     [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
     cell.labelView.text = self.section.name;
     cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];

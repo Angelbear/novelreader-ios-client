@@ -14,6 +14,7 @@
 @class Section;
 @interface SectionReaderTableViewController : UITableViewController<SectionReaderMenuDelegate, FontMenuDelegate, UIPopoverControllerDelegate, WEPopoverControllerDelegate> {
     BOOL _initialized;
+    NSString* _fontName;
     CGFloat _fontSize;
 }
 @property (nonatomic, strong) Section* section;

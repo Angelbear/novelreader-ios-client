@@ -30,4 +30,6 @@
 @property(nonatomic, strong) IBOutlet UIButton* backButton;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;
+- (IBAction)topOnReturnToLibraryButton:(id)sender;
+- (IBAction)topOnFontSelectButton:(id)sender;
 @end
