@@ -82,6 +82,23 @@
 		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
 		B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D844177D85C900157BB0 /* BookShelfViewController.m */; };
 		B4A68C951782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C941782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF */; };
+		B4A68C9C1783D6D200F650F5 /* WoodCell.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C9B1783D6D200F650F5 /* WoodCell.png */; };
+		B4A68CA51783DEE300F650F5 /* AAglyp-iPhone-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C9D1783DEE300F650F5 /* AAglyp-iPhone-Landscape.png */; };
+		B4A68CA61783DEE300F650F5 /* AAglyp-iPhone-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C9E1783DEE300F650F5 /* AAglyp-iPhone-Landscape@2x.png */; };
+		B4A68CA71783DEE300F650F5 /* AAglyp-night-iPhone-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68C9F1783DEE300F650F5 /* AAglyp-night-iPhone-Landscape.png */; };
+		B4A68CA81783DEE300F650F5 /* AAglyp-night-iPhone-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CA01783DEE300F650F5 /* AAglyp-night-iPhone-Landscape@2x.png */; };
+		B4A68CA91783DEE300F650F5 /* AAglyp-night.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CA11783DEE300F650F5 /* AAglyp-night.png */; };
+		B4A68CAA1783DEE300F650F5 /* AAglyp-night@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CA21783DEE300F650F5 /* AAglyp-night@2x.png */; };
+		B4A68CAB1783DEE300F650F5 /* AAglyp.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CA31783DEE300F650F5 /* AAglyp.png */; };
+		B4A68CAC1783DEE300F650F5 /* AAglyp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CA41783DEE300F650F5 /* AAglyp@2x.png */; };
+		B4A68CCA1783F41300F650F5 /* FontMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A68CC81783F41200F650F5 /* FontMenuViewController.m */; };
+		B4A68CCB1783F41300F650F5 /* FontMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CC91783F41300F650F5 /* FontMenuViewController.xib */; };
+		B4A68CCE1783F55600F650F5 /* font_selection_background.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CCC1783F55600F650F5 /* font_selection_background.png */; };
+		B4A68CCF1783F55600F650F5 /* font_selection_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CCD1783F55600F650F5 /* font_selection_background@2x.png */; };
+		B4A68CD41783F72F00F650F5 /* slider-brightest-glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD01783F72F00F650F5 /* slider-brightest-glyph.png */; };
+		B4A68CD51783F72F00F650F5 /* slider-brightest-glyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */; };
+		B4A68CD61783F72F00F650F5 /* slider-dimmest-glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD21783F72F00F650F5 /* slider-dimmest-glyph.png */; };
+		B4A68CD71783F72F00F650F5 /* slider-dimmest-glyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD31783F72F00F650F5 /* slider-dimmest-glyph@2x.png */; };
 		B4D4B92317815220008BAA84 /* badge.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92117815220008BAA84 /* badge.png */; };
 		B4D4B92417815220008BAA84 /* badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92217815220008BAA84 /* badge@2x.png */; };
 		B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B9261781575D008BAA84 /* Bookmark.m */; };
@@ -217,6 +234,24 @@
 		B4A0D843177D85C800157BB0 /* BookShelfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfViewController.h; sourceTree = "<group>"; };
 		B4A0D844177D85C900157BB0 /* BookShelfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfViewController.m; sourceTree = "<group>"; };
 		B4A68C941782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FZLanTingHeiS-R-GB.TTF"; sourceTree = "<group>"; };
+		B4A68C9B1783D6D200F650F5 /* WoodCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WoodCell.png; sourceTree = "<group>"; };
+		B4A68C9D1783DEE300F650F5 /* AAglyp-iPhone-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-iPhone-Landscape.png"; sourceTree = "<group>"; };
+		B4A68C9E1783DEE300F650F5 /* AAglyp-iPhone-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-iPhone-Landscape@2x.png"; sourceTree = "<group>"; };
+		B4A68C9F1783DEE300F650F5 /* AAglyp-night-iPhone-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-night-iPhone-Landscape.png"; sourceTree = "<group>"; };
+		B4A68CA01783DEE300F650F5 /* AAglyp-night-iPhone-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-night-iPhone-Landscape@2x.png"; sourceTree = "<group>"; };
+		B4A68CA11783DEE300F650F5 /* AAglyp-night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-night.png"; sourceTree = "<group>"; };
+		B4A68CA21783DEE300F650F5 /* AAglyp-night@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp-night@2x.png"; sourceTree = "<group>"; };
+		B4A68CA31783DEE300F650F5 /* AAglyp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AAglyp.png; sourceTree = "<group>"; };
+		B4A68CA41783DEE300F650F5 /* AAglyp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AAglyp@2x.png"; sourceTree = "<group>"; };
+		B4A68CC71783F41200F650F5 /* FontMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontMenuViewController.h; sourceTree = "<group>"; };
+		B4A68CC81783F41200F650F5 /* FontMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontMenuViewController.m; sourceTree = "<group>"; };
+		B4A68CC91783F41300F650F5 /* FontMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontMenuViewController.xib; sourceTree = "<group>"; };
+		B4A68CCC1783F55600F650F5 /* font_selection_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font_selection_background.png; sourceTree = "<group>"; };
+		B4A68CCD1783F55600F650F5 /* font_selection_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "font_selection_background@2x.png"; sourceTree = "<group>"; };
+		B4A68CD01783F72F00F650F5 /* slider-brightest-glyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-brightest-glyph.png"; sourceTree = "<group>"; };
+		B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-brightest-glyph@2x.png"; sourceTree = "<group>"; };
+		B4A68CD21783F72F00F650F5 /* slider-dimmest-glyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-dimmest-glyph.png"; sourceTree = "<group>"; };
+		B4A68CD31783F72F00F650F5 /* slider-dimmest-glyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-dimmest-glyph@2x.png"; sourceTree = "<group>"; };
 		B4D4B92117815220008BAA84 /* badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge.png; sourceTree = "<group>"; };
 		B4D4B92217815220008BAA84 /* badge@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge@2x.png"; sourceTree = "<group>"; };
 		B4D4B9251781575D008BAA84 /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookmark.h; sourceTree = "<group>"; };
@@ -316,6 +351,20 @@
 		B43CC716178026E1009BFA2E /* iBooks */ = {
 			isa = PBXGroup;
 			children = (
+				B4A68CD01783F72F00F650F5 /* slider-brightest-glyph.png */,
+				B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */,
+				B4A68CD21783F72F00F650F5 /* slider-dimmest-glyph.png */,
+				B4A68CD31783F72F00F650F5 /* slider-dimmest-glyph@2x.png */,
+				B4A68CCC1783F55600F650F5 /* font_selection_background.png */,
+				B4A68CCD1783F55600F650F5 /* font_selection_background@2x.png */,
+				B4A68C9D1783DEE300F650F5 /* AAglyp-iPhone-Landscape.png */,
+				B4A68C9E1783DEE300F650F5 /* AAglyp-iPhone-Landscape@2x.png */,
+				B4A68C9F1783DEE300F650F5 /* AAglyp-night-iPhone-Landscape.png */,
+				B4A68CA01783DEE300F650F5 /* AAglyp-night-iPhone-Landscape@2x.png */,
+				B4A68CA11783DEE300F650F5 /* AAglyp-night.png */,
+				B4A68CA21783DEE300F650F5 /* AAglyp-night@2x.png */,
+				B4A68CA31783DEE300F650F5 /* AAglyp.png */,
+				B4A68CA41783DEE300F650F5 /* AAglyp@2x.png */,
 				B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */,
 				B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */,
 				B47E10441781CA6B009DF30B /* WoodTile~ipad.png */,
@@ -507,6 +556,9 @@
 				B47E103B1781ACA0009DF30B /* SectionReaderTableViewCell.xib */,
 				B4D4B92817816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.h */,
 				B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */,
+				B4A68CC71783F41200F650F5 /* FontMenuViewController.h */,
+				B4A68CC81783F41200F650F5 /* FontMenuViewController.m */,
+				B4A68CC91783F41300F650F5 /* FontMenuViewController.xib */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -517,6 +569,7 @@
 				B43CC716178026E1009BFA2E /* iBooks */,
 				B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
+				B4A68C9B1783D6D200F650F5 /* WoodCell.png */,
 				B454F022178176EF0026C113 /* Default-Landscape@2x.png */,
 				B454F023178176EF0026C113 /* Default.png */,
 				B454F024178176EF0026C113 /* Default@2x.png */,
@@ -683,6 +736,22 @@
 				B47E10481781CA6B009DF30B /* WoodTile~ipad.png in Resources */,
 				B47E10491781CA6B009DF30B /* WoodTile~iphone.png in Resources */,
 				B4A68C951782867B00F650F5 /* FZLanTingHeiS-R-GB.TTF in Resources */,
+				B4A68C9C1783D6D200F650F5 /* WoodCell.png in Resources */,
+				B4A68CA51783DEE300F650F5 /* AAglyp-iPhone-Landscape.png in Resources */,
+				B4A68CA61783DEE300F650F5 /* AAglyp-iPhone-Landscape@2x.png in Resources */,
+				B4A68CA71783DEE300F650F5 /* AAglyp-night-iPhone-Landscape.png in Resources */,
+				B4A68CA81783DEE300F650F5 /* AAglyp-night-iPhone-Landscape@2x.png in Resources */,
+				B4A68CA91783DEE300F650F5 /* AAglyp-night.png in Resources */,
+				B4A68CAA1783DEE300F650F5 /* AAglyp-night@2x.png in Resources */,
+				B4A68CAB1783DEE300F650F5 /* AAglyp.png in Resources */,
+				B4A68CAC1783DEE300F650F5 /* AAglyp@2x.png in Resources */,
+				B4A68CCB1783F41300F650F5 /* FontMenuViewController.xib in Resources */,
+				B4A68CCE1783F55600F650F5 /* font_selection_background.png in Resources */,
+				B4A68CCF1783F55600F650F5 /* font_selection_background@2x.png in Resources */,
+				B4A68CD41783F72F00F650F5 /* slider-brightest-glyph.png in Resources */,
+				B4A68CD51783F72F00F650F5 /* slider-brightest-glyph@2x.png in Resources */,
+				B4A68CD61783F72F00F650F5 /* slider-dimmest-glyph.png in Resources */,
+				B4A68CD71783F72F00F650F5 /* slider-dimmest-glyph@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -771,6 +840,7 @@
 				B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */,
 				B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */,
 				B47E10411781C396009DF30B /* UITextView+Dimensions.m in Sources */,
+				B4A68CCA1783F41300F650F5 /* FontMenuViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

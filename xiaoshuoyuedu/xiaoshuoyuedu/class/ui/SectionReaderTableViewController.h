@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Section, Bookmark;
-@interface SectionReaderTableViewController : UITableViewController
+#import "Bookmark.h"
+#import "SectionReaderTableViewCell.h"
+#import <WEPopover/WEPopoverController.h>
+#import "FontMenuViewController.h"
+@class Section;
+@interface SectionReaderTableViewController : UITableViewController<SectionReaderMenuDelegate, FontMenuDelegate, UIPopoverControllerDelegate, WEPopoverControllerDelegate> {
+    BOOL _initialized;
+    CGFloat _fontSize;
+}
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
+@property (nonatomic, strong) UIPopoverController* popupController;
+@property (nonatomic, strong) WEPopoverController* wePopupController;
 @end

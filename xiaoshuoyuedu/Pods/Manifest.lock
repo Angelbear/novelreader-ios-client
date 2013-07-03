@@ -13,6 +13,7 @@ PODS:
   - MSNavigationPaneViewController (0.2.0):
     - PRTween (~> 0.0.1)
   - PRTween (0.0.1)
+  - WEPopover (0.0.1)
   - WTExtension/UIImage+WTExtension (1.2.1)
   - WTURLImageView (1.1.0):
     - AFNetworking (>= 1.0)
@@ -27,6 +28,7 @@ DEPENDENCIES:
   - GSBookShelf (~> 0.0.1)
   - MBProgressHUD (~> 0.6)
   - MSNavigationPaneViewController (~> 0.2.0)
+  - WEPopover (~> 0.0.1)
   - WTURLImageView (~> 1.1.0)
 
 SPEC CHECKSUMS:
@@ -39,6 +41,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
   MSNavigationPaneViewController: 179285558ba1a61a9de68e84d91e77efccb3f3d6
   PRTween: d0439e7917031328f81de4910c5b02e202389939
+  WEPopover: 119fe521e9c35069c5ec63dfc14334ca321275b8
   WTExtension: 636071786394da7c57e130e7d9274d3c082a1b06
   WTURLImageView: 07fbaad72a1c3ba39e2246fe6a5dbbc93c84a59d
 

@@ -47,6 +47,7 @@
         }
     }
     self.readingSection = indexForJump;
+    [self.tableView reloadData];
     [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
 }
 
@@ -78,6 +79,18 @@
     return self.book.name;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.readingSection == indexPath.row) {
+        cell.backgroundColor = [UIColor colorWithHue:0.61
+                                          saturation:0.09
+                                          brightness:0.99
+                                               alpha:1.0];
+    } else {
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"WoodCell"]];
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -89,6 +102,7 @@
     }
     Section * sec = [self.sections objectAtIndex:indexPath.row];
     cell.textLabel.text = sec.name;
+    cell.backgroundColor = [UIColor blackColor];
     if (sec.text !=nil && [sec.text length] > 0) {
         cell.imageView.image = [UIImage imageNamed:@"checkmark"];
     } else {

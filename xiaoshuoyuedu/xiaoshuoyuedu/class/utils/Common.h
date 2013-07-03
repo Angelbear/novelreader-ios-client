@@ -21,3 +21,8 @@
 #define isiPad ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 
 #define CELL_HEIGHT 139.0f
+
+#define DEFAULT_FONT_SIZE 20.0f
+
+#define MIN_FONT_SIZE 16.0f
+#define MAX_FONT_SIZE (isiPad ? 34.0f : 30.0f)

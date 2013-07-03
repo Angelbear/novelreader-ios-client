@@ -9,4 +9,5 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'FMDB', '~> 2.1'
   pod 'GSBookShelf', '~> 0.0.1'
   pod 'CustomBadge', '~> 2.0'
+  pod 'WEPopover', '~> 0.0.1'
 end

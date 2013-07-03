@@ -72,6 +72,12 @@
 #define COCOAPODS_VERSION_MINOR_PRTween 0
 #define COCOAPODS_VERSION_PATCH_PRTween 1
 
+// WEPopover
+#define COCOAPODS_POD_AVAILABLE_WEPopover
+#define COCOAPODS_VERSION_MAJOR_WEPopover 0
+#define COCOAPODS_VERSION_MINOR_WEPopover 0
+#define COCOAPODS_VERSION_PATCH_WEPopover 1
+
 // WTExtension/UIImage+WTExtension
 #define COCOAPODS_POD_AVAILABLE_WTExtension_UIImage_WTExtension
 #define COCOAPODS_VERSION_MAJOR_WTExtension_UIImage_WTExtension 1
