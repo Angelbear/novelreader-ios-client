@@ -25,11 +25,17 @@
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
     }
     
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+
+    self.containerViewController = [[UIViewController alloc] init];
+    self.containerViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height);
+    
     self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
-    
+    self.navigationPaneViewController.view.frame = deviceFrame;
+
     
     self.readerPaneViewController = [[MSNavigationPaneViewController alloc] init];
     [self.readerPaneViewController.touchForwardingClasses addObject:UITableView.class];
@@ -37,19 +43,63 @@
     readerMasterViewController.navigationPaneViewController = self.readerPaneViewController;
     self.readerPaneViewController.masterViewController = readerMasterViewController;
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    self.readerPaneViewController.view.frame = CGRectMake(deviceFrame.size.width + 40, 0, deviceFrame.size.width, deviceFrame.size.height);
+    
+    //[self.containerViewController.view insertSubview:self.readerPaneViewController.view aboveSubview:self.containerViewController.view];
+    //[self.containerViewController.view addSubview:self.navigationPaneViewController.view];
+    
+    //[self.navigationPaneViewController.view insertSubview:self.readerPaneViewController.view belowSubview:self.navigationPaneViewController.paneViewController.view];
+    
+    //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
     self.window.rootViewController = self.navigationPaneViewController;
+    [self.window insertSubview:self.readerPaneViewController.view aboveSubview:self.navigationPaneViewController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
 
+- (void) animationToReader {
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    [UIView transitionWithView:self.containerViewController.view
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionNone
+                    animations:^
+     {
+         self.readerPaneViewController.view.frame = deviceFrame;
+         self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+         
+     }
+    completion:^(BOOL finished){
+        self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width - 40, 0, deviceFrame.size.width, deviceFrame.size.height);
+    }];
+}
+
+- (void) animationBack {
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+     self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+    [UIView transitionWithView:self.containerViewController.view
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionNone
+                    animations:^
+     {
+         self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width,  deviceFrame.size.height);
+         self.readerPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+         
+     }
+    completion:^(BOOL finished){
+    }];
+
+}
+
 - (void) switchToReader:(Book*) book {
     if ( [self.readerPaneViewController presentingViewController] == nil) {
         //self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
-        [readerMasterViewController setBook:book];
-        [self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
+        [readerMasterViewController loadBook:book];
+        [self animationToReader];
+        //[self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
     } else {
         [self switchToNavitation];
     }
@@ -60,8 +110,9 @@
        // self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         self.currentBookView = view;
         MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
-        [readerMasterViewController setBook:book];
-        [self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
+        [readerMasterViewController loadBook:book];
+        [self animationToReader];
+        //[self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
     } else {
         self.currentBookView = nil;
         [self switchToNavitation];
@@ -74,7 +125,8 @@
 
 
 - (void) switchToNavitation {
-    [self.navigationPaneViewController dismissFlipSideViewController:nil];
+    [self animationBack];
+    //[self.navigationPaneViewController dismissFlipSideViewController:nil];
     //[self.window.rootViewController dismissModalViewControllerAnimated:YES];
 }
 

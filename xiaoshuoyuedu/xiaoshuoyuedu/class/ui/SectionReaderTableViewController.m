@@ -61,6 +61,10 @@
 
 - (void) reloadSection {
     __weak SectionReaderTableViewController* weakReferenceSelf = self;
+    self.section.text = nil;
+    self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+    [self.tableView reloadData];
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]]];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -71,14 +75,14 @@
             self.section.text = [JSON objectForKey:@"text"];
             self.section.name = [JSON objectForKey:@"title"];
             [DataBase updateSection:self.section];
-            [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
+            [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
             [weakReferenceSelf prepareForRead];
         }
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
     }];
     [operation start];
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 
@@ -151,8 +155,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!_initialized && indexPath.row == 0) {
-        
+    if (!_initialized) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             NSUInteger indexForJump = 0;
             for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
@@ -174,34 +177,19 @@
 {
     [super viewDidLoad];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
-    
-    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:@selector(backToBookShelf:)];
-    self.navigationItem.leftBarButtonItem = backBtn;
     [self.tableView addGestureRecognizer:tap];
     
-    [self.tableView setScrollEnabled:NO];
+    //[self.tableView setScrollEnabled:NO];
     
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.pagingEnabled = YES;
     self.tableView.bounces = YES;
     self.tableView.alwaysBounceVertical = YES;
-    
-    UISwipeGestureRecognizer* swipeUpGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
-    
-    [swipeUpGesture setDirection: UISwipeGestureRecognizerDirectionUp];
-    [self.tableView addGestureRecognizer:swipeUpGesture];
-    
-    
-    UISwipeGestureRecognizer* swipeDownGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
-    
-    [swipeDownGesture setDirection: UISwipeGestureRecognizerDirectionDown];
-    [self.tableView addGestureRecognizer:swipeDownGesture];
     
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
  
     [swipeLeftGesture setDirection: UISwipeGestureRecognizerDirectionRight];
     [self.tableView addGestureRecognizer:swipeLeftGesture];
-    
-    
-    [[self navigationController] setNavigationBarHidden:YES animated:NO];
 
     if (self.section.text !=nil && [self.section.text length] > 0) {
         [self prepareForRead];
@@ -242,6 +230,11 @@
 
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
+    [self autoSaveBookmark:path.row];
+}
+
 -(void) autoSaveBookmark:(NSUInteger)index {
     self.bookmark.section_id = self.section.section_id;
     NSArray* split = [self.splitInfo objectAtIndex:index];
@@ -250,22 +243,9 @@
 }
 
 -(void) didDragOnTableView:(UISwipeGestureRecognizer*) recognizer {
-    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         [delegate openReaderPaneView];
-    } else if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        if (path.row > 0) {
-            NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row - 1 inSection:0];
-            [self.tableView scrollToRowAtIndexPath:newPath  atScrollPosition:UITableViewScrollPositionTop animated:YES];
-            [self autoSaveBookmark:newPath.row];
-        }
-    } else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        if (path.row < [self tableView:self.tableView numberOfRowsInSection:0] - 1) {
-            NSIndexPath* newPath = [NSIndexPath indexPathForRow:path.row +1 inSection:0];
-            [self.tableView scrollToRowAtIndexPath:newPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            [self autoSaveBookmark:newPath.row];
-        }
     }
 }
 

@@ -18,6 +18,7 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIViewController* containerViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *readerPaneViewController;
 @property (strong, nonatomic) BookView* currentBookView;

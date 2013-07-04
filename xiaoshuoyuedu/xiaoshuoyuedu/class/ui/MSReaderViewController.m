@@ -35,20 +35,42 @@
 }
 
 
-- (void) viewWillAppear:(BOOL)animated {
-    self.sections = [DataBase getAllSectionsOfBook:self.book];
-    [self.tableView reloadData];
-    self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
-    NSUInteger indexForJump = 0;
-    for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
-        Section* section = [self.sections objectAtIndex:indexForJump];
-        if (self.bookmark.section_id == section.section_id) {
-            break;
+- (void) loadBook:(Book*) book {
+    self.book = book;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        self.sections = [DataBase getAllSectionsOfBook:self.book];
+        self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
+        NSUInteger indexForJump = 0;
+        for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
+            Section* section = [self.sections objectAtIndex:indexForJump];
+            if (self.bookmark.section_id == section.section_id) {
+                break;
+            }
         }
+        self.readingSection = indexForJump;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
+        });
+    });
+}
+
+
+- (void) viewWillAppear:(BOOL)animated {
+    if ( self.book !=nil) {
+        self.sections = [DataBase getAllSectionsOfBook:self.book];
+        self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
+        NSUInteger indexForJump = 0;
+        for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
+            Section* section = [self.sections objectAtIndex:indexForJump];
+            if (self.bookmark.section_id == section.section_id) {
+                break;
+            }
+        }
+        self.readingSection = indexForJump;
+        [self.tableView reloadData];
+        [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
     }
-    self.readingSection = indexForJump;
-    [self.tableView reloadData];
-    [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
 }
 
 - (void)viewDidLoad
@@ -116,13 +138,30 @@
 - (void)transitionToViewController:(Section*) section {
     BOOL animateTransition = self.navigationPaneViewController.paneViewController != nil;
 
-    SectionReaderTableViewController* paneViewController = [[SectionReaderTableViewController alloc] init];
-    paneViewController.navigationItem.title = section.name;
-    [paneViewController setSection:section];
-    [paneViewController setBookmark:self.bookmark];
-    UINavigationController* paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:paneViewController];
+    if ( self.currentReaderViewController == nil) {
+        self.currentReaderViewController = [[SectionReaderTableViewController alloc] init];
+        self.currentReaderViewController.navigationItem.title = section.name;
+        [self.currentReaderViewController setSection:section];
+        [self.currentReaderViewController setBookmark:self.bookmark];
+        [self.navigationPaneViewController setPaneViewController:self.currentReaderViewController  animated:animateTransition completion:^{
+            //[self.currentReaderViewController.navigationController setNavigationBarHidden:YES animated:NO];
+        }];
 
-    [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
+    } else {
+        self.currentReaderViewController.navigationItem.title = section.name;
+        [self.currentReaderViewController setSection:section];
+        [self.currentReaderViewController setBookmark:self.bookmark];
+        [self.navigationPaneViewController setPaneState:MSNavigationPaneStateClosed animated:YES completion:^{
+            if (section.text !=nil && [section.text length] > 0) {
+                [self.currentReaderViewController prepareForRead];
+            } else {
+                [self.currentReaderViewController reloadSection];
+            }
+        }];
+    }
+        //UINavigationController* paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:self.currentReaderViewController];
+
+   
 }
 
 #pragma mark - Table view delegate
