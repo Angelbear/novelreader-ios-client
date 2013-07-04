@@ -25,9 +25,6 @@
         self.fontButton.imageView.image = [UIImage imageNamed:@"AAglyp"];
         [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         self.fontButton.hidden = YES;
-        self.backButton.imageView.image = [UIImage imageNamed:@"Toc"];
-        [self.backButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        self.backButton.hidden = YES;
         [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;
     }
@@ -55,11 +52,9 @@
     _menuMode = !_menuMode;
     if (_menuMode) {
         self.labelView.hidden = YES;
-        self.backButton.hidden = NO;
         self.fontButton.hidden = NO;
     } else {
         self.labelView.hidden = NO;
-        self.backButton.hidden = YES;
         self.fontButton.hidden = YES;
     }
 }

@@ -12,14 +12,13 @@
 #import <WEPopover/WEPopoverController.h>
 #import "FontMenuViewController.h"
 @class Section;
-@interface SectionReaderTableViewController : UITableViewController<SectionReaderMenuDelegate, FontMenuDelegate, UIPopoverControllerDelegate, WEPopoverControllerDelegate, UIScrollViewDelegate> {
+@interface SectionReaderTableViewController : UITableViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate> {
     BOOL _initialized;
     NSString* _fontName;
     CGFloat _fontSize;
 }
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
-@property (nonatomic, strong) UIPopoverController* popupController;
 @property (nonatomic, strong) WEPopoverController* wePopupController;
 - (void) prepareForRead;
 - (void) reloadSection;

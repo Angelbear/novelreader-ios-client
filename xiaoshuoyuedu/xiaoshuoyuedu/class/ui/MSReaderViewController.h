@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MSNavigationPaneViewController.h"
-@class Book, Bookmark, SectionReaderTableViewController;
-@interface MSReaderViewController : UITableViewController
+#import <ViewDeck/IIViewDeckController.h>
 
-@property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
-@property (nonatomic, strong) SectionReaderTableViewController* currentReaderViewController;
+@class Book, Bookmark, IIViewDeckController, SectionReaderTableViewController;
+@interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate>
+
+@property (nonatomic, weak) IIViewDeckController *deckViewController;
+@property (nonatomic, weak) SectionReaderTableViewController* currentReaderViewController;
 @property (nonatomic, strong) Book* book;
 @property (nonatomic, strong) Bookmark* bookmark;
 - (void) loadBook:(Book*) book;

@@ -12,6 +12,9 @@
 #import "DataBase.h"
 #import "MSReaderViewController.h"
 #import "MSNavigationPaneViewController+iBooksOpen.h"
+#import "SectionReaderTableViewController.h"
+#import <ViewDeck/IISideController.h>
+#import "Common.h"
 
 @implementation AppDelegate
 @synthesize currentBookView =_bookView;
@@ -36,25 +39,27 @@
     self.navigationPaneViewController.masterViewController = masterViewController;
     self.navigationPaneViewController.view.frame = deviceFrame;
 
-    
-    self.readerPaneViewController = [[MSNavigationPaneViewController alloc] init];
-    [self.readerPaneViewController.touchForwardingClasses addObject:UITableView.class];
     MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
-    readerMasterViewController.navigationPaneViewController = self.readerPaneViewController;
-    self.readerPaneViewController.masterViewController = readerMasterViewController;
     
+    CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 20;
+    
+    IISideController *constrainedRightController = [[IISideController alloc] initWithViewController:readerMasterViewController constrained:openSize];
+    
+    self.currentReaderViewController = [[SectionReaderTableViewController alloc] init];
+    
+    self.readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:self.currentReaderViewController leftViewController:nil
+                                                                       rightViewController:constrainedRightController];
+    self.readerDeckController.rightSize = deviceFrame.size.width  - openSize;
+    self.readerDeckController.elastic = NO;
+    readerMasterViewController.deckViewController = self.readerDeckController;
+    readerMasterViewController.currentReaderViewController = self.currentReaderViewController;
 
-    self.readerPaneViewController.view.frame = CGRectMake(deviceFrame.size.width + 40, 0, deviceFrame.size.width, deviceFrame.size.height);
+   
+    self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
     
-    //[self.containerViewController.view insertSubview:self.readerPaneViewController.view aboveSubview:self.containerViewController.view];
-    //[self.containerViewController.view addSubview:self.navigationPaneViewController.view];
-    
-    //[self.navigationPaneViewController.view insertSubview:self.readerPaneViewController.view belowSubview:self.navigationPaneViewController.paneViewController.view];
-    
-    //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
     self.window.rootViewController = self.navigationPaneViewController;
-    [self.window insertSubview:self.readerPaneViewController.view aboveSubview:self.navigationPaneViewController.view];
+    [self.window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -67,7 +72,7 @@
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
      {
-         self.readerPaneViewController.view.frame = deviceFrame;
+         self.readerDeckController.view.frame = deviceFrame;
          self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
          
      }
@@ -85,7 +90,7 @@
                     animations:^
      {
          self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width,  deviceFrame.size.height);
-         self.readerPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+         self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
          
      }
     completion:^(BOOL finished){
@@ -94,40 +99,24 @@
 }
 
 - (void) switchToReader:(Book*) book {
-    if ( [self.readerPaneViewController presentingViewController] == nil) {
-        //self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
-        [readerMasterViewController loadBook:book];
-        [self animationToReader];
-        //[self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
-    } else {
-        [self switchToNavitation];
-    }
+    MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
+    [readerMasterViewController loadBook:book];
+    [self animationToReader];
 }
 
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
-    if ( [self.readerPaneViewController presentingViewController] == nil) {
-       // self.readerPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        self.currentBookView = view;
-        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerPaneViewController.masterViewController;
-        [readerMasterViewController loadBook:book];
-        [self animationToReader];
-        //[self.navigationPaneViewController presentModalViewController: self.readerPaneViewController animated:YES];
-    } else {
-        self.currentBookView = nil;
-        [self switchToNavitation];
-    }
+    self.currentBookView = view;
+    MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
+    [readerMasterViewController loadBook:book];
+    [self animationToReader];
 }
-
-- (void) openReaderPaneView {
-    [self.readerPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
-}
-
 
 - (void) switchToNavitation {
     [self animationBack];
-    //[self.navigationPaneViewController dismissFlipSideViewController:nil];
-    //[self.window.rootViewController dismissModalViewControllerAnimated:YES];
+}
+
+- (BOOL) isReaderRightPanelOpen {
+    return [self.readerDeckController isAnySideOpen];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

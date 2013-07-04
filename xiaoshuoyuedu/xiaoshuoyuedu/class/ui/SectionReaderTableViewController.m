@@ -101,19 +101,11 @@
     FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
     fontMenuViewController.delegate = self;
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
-    if (isiPad) {
-        self.popupController = [[UIPopoverController alloc] initWithContentViewController:fontMenuViewController];
-        self.popupController.delegate = self;
-        self.popupController.popoverContentSize = fontMenuViewController.view.frame.size;
-        UIView* source = (UIView*) sender;
-        [self.popupController  presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    } else {
-        self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
-        self.wePopupController.delegate = self;
-        self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
-        UIView* source = (UIView*) sender;
-        [self.wePopupController presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-    }
+    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
+    self.wePopupController.delegate = self;
+    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
+    UIView* source = (UIView*) sender;
+    [self.wePopupController presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) clickBacktoBookShelfButton:(id) sender {
@@ -179,16 +171,15 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
     [self.tableView addGestureRecognizer:tap];
     
-    //[self.tableView setScrollEnabled:NO];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.pagingEnabled = YES;
-    self.tableView.bounces = YES;
+    self.tableView.bounces = NO;
     self.tableView.alwaysBounceVertical = YES;
     
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
  
     [swipeLeftGesture setDirection: UISwipeGestureRecognizerDirectionRight];
+    [swipeLeftGesture setDelegate:self];
     [self.tableView addGestureRecognizer:swipeLeftGesture];
 
     if (self.section.text !=nil && [self.section.text length] > 0) {
@@ -230,6 +221,17 @@
 
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        UISwipeGestureRecognizer* recognizer = (UISwipeGestureRecognizer*) gestureRecognizer;
+         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && [delegate isReaderRightPanelOpen] == NO) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     [self autoSaveBookmark:path.row];
@@ -245,7 +247,9 @@
 -(void) didDragOnTableView:(UISwipeGestureRecognizer*) recognizer {
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        [delegate openReaderPaneView];
+        if ([delegate isReaderRightPanelOpen] == NO) {
+             [delegate switchToNavitation];
+        }
     }
 }
 

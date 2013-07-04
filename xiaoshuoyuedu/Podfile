@@ -10,4 +10,5 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'GSBookShelf', '~> 0.0.1'
   pod 'CustomBadge', '~> 2.0'
   pod 'WEPopover', '~> 0.0.1'
+  pod 'ViewDeck', '~> 2.2.11'
 end

@@ -12,7 +12,8 @@
 #import "Section.h"
 #import "Book.h"
 #import "SectionReaderTableViewController.h"
-@interface MSReaderViewController () <MSNavigationPaneViewControllerDelegate>
+#import <ViewDeck/IIViewDeckController.h>
+@interface MSReaderViewController () 
 @property(nonatomic, strong) NSMutableArray* sections;
 @property(nonatomic, assign) NSUInteger readingSection;
 @end
@@ -76,7 +77,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationPaneViewController.delegate = self;
+    self.deckViewController.delegate = self;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    self.tableView.frame = CGRectMake(0, 0, 200, deviceFrame.size.height);
+    self.tableView.bounds = CGRectMake(0, 0, 200, deviceFrame.size.height);
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,7 +113,7 @@
                                           brightness:0.99
                                                alpha:1.0];
     } else {
-        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"WoodCell"]];
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     }
 }
 
@@ -136,32 +140,16 @@
 
 
 - (void)transitionToViewController:(Section*) section {
-    BOOL animateTransition = self.navigationPaneViewController.paneViewController != nil;
-
-    if ( self.currentReaderViewController == nil) {
-        self.currentReaderViewController = [[SectionReaderTableViewController alloc] init];
-        self.currentReaderViewController.navigationItem.title = section.name;
-        [self.currentReaderViewController setSection:section];
-        [self.currentReaderViewController setBookmark:self.bookmark];
-        [self.navigationPaneViewController setPaneViewController:self.currentReaderViewController  animated:animateTransition completion:^{
-            //[self.currentReaderViewController.navigationController setNavigationBarHidden:YES animated:NO];
-        }];
-
-    } else {
-        self.currentReaderViewController.navigationItem.title = section.name;
-        [self.currentReaderViewController setSection:section];
-        [self.currentReaderViewController setBookmark:self.bookmark];
-        [self.navigationPaneViewController setPaneState:MSNavigationPaneStateClosed animated:YES completion:^{
-            if (section.text !=nil && [section.text length] > 0) {
-                [self.currentReaderViewController prepareForRead];
-            } else {
-                [self.currentReaderViewController reloadSection];
-            }
-        }];
-    }
-        //UINavigationController* paneNavigationViewController = [[UINavigationController alloc] initWithRootViewController:self.currentReaderViewController];
-
-   
+    self.currentReaderViewController.navigationItem.title = section.name;
+    [self.currentReaderViewController setSection:section];
+    [self.currentReaderViewController setBookmark:self.bookmark];
+    [self.deckViewController closeRightViewAnimated:YES completion:^(IIViewDeckController* controller, BOOL finished) {
+        if (section.text !=nil && [section.text length] > 0) {
+            [self.currentReaderViewController prepareForRead];
+        } else {
+            [self.currentReaderViewController reloadSection];
+        }
+    }];   
 }
 
 #pragma mark - Table view delegate
@@ -178,11 +166,5 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - MSNavigationPaneViewControllerDelegate
-
-- (void)navigationPaneViewController:(MSNavigationPaneViewController *)navigationPaneViewController didUpdateToPaneState:(MSNavigationPaneState)state
-{
-    self.tableView.scrollsToTop = (state == MSNavigationPaneStateOpen);
-}
 
 @end
