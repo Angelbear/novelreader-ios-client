@@ -47,10 +47,12 @@
     
     self.currentReaderViewController = [[SectionReaderTableViewController alloc] init];
     
-    self.readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:self.currentReaderViewController leftViewController:nil
-                                                                       rightViewController:constrainedRightController];
+    self.readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:self.currentReaderViewController leftViewController:nil rightViewController:constrainedRightController];
+    self.readerDeckController.openSlideAnimationDuration = 0.15f;
+    self.readerDeckController.closeSlideAnimationDuration = 0.15f;
     self.readerDeckController.rightSize = deviceFrame.size.width  - openSize;
     self.readerDeckController.elastic = NO;
+
     readerMasterViewController.deckViewController = self.readerDeckController;
     readerMasterViewController.currentReaderViewController = self.currentReaderViewController;
 

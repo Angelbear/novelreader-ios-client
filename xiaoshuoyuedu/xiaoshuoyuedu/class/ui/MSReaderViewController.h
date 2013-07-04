@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <ViewDeck/IIViewDeckController.h>
+#import "SectionReaderTableViewController.h"
 
 @class Book, Bookmark, IIViewDeckController, SectionReaderTableViewController;
-@interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate>
+@interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate, ChangeSectionDelegate>
 
 @property (nonatomic, weak) IIViewDeckController *deckViewController;
 @property (nonatomic, weak) SectionReaderTableViewController* currentReaderViewController;

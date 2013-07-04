@@ -87,6 +87,8 @@
 
 
 - (void) prepareForRead {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -158,7 +160,8 @@
             }
             CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * [ UIScreen mainScreen ].bounds.size.height;
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
+                [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             });
            _initialized = YES;
         });
@@ -213,10 +216,22 @@
     if (   touchLocation.x > self.contentSize.width / 3.0f
         && touchLocation.x < self.contentSize.width * 2.0f / 3.0f
         && touchLocation.y > self.contentSize.height / 3.0f
-        && touchLocation.y < self.contentSize.height * 2.0f / 3.0f
-        ) {
-        SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
+        && touchLocation.y < self.contentSize.height * 2.0f / 3.0f ) {
         [cell toggleShowMenu:recognizer];
+        return;
+    }
+    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
+    if (   path.row == [self.splitInfo count] - 1
+        && touchLocation.x > self.contentSize.width * 2.0f / 3.0f
+        && touchLocation.y > self.contentSize.height * 2.0f / 3.0f ) {
+        [self.delegate nextSection];
+        return;
+    }
+    if (   path.row == 0
+        && touchLocation.x < self.contentSize.width  / 3.0f
+        && touchLocation.y < self.contentSize.height / 3.0f ) {
+        [self.delegate prevSection];
+        return;
     }
 
 }

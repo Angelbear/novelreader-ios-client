@@ -29,9 +29,13 @@
     return self;
 }
 
+CGFloat _cellHeight;
+
 - (id) init {
     self = [super initWithStyle:UITableViewStylePlain];
     self.readingSection = 0;
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    _cellHeight = cell.frame.size.height;
     return self;
 }
 
@@ -58,26 +62,15 @@
 
 
 - (void) viewWillAppear:(BOOL)animated {
-    if ( self.book !=nil) {
-        self.sections = [DataBase getAllSectionsOfBook:self.book];
-        self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
-        NSUInteger indexForJump = 0;
-        for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
-            Section* section = [self.sections objectAtIndex:indexForJump];
-            if (self.bookmark.section_id == section.section_id) {
-                break;
-            }
-        }
-        self.readingSection = indexForJump;
-        [self.tableView reloadData];
-        [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
-    }
+    [super viewWillAppear:animated];
+    [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * self.readingSection)];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.deckViewController.delegate = self;
+    self.currentReaderViewController.delegate = self;
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.tableView.frame = CGRectMake(0, 0, 200, deviceFrame.size.height);
     self.tableView.bounds = CGRectMake(0, 0, 200, deviceFrame.size.height);
@@ -166,5 +159,28 @@
     [self.tableView reloadData];
 }
 
+
+#pragma mark - ChangeSectionDelegate
+- (void) nextSection {
+    if (self.readingSection < [self.sections count] - 1) {
+        self.readingSection ++;
+    }
+    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
+    self.bookmark.section_id = sec.section_id;
+    self.bookmark.offset = 0;
+    [self transitionToViewController:sec];
+    [DataBase updateBookMark:self.bookmark];
+}
+
+- (void) prevSection {
+    if (self.readingSection > 0) {
+        self.readingSection --;
+    }
+    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
+    self.bookmark.section_id = sec.section_id;
+    self.bookmark.offset = [sec.text length];
+    [self transitionToViewController:sec];
+    [DataBase updateBookMark:self.bookmark];
+}
 
 @end
