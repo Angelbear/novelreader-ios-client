@@ -14,7 +14,7 @@
 @interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate, ChangeSectionDelegate>
 
 @property (nonatomic, weak) IIViewDeckController *deckViewController;
-@property (nonatomic, weak) SectionReaderTableViewController* currentReaderViewController;
+@property (nonatomic, strong) SectionReaderTableViewController* currentReaderViewController;
 @property (nonatomic, strong) Book* book;
 @property (nonatomic, strong) Bookmark* bookmark;
 - (void) loadBook:(Book*) book;

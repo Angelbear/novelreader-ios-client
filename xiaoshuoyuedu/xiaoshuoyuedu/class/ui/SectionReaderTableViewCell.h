@@ -22,6 +22,7 @@
     BOOL _menuMode;
 }
 @property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
+@property(nonatomic, strong) IBOutlet UIView* contentView;
 @property(nonatomic, strong) IBOutlet UITextView* textView;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
@@ -29,6 +30,5 @@
 @property(nonatomic, strong) IBOutlet UIButton* fontButton;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;
-- (IBAction)topOnReturnToLibraryButton:(id)sender;
 - (IBAction)topOnFontSelectButton:(id)sender;
 @end

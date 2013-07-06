@@ -95,11 +95,11 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 {
     self.paneViewControllerType = NSUIntegerMax;
     self.paneViewControllerTitles = @{
-        @(MSPaneViewControllerTypeBookShelf) : @"BookShelf",
-        @(MSPaneViewControllerTypeRank) : @"Rank",
-        @(MSPaneViewControllerTypeCategory) : @"Category",
-        @(MSPaneViewControllerTypeSearch) : @"Search",
-        @(MSPaneViewControllerTypeMore) : @"More",
+        @(MSPaneViewControllerTypeBookShelf) : @"书架",
+        @(MSPaneViewControllerTypeRank) : @"排行榜",
+        @(MSPaneViewControllerTypeCategory) : @"类别",
+        @(MSPaneViewControllerTypeSearch) : @"搜索",
+        @(MSPaneViewControllerTypeMore) : @"更多",
     };
     self.paneViewControllerClasses = @{
         @(MSPaneViewControllerTypeBookShelf) : BookShelfViewController.class,
@@ -110,9 +110,9 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     };
 
     self.sectionTitles = @{
-        @(MSMasterViewControllerTableViewSectionTypeLocal) : @"Local",
-        @(MSMasterViewControllerTableViewSectionTypeList) : @"List",
-        @(MSMasterViewControllerTableViewSectionTypeMore) : @"More",
+        @(MSMasterViewControllerTableViewSectionTypeLocal) : @"本地",
+        @(MSMasterViewControllerTableViewSectionTypeList) : @"列表",
+        @(MSMasterViewControllerTableViewSectionTypeMore) : @"其他",
     };
     
     self.tableViewSectionBreaks = @[

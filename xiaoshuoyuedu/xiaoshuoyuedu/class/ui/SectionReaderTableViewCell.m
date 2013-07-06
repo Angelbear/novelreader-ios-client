@@ -20,8 +20,8 @@
     
     self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
-        UIColor* brown = [UIColor colorWithRed:64.0/256.0 green:45.0/256.0 blue:23.0/256.0 alpha:1.0f];
-        self.textView.textColor = brown;
+        //UIColor* brown = [UIColor colorWithRed:64.0/256.0 green:45.0/256.0 blue:23.0/256.0 alpha:1.0f];
+        //self.textView.textColor = brown;
         self.fontButton.imageView.image = [UIImage imageNamed:@"AAglyp"];
         [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         self.fontButton.hidden = YES;
@@ -40,9 +40,6 @@
     self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
 }
 
-- (IBAction)topOnReturnToLibraryButton:(id)sender {
-    [self.delegate clickBacktoBookShelfButton:sender];
-}
 
 - (IBAction)topOnFontSelectButton:(id)sender {
     [self.delegate clickFontMenuButton:sender];

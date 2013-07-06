@@ -10,6 +10,7 @@
 #import "MSNavigationPaneViewController.h"
 #import "MSMasterViewController.h"
 #import "DataBase.h"
+#import "Book.h"
 #import "MSReaderViewController.h"
 #import "MSNavigationPaneViewController+iBooksOpen.h"
 #import "SectionReaderTableViewController.h"
@@ -30,34 +31,15 @@
     
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
 
-    self.containerViewController = [[UIViewController alloc] init];
-    self.containerViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height);
+    self.readerDeckControllers = [[NSMutableArray alloc] initWithCapacity:0];
     
     self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
     self.navigationPaneViewController.view.frame = deviceFrame;
-
-    MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
     
-    CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 20;
-    
-    IISideController *constrainedRightController = [[IISideController alloc] initWithViewController:readerMasterViewController constrained:openSize];
-    
-    self.currentReaderViewController = [[SectionReaderTableViewController alloc] init];
-    
-    self.readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:self.currentReaderViewController leftViewController:nil rightViewController:constrainedRightController];
-    self.readerDeckController.openSlideAnimationDuration = 0.15f;
-    self.readerDeckController.closeSlideAnimationDuration = 0.15f;
-    self.readerDeckController.rightSize = deviceFrame.size.width  - openSize;
-    self.readerDeckController.elastic = NO;
-
-    readerMasterViewController.deckViewController = self.readerDeckController;
-    readerMasterViewController.currentReaderViewController = self.currentReaderViewController;
-
-   
-    self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+    self.readerDeckController = [self createNewBookViewDeckController];
     
     self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
     self.window.rootViewController = self.navigationPaneViewController;
@@ -66,10 +48,32 @@
     return YES;
 }
 
+- (IIViewDeckController*) createNewBookViewDeckController {
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
+    
+    CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 20;
+    
+    IISideController *constrainedRightController = [[IISideController alloc] initWithViewController:readerMasterViewController constrained:openSize];
+   
+    SectionReaderTableViewController* readerViewController = [[SectionReaderTableViewController alloc] init];
+    
+    IIViewDeckController* readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:readerViewController leftViewController:nil rightViewController:constrainedRightController];
+    readerDeckController.openSlideAnimationDuration = 0.15f;
+    readerDeckController.closeSlideAnimationDuration = 0.15f;
+    readerDeckController.rightSize = deviceFrame.size.width  - openSize;
+    readerDeckController.elastic = NO;
+    
+    readerMasterViewController.deckViewController = readerDeckController;
+    readerMasterViewController.currentReaderViewController = readerViewController;
+    
+    readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+    return readerDeckController;    
+}
 
 - (void) animationToReader {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    [UIView transitionWithView:self.containerViewController.view
+    [UIView transitionWithView:self.window
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
@@ -86,7 +90,7 @@
 - (void) animationBack {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
      self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-    [UIView transitionWithView:self.containerViewController.view
+    [UIView transitionWithView:self.window
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
@@ -100,16 +104,34 @@
 
 }
 
+- (IIViewDeckController* )findViewDeckController:(Book*) book {
+    for (IIViewDeckController* viewDeckController in self.readerDeckControllers) {
+        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)viewDeckController.rightController;
+        if (readerMasterViewController.book.book_id == book.book_id) {
+            return viewDeckController;
+        }
+    }
+    IIViewDeckController* viewDeckController = [self createNewBookViewDeckController];
+    MSReaderViewController *readerMasterViewController = (MSReaderViewController*)viewDeckController.rightController;
+    [self.readerDeckControllers addObject:viewDeckController];
+    [readerMasterViewController loadBook:book];
+    return viewDeckController;
+}
+
 - (void) switchToReader:(Book*) book {
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
-    [readerMasterViewController loadBook:book];
+    if (readerMasterViewController.book.book_id != book.book_id) {
+       [readerMasterViewController loadBook:book];
+    }
     [self animationToReader];
 }
 
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
     self.currentBookView = view;
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
-    [readerMasterViewController loadBook:book];
+    if (readerMasterViewController.book.book_id != book.book_id) {
+         [readerMasterViewController loadBook:book];
+    }
     [self animationToReader];
 }
 

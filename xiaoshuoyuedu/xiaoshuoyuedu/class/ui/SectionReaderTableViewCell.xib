@@ -53,7 +53,7 @@
 										<string key="NSFrame">{{0, 20}, {320, 446}}</string>
 										<reference key="NSSuperview" ref="33659494"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
+										<reference key="NSNextKeyView" ref="686568628"/>
 										<string key="NSReuseIdentifierKey">_NS:9</string>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIAutoresizesSubviews">NO</bool>
@@ -297,6 +297,14 @@
 						<reference key="destination" ref="997504216"/>
 					</object>
 					<int key="connectionID">311</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">contentView</string>
+						<reference key="source" ref="226666999"/>
+						<reference key="destination" ref="33659494"/>
+					</object>
+					<int key="connectionID">624</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1020,7 +1028,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">623</int>
+			<int key="maxID">624</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1050,7 +1058,7 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="backButton">UIButton</string>
+						<string key="contentView">UIView</string>
 						<string key="fontButton">UIButton</string>
 						<string key="indexView">UILabel</string>
 						<string key="labelView">UILabel</string>
@@ -1058,9 +1066,9 @@
 						<string key="timeView">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="backButton">
-							<string key="name">backButton</string>
-							<string key="candidateClassName">UIButton</string>
+						<object class="IBToOneOutletInfo" key="contentView">
+							<string key="name">contentView</string>
+							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="fontButton">
 							<string key="name">fontButton</string>

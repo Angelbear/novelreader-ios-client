@@ -55,9 +55,42 @@
         _fontName = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE].fontName;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-
+    _themeIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"theme"];
+    
     return self;
 }
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
+    [self.tableView addGestureRecognizer:tap];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.pagingEnabled = YES;
+    self.tableView.bounces = NO;
+    self.tableView.alwaysBounceVertical = YES;
+    
+    UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
+    
+    [swipeLeftGesture setDirection: UISwipeGestureRecognizerDirectionRight];
+    [swipeLeftGesture setDelegate:self];
+    [self.tableView addGestureRecognizer:swipeLeftGesture];
+    
+    if (self.section.text !=nil && [self.section.text length] > 0) {
+        [self prepareForRead];
+    } else {
+        [self reloadSection];
+    }
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - custom functions
 
 - (void) reloadSection {
     __weak SectionReaderTableViewController* weakReferenceSelf = self;
@@ -115,101 +148,6 @@
     [delegate switchToNavitation];
 }
 
-#pragma WEPopoverControllerDelegate 
-- (void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController {
-    
-}
-- (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)popoverController {
-    return YES;
-}
-
-#pragma FontMenuDelegate
-- (void) increaseFontSize {
-    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
-    [self prepareForRead];
-}
-
-- (void) decreaseFontSize {
-    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
-    [self prepareForRead];
-}
-
-- (void) changeFont:(NSString*) fontName {
-    _fontName = fontName;
-    [self prepareForRead];
-}
-- (void) changeTheme:(NSString*) themeName {
-    
-}
-
-
--(void) setContentOffset:(NSNumber*)height {
-    [self.tableView setContentOffset:CGPointMake(0.0f, [height floatValue]) animated:NO];
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (!_initialized) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-            NSUInteger indexForJump = 0;
-            for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
-                if (self.bookmark.offset < [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
-                    indexForJump --;
-                    break;
-                }
-            }
-            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * [ UIScreen mainScreen ].bounds.size.height;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-            });
-           _initialized = YES;
-        });
-    }
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
-    [self.tableView addGestureRecognizer:tap];
-    
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.pagingEnabled = YES;
-    self.tableView.bounces = NO;
-    self.tableView.alwaysBounceVertical = YES;
-    
-    UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
- 
-    [swipeLeftGesture setDirection: UISwipeGestureRecognizerDirectionRight];
-    [swipeLeftGesture setDelegate:self];
-    [self.tableView addGestureRecognizer:swipeLeftGesture];
-
-    if (self.section.text !=nil && [self.section.text length] > 0) {
-        [self prepareForRead];
-    } else {
-        [self reloadSection];
-    }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.splitInfo count];
-}
-
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
     CGPoint touchLocation = [recognizer locationInView:cell.textView];
@@ -233,13 +171,13 @@
         [self.delegate prevSection];
         return;
     }
-
+    
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     if([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
         UISwipeGestureRecognizer* recognizer = (UISwipeGestureRecognizer*) gestureRecognizer;
-         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && [delegate isReaderRightPanelOpen] == NO) {
             return YES;
         }
@@ -263,9 +201,77 @@
     if (recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         if ([delegate isReaderRightPanelOpen] == NO) {
-             [delegate switchToNavitation];
+            [delegate switchToNavitation];
         }
     }
+}
+
+-(void) setContentOffset:(NSNumber*)height {
+    [self.tableView setContentOffset:CGPointMake(0.0f, [height floatValue]) animated:NO];
+}
+
+#pragma WEPopoverControllerDelegate 
+- (void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController {
+    
+}
+- (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)popoverController {
+    return YES;
+}
+
+#pragma mark - FontMenuDelegate
+- (void) increaseFontSize {
+    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
+    [self prepareForRead];
+}
+
+- (void) decreaseFontSize {
+    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
+    [self prepareForRead];
+}
+
+- (void) changeFont:(NSString*) fontName {
+    _fontName = fontName;
+    [self prepareForRead];
+}
+
+- (void) changeTheme:(NSUInteger) themeIndex {
+    _themeIndex = themeIndex;
+    [self.tableView reloadData];
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!_initialized) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+            NSUInteger indexForJump = 0;
+            for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
+                if (self.bookmark.offset < [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
+                    indexForJump --;
+                    break;
+                }
+            }
+            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * [ UIScreen mainScreen ].bounds.size.height;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            });
+           _initialized = YES;
+        });
+    }
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.splitInfo count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -279,6 +285,8 @@
      }
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
     
+    cell.contentView.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
+    cell.textView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
     cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
     [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
     cell.labelView.text = self.section.name;
@@ -289,13 +297,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [ UIScreen mainScreen ].bounds.size.height;
-}
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
 }
 
 @end

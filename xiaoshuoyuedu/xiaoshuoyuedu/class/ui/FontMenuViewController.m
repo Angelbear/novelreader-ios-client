@@ -35,6 +35,7 @@
                 break;
             }
         }
+        _themeSelectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"theme"];
     }
     return self;
 }
@@ -89,21 +90,55 @@
 - (IBAction) clickFontSelect:(id)sender {
     [UIView transitionWithView:self.view
                       duration:1.25
-                       options:UIViewAnimationOptionTransitionFlipFromRight
+                       options:UIViewAnimationOptionCurveEaseIn
                     animations:^
     {
         
         [self.view  addSubview:self.fontSelectView];
         [self.view bringSubviewToFront:self.fontSelectView];
-        
     }
                     completion:NULL];
 }
 
+
+- (IBAction) clickThemeSelect:(id)sender {
+    [UIView transitionWithView:self.view
+                      duration:1.25
+                       options:UIViewAnimationOptionCurveEaseIn
+                    animations:^
+     {
+         [self.view  addSubview:self.themeSelectView];
+         [self.view bringSubviewToFront:self.themeSelectView];
+         
+     }
+                    completion:nil];
+}
+
+- (IBAction)clickThemeButton:(id)sender {
+    UIButton* imageButton = (UIButton*) sender;
+    [[NSUserDefaults standardUserDefaults] setObject:@(imageButton.tag) forKey:@"theme"];
+    _themeSelectedIndex = imageButton.tag;
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [UIView transitionWithView:self.view
+                      duration:1.25
+                       options:UIViewAnimationOptionCurveEaseOut
+                    animations:^
+     {
+         
+         [self.themeSelectView removeFromSuperview];
+         
+     }
+                    completion:^(BOOL finished)
+     {
+         [self.delegate changeTheme:_themeSelectedIndex];
+     }];
+}
+
+
 - (void) backToFontMenu {
     [UIView transitionWithView:self.view
                       duration:1.25
-                       options:UIViewAnimationOptionTransitionFlipFromLeft
+                       options:UIViewAnimationOptionCurveEaseOut
                     animations:^
      {
          

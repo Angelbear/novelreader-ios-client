@@ -23,6 +23,7 @@
     BOOL _initialized;
     NSString* _fontName;
     CGFloat _fontSize;
+    NSUInteger _themeIndex;
 }
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;

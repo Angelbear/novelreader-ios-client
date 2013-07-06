@@ -22,8 +22,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController* containerViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
+@property (strong, nonatomic) NSMutableArray* readerDeckControllers;
 @property (strong, nonatomic) IIViewDeckController* readerDeckController;
-@property (nonatomic, strong) SectionReaderTableViewController* currentReaderViewController;
 @property (strong, nonatomic) BookView* currentBookView;
 @property (nonatomic, assign) CGPoint bookViewOrignCenter;
 @property (nonatomic, assign) UIModalTransitionStyle modalTransitionStyle;

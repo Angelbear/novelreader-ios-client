@@ -35,30 +35,45 @@
     CFRelease(fnt);
     return result;
 }*/
- 
+
+#define TEST_CHINISE_CHARACTER @"永"
 
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font {
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
+    CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
+    NSUInteger prediect_columns = (int)(size.width / test_size.width);
+    NSUInteger prediect_rows = (int)(size.height / test_size.height);
     CGFloat height = size.height;
     CFRange r = {0, 0};
     NSInteger str_len = [string length];
-    NSUInteger count = 0;
+    NSUInteger round = 0;
     do {
         CGFloat calcHeight;
+        NSUInteger count = 0;
         while (r.location < str_len && [string characterAtIndex:r.location] == '\n') {
             r.location ++;
         }
         do {
-            count++;
+            count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(2, round + 1) ));
             if (r.location + count > str_len) {
                 break;
             }
             calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
         } while ( calcHeight < height );
-        count--;
+        
+        
+        if (r.location + count > str_len) {
+            count = str_len - r.location;
+        } else {
+            do {
+                count--;
+                calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+            } while (calcHeight > height);
+        }
         [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:count], nil]];
         r.location += count;
         count = 0;
+        round ++;
     } while (r.location < str_len);
     return result;
 }

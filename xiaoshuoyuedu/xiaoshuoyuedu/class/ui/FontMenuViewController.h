@@ -12,7 +12,7 @@
 - (void) increaseFontSize;
 - (void) decreaseFontSize;
 - (void) changeFont:(NSString*) fontName;
-- (void) changeTheme:(NSString*) themeName;
+- (void) changeTheme:(NSUInteger) themeIndex;
 @end
 
 @interface FontMenuViewController : UIViewController<UITableViewDelegate, UITableViewDelegate>
@@ -20,6 +20,7 @@
     NSString* _fontName;
     CGFloat _fontSize;
     NSUInteger _selectedIndex;
+    NSUInteger _themeSelectedIndex;
 }
 @property (nonatomic, strong) IBOutlet UIButton* brightButton;
 @property (nonatomic, strong) IBOutlet UIButton* fontButton;
@@ -29,4 +30,5 @@
 @property (nonatomic, strong) IBOutlet UISlider* brightSlider;
 @property (nonatomic, weak) id<FontMenuDelegate> delegate;
 @property (nonatomic, strong) IBOutlet UITableView* fontSelectView;
+@property (nonatomic, strong) IBOutlet UIView* themeSelectView;
 @end

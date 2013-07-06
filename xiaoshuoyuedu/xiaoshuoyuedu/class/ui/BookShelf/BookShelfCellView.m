@@ -52,13 +52,13 @@ static UIImage *shelfImageLandscape = nil;
         
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
-        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width, CELL_HEIGHT * scale));
+        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
         [shadingImageToDraw drawInRect:CGRectMake(0, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         
         CGAffineTransform ctm1 = CGAffineTransformMakeScale(-1.0f, 1.0f);
         CGContextConcatCTM(UIGraphicsGetCurrentContext(), ctm1);
-        [shadingImageToDraw drawInRect:CGRectMake(0 - deviceFrame.size.width, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
+        [shadingImageToDraw drawInRect:CGRectMake(0- deviceFrame.size.width * scale, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         shadingImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
@@ -72,7 +72,7 @@ static UIImage *shelfImageLandscape = nil;
         CGFloat scale = isRetina ? 2.0f : 1.0f;
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
-        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width, CELL_HEIGHT * scale));
+        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
         [woodImageToDraw drawInRect:CGRectMake(0, 0, woodImageToDraw.size.width * scale, woodImageToDraw.size.width * scale)];
         woodImage = UIGraphicsGetImageFromCurrentImageContext();
