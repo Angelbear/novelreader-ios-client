@@ -42,11 +42,12 @@
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
     NSUInteger prediect_columns = (int)(size.width / test_size.width);
-    NSUInteger prediect_rows = (int)(size.height / test_size.height);
+    //NSUInteger prediect_rows = (int)(size.height / test_size.height);
     CGFloat height = size.height;
     CFRange r = {0, 0};
     NSInteger str_len = [string length];
     NSUInteger round = 0;
+    NSUInteger calcAPICallNum = 0;
     do {
         CGFloat calcHeight;
         NSUInteger count = 0;
@@ -54,27 +55,36 @@
             r.location ++;
         }
         do {
-            count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(2, round + 1) ));
+            //count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(4, round + 1) ));
+            count+=prediect_columns;
             if (r.location + count > str_len) {
                 break;
             }
             calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+            calcAPICallNum ++;
         } while ( calcHeight < height );
-        
         
         if (r.location + count > str_len) {
             count = str_len - r.location;
-        } else {
+        }
+        
+        calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+        calcAPICallNum ++;
+        
+        if (calcHeight > height) {            
             do {
                 count--;
                 calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+                calcAPICallNum ++;
             } while (calcHeight > height);
         }
+        
         [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:count], nil]];
         r.location += count;
         count = 0;
         round ++;
     } while (r.location < str_len);
+    NSLog(@"calcAPICallNum %d", calcAPICallNum);
     return result;
 }
 

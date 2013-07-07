@@ -41,8 +41,12 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.books = [DataBase getAllBooks];
-    [_bookShelfView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.books = [DataBase getAllBooks];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_bookShelfView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning

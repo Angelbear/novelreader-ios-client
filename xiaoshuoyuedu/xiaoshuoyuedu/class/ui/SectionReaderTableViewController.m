@@ -106,7 +106,6 @@
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil) {
             self.section.text = [JSON objectForKey:@"text"];
-            self.section.name = [JSON objectForKey:@"title"];
             [DataBase updateSection:self.section];
             [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
             [weakReferenceSelf prepareForRead];

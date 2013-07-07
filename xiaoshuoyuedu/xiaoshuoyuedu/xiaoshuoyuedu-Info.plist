@@ -4,10 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FZLanTingHeiS-R-GB.TTF</string>
-	</array>
 	<key>CFBundleDisplayName</key>
 	<string>小说阅读</string>
 	<key>CFBundleExecutable</key>
@@ -41,6 +37,10 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FZLanTingHeiS-R-GB.TTF</string>
+	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

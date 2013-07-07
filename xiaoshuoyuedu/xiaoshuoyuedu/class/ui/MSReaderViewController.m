@@ -71,6 +71,7 @@ CGFloat _cellHeight;
     [super viewDidLoad];
     self.deckViewController.delegate = self;
     self.currentReaderViewController.delegate = self;
+    self.tableView.bounces = NO;
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.tableView.frame = CGRectMake(0, 0, 200, deviceFrame.size.height);
     self.tableView.bounds = CGRectMake(0, 0, 200, deviceFrame.size.height);
@@ -101,10 +102,7 @@ CGFloat _cellHeight;
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.readingSection == indexPath.row) {
-        cell.backgroundColor = [UIColor colorWithHue:0.61
-                                          saturation:0.09
-                                          brightness:0.99
-                                               alpha:1.0];
+        cell.selected = YES;
     } else {
         cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     }

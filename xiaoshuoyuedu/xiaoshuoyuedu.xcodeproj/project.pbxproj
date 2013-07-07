@@ -113,6 +113,8 @@
 		B4D4B92417815220008BAA84 /* badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92217815220008BAA84 /* badge@2x.png */; };
 		B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B9261781575D008BAA84 /* Bookmark.m */; };
 		B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */; };
+		B4DD87671789A15800A82644 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DD87651789A15700A82644 /* AboutViewController.m */; };
+		B4DD87681789A15800A82644 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4DD87661789A15700A82644 /* AboutViewController.xib */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -278,6 +280,9 @@
 		B4D4B9261781575D008BAA84 /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookmark.m; sourceTree = "<group>"; };
 		B4D4B92817816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSNavigationPaneViewController+iBooksOpen.h"; sourceTree = "<group>"; };
 		B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSNavigationPaneViewController+iBooksOpen.m"; sourceTree = "<group>"; };
+		B4DD87641789A15700A82644 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		B4DD87651789A15700A82644 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		B4DD87661789A15700A82644 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -553,6 +558,9 @@
 				B43CC7091780262B009BFA2E /* BookShelf */,
 				B4F93F5B17744DAA0025A1E8 /* MSExampleTableViewController.h */,
 				B4F93F5C17744DAA0025A1E8 /* MSExampleTableViewController.m */,
+				B4DD87641789A15700A82644 /* AboutViewController.h */,
+				B4DD87651789A15700A82644 /* AboutViewController.m */,
+				B4DD87661789A15700A82644 /* AboutViewController.xib */,
 				B4F93F4E17744D790025A1E8 /* MSMasterViewController.h */,
 				B4F93F4F17744D790025A1E8 /* MSMasterViewController.m */,
 				B4E1A17117787B250068877C /* SearchBookViewController.h */,
@@ -792,6 +800,7 @@
 				B47E105D17880091009DF30B /* btn_style4.png in Resources */,
 				B47E105F17880091009DF30B /* btn_style5.png in Resources */,
 				B47E106117880091009DF30B /* btn_style6.png in Resources */,
+				B4DD87681789A15800A82644 /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -881,6 +890,7 @@
 				B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */,
 				B47E10411781C396009DF30B /* UITextView+Dimensions.m in Sources */,
 				B4A68CCA1783F41300F650F5 /* FontMenuViewController.m in Sources */,
+				B4DD87671789A15800A82644 /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

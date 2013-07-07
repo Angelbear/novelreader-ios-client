@@ -7,12 +7,18 @@
 //
 
 #import "URLUtils.h"
+#ifdef __APPLE__
+    #include "TargetConditionals.h"
+#endif
 
 #define NOVEL_SERVER @"xiaoshuoyuedu.sinaapp.com"
 #define NOVEL_SERVER_LOCAL @"localhost:8080"
 
-#define SERVER_HOST NOVEL_SERVER
-
+#if !(TARGET_IPHONE_SIMULATOR)
+    #define SERVER_HOST NOVEL_SERVER
+#else
+    #define SERVER_HOST NOVEL_SERVER_LOCAL
+#endif
 
 #define DATABASE_NAME @"data.db"
 

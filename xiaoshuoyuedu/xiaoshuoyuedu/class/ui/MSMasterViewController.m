@@ -27,7 +27,7 @@
 //
 
 #import "MSMasterViewController.h"
-#import "MSExampleTableViewController.h"
+#import "AboutViewController.h"
 #import "SearchBookViewController.h"
 #import "RankViewController.h"
 #import "CategoryViewController.h"
@@ -78,7 +78,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 {
     [super viewDidLoad];
     self.navigationPaneViewController.delegate = self;
-    
+    self.tableView.bounces = NO;
     // Default to the "None" appearance type
     [self transitionToViewController:MSPaneViewControllerTypeBookShelf];
 }
@@ -86,6 +86,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    NSLog(@"didReceiveMemoryWarning");
     [self.navigationControllers removeAllObjects];
 }
 
@@ -106,7 +107,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
         @(MSPaneViewControllerTypeRank) : RankViewController.class,
         @(MSPaneViewControllerTypeCategory) : CategoryViewController.class,
         @(MSPaneViewControllerTypeSearch) : SearchBookViewController.class,
-        @(MSPaneViewControllerTypeMore) : MSExampleTableViewController.class,
+        @(MSPaneViewControllerTypeMore) : AboutViewController.class,
     };
 
     self.sectionTitles = @{
@@ -147,6 +148,7 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     
     UINavigationController *paneNavigationViewController = nil;
     if ( [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]] != nil) {
+        NSLog(@"hit");
         id viewController = [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]];
         if ([viewController isKindOfClass:[UINavigationController class]]) {
             paneNavigationViewController = (UINavigationController*) viewController;
@@ -205,8 +207,8 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     MSPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
     [self transitionToViewController:paneViewControllerType];
     //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    //UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    //cell.accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 #pragma mark - MSNavigationPaneViewControllerDelegate

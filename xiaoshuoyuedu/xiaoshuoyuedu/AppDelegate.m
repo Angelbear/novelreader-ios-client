@@ -24,6 +24,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    
     [DataBase initialize_database];
     if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
@@ -37,7 +39,7 @@
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
-    self.navigationPaneViewController.view.frame = deviceFrame;
+    self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width , deviceFrame.size.height);
     
     self.readerDeckController = [self createNewBookViewDeckController];
     
@@ -52,7 +54,7 @@
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
     
-    CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 20;
+    CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
     
     IISideController *constrainedRightController = [[IISideController alloc] initWithViewController:readerMasterViewController constrained:openSize];
    
@@ -71,35 +73,37 @@
     return readerDeckController;    
 }
 
-- (void) animationToReader {
+- (void) animationToReader:(BookView*)bookView {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     [UIView transitionWithView:self.window
-                      duration:0.5f
+                      duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
      {
+         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
          self.readerDeckController.view.frame = deviceFrame;
-         self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+         self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
          
      }
     completion:^(BOOL finished){
-        self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width - 40, 0, deviceFrame.size.width, deviceFrame.size.height);
+        self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width - 40, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
     }];
 }
 
 - (void) animationBack {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-     self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+     self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
     [UIView transitionWithView:self.window
-                      duration:0.5f
+                      duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
      {
-         self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width,  deviceFrame.size.height);
+         self.navigationPaneViewController.view.frame = CGRectMake(0, 20, deviceFrame.size.width,  deviceFrame.size.height - 20);
          self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
          
      }
     completion:^(BOOL finished){
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     }];
 
 }
@@ -123,7 +127,7 @@
     if (readerMasterViewController.book.book_id != book.book_id) {
        [readerMasterViewController loadBook:book];
     }
-    [self animationToReader];
+    [self animationToReader:nil];
 }
 
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
@@ -132,7 +136,7 @@
     if (readerMasterViewController.book.book_id != book.book_id) {
          [readerMasterViewController loadBook:book];
     }
-    [self animationToReader];
+    [self animationToReader:view];
 }
 
 - (void) switchToNavitation {

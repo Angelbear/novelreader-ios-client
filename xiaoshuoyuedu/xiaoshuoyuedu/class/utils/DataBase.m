@@ -307,8 +307,6 @@
     FMDatabase* db    = [DataBase get_database_instance];
     NSString* sql_update_section = @"UPDATE sections SET text = ?, source = ?, url = ?, last_update_time = ? WHERE id = ?";
     [db open];
-    //NSArray* args = [[NSArray alloc] initWithObjects:section.name, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id), nil];
-    //BOOL result =  [db executeUpdate:sql_update_section withArgumentsInArray:args];
     NSError* error;
     BOOL result = [db update:sql_update_section withErrorAndBindings:&error, section.text, section.from, section.url, [self currentTimeStamp], @(section.section_id)];
     if (error != nil) {
