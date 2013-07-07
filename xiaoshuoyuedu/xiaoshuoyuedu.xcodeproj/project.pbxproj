@@ -115,6 +115,7 @@
 		B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */; };
 		B4DD87671789A15800A82644 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DD87651789A15700A82644 /* AboutViewController.m */; };
 		B4DD87681789A15800A82644 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4DD87661789A15700A82644 /* AboutViewController.xib */; };
+		B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DD876A1789A80100A82644 /* ReaderCacheManager.m */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
 		B4E1A17517787B260068877C /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4E1A17317787B250068877C /* SearchBookViewController.xib */; };
 		B4E1A17A177880F40068877C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E1A178177880D60068877C /* MobileCoreServices.framework */; };
@@ -282,6 +283,8 @@
 		B4DD87641789A15700A82644 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		B4DD87651789A15700A82644 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		B4DD87661789A15700A82644 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		B4DD87691789A80100A82644 /* ReaderCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderCacheManager.h; sourceTree = "<group>"; };
+		B4DD876A1789A80100A82644 /* ReaderCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderCacheManager.m; sourceTree = "<group>"; };
 		B4E1A17117787B250068877C /* SearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBookViewController.h; sourceTree = "<group>"; };
 		B4E1A17217787B250068877C /* SearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBookViewController.m; sourceTree = "<group>"; };
 		B4E1A17317787B250068877C /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				B46EC4F8177ED1EF00C6873B /* FontUtils.m */,
 				B47E103F1781C396009DF30B /* UITextView+Dimensions.h */,
 				B47E10401781C396009DF30B /* UITextView+Dimensions.m */,
+				B4DD87691789A80100A82644 /* ReaderCacheManager.h */,
+				B4DD876A1789A80100A82644 /* ReaderCacheManager.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -885,6 +890,7 @@
 				B47E10411781C396009DF30B /* UITextView+Dimensions.m in Sources */,
 				B4A68CCA1783F41300F650F5 /* FontMenuViewController.m in Sources */,
 				B4DD87671789A15800A82644 /* AboutViewController.m in Sources */,
+				B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
