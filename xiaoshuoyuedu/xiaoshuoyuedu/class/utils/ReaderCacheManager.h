@@ -10,10 +10,10 @@
 
 @interface ReaderCacheManager : NSObject {
     NSMutableDictionary* _cache;
-    ReaderCacheManager* _instance;
 }
-+ (void) init_instance;
++ (ReaderCacheManager*) init_instance;
 - (void) clearAllSplitInfos;
+- (void) deleteSplitInfo:(NSUInteger)sectionId;
 - (void) addSplitInfo:(NSUInteger)sectionId splitInfo:(NSArray*)splitInfo;
 - (NSArray*) getSplitInfo:(NSUInteger)sectionId;
 @end

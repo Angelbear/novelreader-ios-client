@@ -9,6 +9,7 @@
 #import "FontMenuViewController.h"
 #import "Common.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ReaderCacheManager.h"
 @interface FontMenuViewController ()
 @property (nonatomic, strong) NSArray* fonts;
 @end
@@ -74,6 +75,7 @@
         _fontSize += 0.5f;
         [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate increaseFontSize];
     }
     
@@ -83,6 +85,7 @@
         _fontSize -= 0.5f;
         [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate decreaseFontSize];
     }
 }
@@ -197,6 +200,7 @@
     if ([font.fontName compare:_fontName] != NSOrderedSame) {
         [[NSUserDefaults standardUserDefaults] setObject:font.fontName forKey:@"font-name"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate changeFont:font.fontName];
         _selectedIndex = indexPath.row;
         [tableView reloadData];

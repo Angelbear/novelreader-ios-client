@@ -18,6 +18,7 @@
 #import "Bookmark.h"
 #import <WEPopover/WEPopoverController.h>
 #import "FontMenuViewController.h"
+#import "ReaderCacheManager.h"
 @interface SectionReaderTableViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
@@ -96,6 +97,7 @@
     __weak SectionReaderTableViewController* weakReferenceSelf = self;
     self.section.text = nil;
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+    [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
     [self.tableView reloadData];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]]];
@@ -124,7 +126,13 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
+            NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
+            if (cachedInfo) {
+                self.splitInfo = cachedInfo;
+            } else {
+                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
+                [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
+            }
             _initialized = NO;
             [self.tableView reloadData];
         });
