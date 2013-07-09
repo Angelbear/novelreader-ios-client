@@ -53,6 +53,8 @@
 		B454F02B178176EF0026C113 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F024178176EF0026C113 /* Default@2x.png */; };
 		B454F02C178176EF0026C113 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F025178176EF0026C113 /* Default@2x~iphone.png */; };
 		B454F02D178176EF0026C113 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F026178176EF0026C113 /* Default~iphone.png */; };
+		B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4589450178AA730004A5495 /* JSONRequestTableViewController.m */; };
+		B4589457178BEBDE004A5495 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4589456178BEBDE004A5495 /* Crashlytics.framework */; };
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
 		B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */; };
@@ -86,7 +88,6 @@
 		B47E105F17880091009DF30B /* btn_style5.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105317880091009DF30B /* btn_style5.png */; };
 		B47E106117880091009DF30B /* btn_style6.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105517880091009DF30B /* btn_style6.png */; };
 		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
-		B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
 		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
@@ -204,6 +205,9 @@
 		B454F024178176EF0026C113 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		B454F025178176EF0026C113 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x~iphone.png"; sourceTree = "<group>"; };
 		B454F026178176EF0026C113 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		B458944F178AA730004A5495 /* JSONRequestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRequestTableViewController.h; sourceTree = "<group>"; };
+		B4589450178AA730004A5495 /* JSONRequestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONRequestTableViewController.m; sourceTree = "<group>"; };
+		B4589456178BEBDE004A5495 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B46EC4E1177C6B3400C6873B /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		B46EC4E2177C6B3400C6873B /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryResultViewController.h; sourceTree = "<group>"; };
@@ -245,8 +249,6 @@
 		B47E105517880091009DF30B /* btn_style6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_style6.png; sourceTree = "<group>"; };
 		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
 		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
-		B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSearchBookViewController.h; sourceTree = "<group>"; };
-		B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FixedSearchBookViewController.m; sourceTree = "<group>"; };
 		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		B4A0D83A177D477700157BB0 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		B4A0D83D177D4C6300157BB0 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				B4EF67311774406400F54681 /* Foundation.framework in Frameworks */,
 				B4EF67331774406400F54681 /* CoreGraphics.framework in Frameworks */,
 				F6DD70A9C1D549888219E4D9 /* libPods-xiaoshuoyuedu.a in Frameworks */,
+				B4589457178BEBDE004A5495 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +430,15 @@
 			path = iBooks;
 			sourceTree = "<group>";
 		};
+		B458944E178AA70A004A5495 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				B458944F178AA730004A5495 /* JSONRequestTableViewController.h */,
+				B4589450178AA730004A5495 /* JSONRequestTableViewController.m */,
+			);
+			path = base;
+			sourceTree = "<group>";
+		};
 		B4A0D72A177D31CE00157BB0 /* lib */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,6 +500,7 @@
 		B4EF672D1774406400F54681 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4589456178BEBDE004A5495 /* Crashlytics.framework */,
 				B46EC4FA177ED22600C6873B /* CoreText.framework */,
 				B4E1A178177880D60068877C /* MobileCoreServices.framework */,
 				B4E1A176177880CA0068877C /* SystemConfiguration.framework */,
@@ -557,6 +570,7 @@
 		B4F93F4D17744D790025A1E8 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				B458944E178AA70A004A5495 /* base */,
 				B43CC7091780262B009BFA2E /* BookShelf */,
 				B4DD87641789A15700A82644 /* AboutViewController.h */,
 				B4DD87651789A15700A82644 /* AboutViewController.m */,
@@ -571,8 +585,6 @@
 				B41AD9511779C9C0005F455E /* BookInfoViewController.xib */,
 				B4A0D720177C261B00157BB0 /* RankViewController.h */,
 				B4A0D721177C261B00157BB0 /* RankViewController.m */,
-				B4A0D725177C320300157BB0 /* FixedSearchBookViewController.h */,
-				B4A0D726177C320300157BB0 /* FixedSearchBookViewController.m */,
 				B46EC4E1177C6B3400C6873B /* CategoryViewController.h */,
 				B46EC4E2177C6B3400C6873B /* CategoryViewController.m */,
 				B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */,
@@ -652,6 +664,7 @@
 				B4EF67281774406400F54681 /* Frameworks */,
 				B4EF67291774406400F54681 /* Resources */,
 				34993AD69EFC43E98DD3CD09 /* Copy Pods Resources */,
+				B4589455178BEBB5004A5495 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -843,6 +856,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-xiaoshuoyuedu-resources.sh\"\n";
 		};
+		B4589455178BEBB5004A5495 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 8946d07e106863f557b755bb244b513a82a3f788";
+		};
 		B4EF67491774406500F54681 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -870,7 +896,6 @@
 				B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */,
 				B41AD9561779CE07005F455E /* URLUtils.m in Sources */,
 				B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */,
-				B4A0D728177C320400157BB0 /* FixedSearchBookViewController.m in Sources */,
 				B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */,
 				B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */,
 				B4A0D83B177D477700157BB0 /* DataBase.m in Sources */,
@@ -891,6 +916,7 @@
 				B4A68CCA1783F41300F650F5 /* FontMenuViewController.m in Sources */,
 				B4DD87671789A15800A82644 /* AboutViewController.m in Sources */,
 				B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */,
+				B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,6 +1022,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
@@ -1018,6 +1048,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";

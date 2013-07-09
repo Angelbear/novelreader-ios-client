@@ -17,7 +17,7 @@
 #if !(TARGET_IPHONE_SIMULATOR)
     #define SERVER_HOST NOVEL_SERVER
 #else
-    #define SERVER_HOST NOVEL_SERVER_LOCAL
+    #define SERVER_HOST NOVEL_SERVER
 #endif
 
 #define DATABASE_NAME @"data.db"
@@ -45,7 +45,7 @@
 
 #define THEME_COLORS ( [NSArray arrayWithObjects:THEME_COLOR_0, THEME_COLOR_1, THEME_COLOR_2, THEME_COLOR_3, THEME_COLOR_4, THEME_COLOR_5, THEME_COLOR_6, nil] )
 
-#define FONT_COLOR_0 MAKE_COLOR( 64, 45, 23, 1 )
+#define FONT_COLOR_0 MAKE_COLOR( 50, 47, 25, 1 )
 #define FONT_COLOR_1 MAKE_COLOR( 50, 50, 50, 1 )
 #define FONT_COLOR_2 MAKE_COLOR( 41, 80, 22, 1 )
 #define FONT_COLOR_3 MAKE_COLOR( 36, 81,112, 1 )
@@ -54,3 +54,4 @@
 #define FONT_COLOR_6 MAKE_COLOR(254,237,210, 1 )
 #define FONT_COLORS ( [NSArray arrayWithObjects:FONT_COLOR_0, FONT_COLOR_1, FONT_COLOR_2, FONT_COLOR_3, FONT_COLOR_4, FONT_COLOR_5, FONT_COLOR_6, nil] )
 
+#define isiOS7 ( [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 )

@@ -62,7 +62,7 @@
 
     __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_book_info?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookUrl]];
-    NSLog(@"%@", searchUrl);
+
     NSURL *url = [NSURL URLWithString:searchUrl];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
@@ -128,11 +128,9 @@
     } else {
         self.bookModel.cover = self.placeHolderImage;
     }
-    NSUInteger book_id = [DataBase insertBook:self.bookModel];
-    self.bookModel.book_id = book_id;
     
     // Step 2: Download section info
-    __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
+    __weak BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookModel.url]];
     NSLog(@"%@", searchUrl);
     NSURL *url = [NSURL URLWithString:searchUrl];
@@ -141,6 +139,8 @@
     
     self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
+            NSUInteger book_id = [DataBase insertBook:weakReferenceSelf.bookModel];
+            weakReferenceSelf.bookModel.book_id = book_id;
             for (int i = 0; i < [JSON count]; i++) {
                 id sec = [JSON objectAtIndex:i];
                 Section* section = [[Section alloc] init];
@@ -158,7 +158,6 @@
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        NSLog(@"failure %@", [error localizedDescription]);
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     }];
     [self.currentOperation start];

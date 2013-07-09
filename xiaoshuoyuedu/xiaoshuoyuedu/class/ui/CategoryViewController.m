@@ -8,7 +8,6 @@
 
 #import "CategoryViewController.h"
 #import <AFNetworking/AFNetworking.h>
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "BookInfoViewController.h"
 #import "Common.h"
 #import "CategoryResultViewController.h"
@@ -46,26 +45,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON {
+    [super success:request withReponse:response data:JSON];
+    CategoryViewController* _self = (CategoryViewController*)_weakReferenceSelf;
+    if (JSON != nil && _self !=nil) {
+        _self.searchResult = JSON;
+        [_self.tableView reloadData];
+    }
+}
+
+
 - (void) retrieveCategoryInfo {
-    __unsafe_unretained CategoryViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/category/get_category_info?from=lixiangwenxue", SERVER_HOST];
-    NSLog(@"%@", searchUrl);
-    NSURL *url = [NSURL URLWithString:searchUrl];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (JSON != nil && weakReferenceSelf !=nil) {
-            self.searchResult = JSON;
-            [weakReferenceSelf.tableView reloadData];
-        }
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        NSLog(@"failure %@", [error localizedDescription]);
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    }];
-    [operation start];
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [self loadJSONRequest:searchUrl];
 }
 
 #pragma mark - Table view data source

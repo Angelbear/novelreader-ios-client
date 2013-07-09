@@ -10,7 +10,6 @@
 #import "Common.h"
 #import <AFNetworking/AFNetworking.h>
 #import "BookInfoViewController.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 @interface RankViewController ()
 
 @end
@@ -66,34 +65,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON {
+    [super success:request withReponse:response data:JSON];
+    RankViewController* _self = (RankViewController*)_weakReferenceSelf;
+    if (JSON != nil && self !=nil) {
+        [_self.searchResult addObjectsFromArray:JSON];
+        self.currentPage++;
+        [_self.tableView reloadData];
+    }
+    [_self.refreshControl endRefreshing];
+    [_self.spinner stopAnimating];
+}
+
+- (void)failure:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response error:(NSError*)error data:(id)JSON {
+    [super failure:request withReponse:response error:error data:JSON];
+    RankViewController* _self = (RankViewController*)_weakReferenceSelf;
+    [_self.refreshControl endRefreshing];
+    [_self.spinner stopAnimating];
+}
+
 - (void) retrieveRankInfo:(NSUInteger) pageNo {
-    __unsafe_unretained RankViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/rank/get_rank?page=%d&from=lixiangwenxue", SERVER_HOST, pageNo];
-    NSLog(@"%@", searchUrl);
-    NSURL *url = [NSURL URLWithString:searchUrl];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (JSON != nil && weakReferenceSelf !=nil) {
-            [self.searchResult addObjectsFromArray:JSON];
-            self.currentPage = pageNo;
-            [weakReferenceSelf.tableView reloadData];
-        }
-        [self.refreshControl endRefreshing];
-        [self.spinner stopAnimating];
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        NSLog(@"failure %@", [error localizedDescription]);
-        [self.refreshControl endRefreshing];
-        [self.spinner stopAnimating];
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    }];
-    [operation start];
+    [self loadJSONRequest:searchUrl];
     if (pageNo == 0) {
         [self.refreshControl beginRefreshing];
     }
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 }
 
 #pragma mark - Table view data source

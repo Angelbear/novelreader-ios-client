@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CategoryViewController : UITableViewController
+#import "JSONRequestTableViewController.h"
+@interface CategoryViewController : JSONRequestTableViewController
 @property(nonatomic, strong) id searchResult;
 @end

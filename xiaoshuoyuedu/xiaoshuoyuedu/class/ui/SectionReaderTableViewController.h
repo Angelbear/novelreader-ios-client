@@ -11,7 +11,7 @@
 #import "SectionReaderTableViewCell.h"
 #import <WEPopover/WEPopoverController.h>
 #import "FontMenuViewController.h"
-
+#import "JSONRequestTableViewController.h"
 @protocol ChangeSectionDelegate
 - (void) nextSection;
 - (void) prevSection;
@@ -19,7 +19,7 @@
 
 
 @class Section;
-@interface SectionReaderTableViewController : UITableViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate> {
+@interface SectionReaderTableViewController : JSONRequestTableViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate> {
     BOOL _initialized;
     NSString* _fontName;
     CGFloat _fontSize;

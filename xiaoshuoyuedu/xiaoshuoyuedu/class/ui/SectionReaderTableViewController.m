@@ -93,32 +93,27 @@
 
 #pragma mark - custom functions
 
-- (void) reloadSection {
-    __weak SectionReaderTableViewController* weakReferenceSelf = self;
-    self.section.text = nil;
-    self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
-    [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
-    [self.tableView reloadData];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]]];
-    
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (JSON != nil) {
-            self.section.text = [JSON objectForKey:@"text"];
-            [DataBase updateSection:self.section];
-            [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
-            [weakReferenceSelf prepareForRead];
-        }
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
-    }];
-    [operation start];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+- (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON {
+    [super success:request withReponse:response data:JSON];
+    SectionReaderTableViewController* _self = (SectionReaderTableViewController*)_weakReferenceSelf;
+    if (JSON != nil) {
+        _self.section.text = [JSON objectForKey:@"text"];
+        [DataBase updateSection:_self.section];
+        [_self prepareForRead];
+    }
 }
 
+- (void) reloadSection {
+    if (self.section != nil) {
+        self.section.text = nil;
+        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
+        [self.tableView reloadData];
+        NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]];
+        [self loadJSONRequest:searchUrl];
+    }
+}
 
 - (void) prepareForRead {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];

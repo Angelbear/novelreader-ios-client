@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface RankViewController : UITableViewController
+#import "JSONRequestTableViewController.h"
+@interface RankViewController : JSONRequestTableViewController
 @property(nonatomic, strong) NSMutableArray* searchResult;
 @property(nonatomic, strong) NSString* rankSource;
 @property(nonatomic, strong) UIActivityIndicatorView *spinner;

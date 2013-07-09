@@ -123,10 +123,10 @@
     
     NSUInteger unreadCount = [sections count];
     for (Section* sec in sections) {
+        unreadCount--;
         if (bookmark.section_id == sec.section_id) {
             break;
         }
-        unreadCount--;
     }
     
     if (unreadCount > 0) {

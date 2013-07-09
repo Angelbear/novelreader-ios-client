@@ -16,6 +16,7 @@
 #import "SectionReaderTableViewController.h"
 #import <ViewDeck/IISideController.h>
 #import "Common.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation AppDelegate
 @synthesize currentBookView =_bookView;
@@ -24,6 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics startWithAPIKey:@"8946d07e106863f557b755bb244b513a82a3f788"];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     
     [DataBase initialize_database];
@@ -32,6 +34,7 @@
     }
     
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    
 
     self.readerDeckControllers = [[NSMutableArray alloc] initWithCapacity:0];
     
@@ -39,7 +42,7 @@
     MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
     masterViewController.navigationPaneViewController = self.navigationPaneViewController;
     self.navigationPaneViewController.masterViewController = masterViewController;
-    self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width , deviceFrame.size.height);
+    self.navigationPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
     
     self.readerDeckController = [self createNewBookViewDeckController];
     
@@ -75,6 +78,7 @@
 
 - (void) animationToReader:(BookView*)bookView {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGFloat statusHeight = isiOS7 ? 0 : 20;
     [UIView transitionWithView:self.window
                       duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
@@ -82,23 +86,24 @@
      {
          [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
          self.readerDeckController.view.frame = deviceFrame;
-         self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
+         self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
          
      }
     completion:^(BOOL finished){
-        self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width - 40, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
+        self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width - 40, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
     }];
 }
 
 - (void) animationBack {
+    CGFloat statusHeight = isiOS7 ? 0 : 20;
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-     self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, 20, deviceFrame.size.width, deviceFrame.size.height - 20);
+     self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
     [UIView transitionWithView:self.window
                       duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
      {
-         self.navigationPaneViewController.view.frame = CGRectMake(0, 20, deviceFrame.size.width,  deviceFrame.size.height - 20);
+         self.navigationPaneViewController.view.frame = CGRectMake(0, statusHeight, deviceFrame.size.width,  deviceFrame.size.height - statusHeight);
          self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
          
      }
