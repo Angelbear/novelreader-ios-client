@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FontMenuViewController.h"
+
 @protocol SectionReaderMenuDelegate <NSObject>
 - (void) clickFontMenuButton:(id) sender;
 - (void) clickBacktoBookShelfButton:(id) sender;
@@ -31,4 +32,5 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;
 - (IBAction)topOnFontSelectButton:(id)sender;
+- (void) setTextContent:(NSString*)text;
 @end
