@@ -18,6 +18,14 @@
 #import "Common.h"
 #import <Crashlytics/Crashlytics.h>
 
+@interface AppDelegate ()
+- (UIWindow *)  createWindowForScreen:(UIScreen *)screen;
+- (void)        addViewController:(UIViewController *)controller toWindow:(UIWindow *)window;
+- (void)        screenDidConnect:(NSNotification *) notification;
+- (void)        screenDidDisconnect:(NSNotification *) notification;
+@end
+
+
 @implementation AppDelegate
 @synthesize currentBookView =_bookView;
 @synthesize bookViewOrignCenter = _bookViewOrignCenter;
@@ -26,30 +34,54 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [Crashlytics startWithAPIKey:@"8946d07e106863f557b755bb244b513a82a3f788"];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     
-    [DataBase initialize_database];
-    if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-    }
+    UIWindow    *_window    = nil;
+    NSArray     *_screens   = nil;
     
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    self.windows = [[NSMutableArray alloc] init];
     
+    _screens = [UIScreen screens];
+    for (UIScreen *_screen in _screens){
+        if (_screen == [UIScreen mainScreen]){
+            _window = [self createWindowForScreen:_screen];
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+            
+            [DataBase initialize_database];
+            if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
+                [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
+            }
+            
+            CGRect deviceFrame = _screen.bounds;
+            
+            self.readerDeckControllers = [[NSMutableArray alloc] initWithCapacity:0];
+            
+            self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
+            MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
+            masterViewController.navigationPaneViewController = self.navigationPaneViewController;
+            self.navigationPaneViewController.masterViewController = masterViewController;
+            self.navigationPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+            
+            self.readerDeckController = [self createNewBookViewDeckController];
+            
+            _window = [self createWindowForScreen:_screen];
+            _window.rootViewController = self.navigationPaneViewController;
+            [_window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
 
-    self.readerDeckControllers = [[NSMutableArray alloc] initWithCapacity:0];
+
+            self.currentWindow = _window;
+            [_window makeKeyAndVisible];
+        }
+        
+    }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(screenDidConnect:)
+												 name:UIScreenDidConnectNotification
+											   object:nil];
     
-    self.navigationPaneViewController = [[MSNavigationPaneViewController alloc] init];
-    MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
-    masterViewController.navigationPaneViewController = self.navigationPaneViewController;
-    self.navigationPaneViewController.masterViewController = masterViewController;
-    self.navigationPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-    
-    self.readerDeckController = [self createNewBookViewDeckController];
-    
-    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
-    self.window.rootViewController = self.navigationPaneViewController;
-    [self.window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
-    [self.window makeKeyAndVisible];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(screenDidDisconnect:)
+												 name:UIScreenDidDisconnectNotification
+											   object:nil];
     return YES;
 }
 
@@ -79,7 +111,7 @@
 - (void) animationToReader:(BookView*)bookView {
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
-    [UIView transitionWithView:self.window
+    [UIView transitionWithView:self.currentWindow
                       duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
@@ -98,7 +130,7 @@
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
      self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
-    [UIView transitionWithView:self.window
+    [UIView transitionWithView:self.currentWindow
                       duration:0.25f
                        options:UIViewAnimationOptionTransitionNone
                     animations:^
@@ -176,7 +208,59 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIScreenDidConnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIScreenDidDisconnectNotification object:nil];
+}
+
+#pragma mark -
+#pragma mark Private methods
+
+- (UIWindow *) createWindowForScreen:(UIScreen *)screen {
+    UIWindow    *_window    = nil;
+    CGRect deviceFrame = screen.bounds;
+    // Do we already have a window for this screen?
+    for (UIWindow *window in self.windows){
+        if (window.screen == screen){
+            _window = window;
+        }
+    }
+    // Still nil? Create a new one.
+    if (_window == nil){
+        _window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
+        [_window setScreen:screen];
+        [self.windows addObject:_window];
+    }
+    
+    return _window;
+}
+
+- (void) addViewController:(UIViewController *)controller toWindow:(UIWindow *)window {
+    [window setRootViewController:controller];
+    [window setHidden:NO];
+}
+- (void) screenDidConnect:(NSNotification *) notification {
+    UIScreen                    *_screen            = nil;
+    UIWindow                    *_window            = nil;
+    
+    NSLog(@"Screen connected");
+    _screen = [notification object];
+    _window = [self createWindowForScreen:_screen];
+
+    return;
+}
+
+- (void) screenDidDisconnect:(NSNotification *) notification {
+    UIScreen    *_screen    = nil;
+    
+    NSLog(@"Screen disconnected");
+    _screen = [notification object];
+    for (UIWindow *_window in self.windows){
+        if (_window.screen == _screen){
+            NSUInteger windowIndex = [self.windows indexOfObject:_window];
+            [self.windows removeObjectAtIndex:windowIndex];
+        }
+    }
+    return;
 }
 
 @end

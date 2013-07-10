@@ -76,7 +76,7 @@
     CFRange calcRange = [FontUtils sizeStringToFit:aString min:0 max:[subString length] size:size font:font];
     return CFRangeMake(range.location, calcRange.length);
 }
-
+ 
 + (NSArray*) findPageSplits2:(NSString*)string size:(CGSize)size font:(UIFont*)font {
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     NSInteger str_len = [string length];

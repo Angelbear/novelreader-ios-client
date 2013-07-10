@@ -21,11 +21,36 @@
     
     self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
-        self.fontButton.imageView.image = [UIImage imageNamed:@"AAglyp"];
+        CGRect deviceFrame = [UIScreen mainScreen].bounds;
+        self.fontButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 20, 30.0f);
+        [self.fontButton setImage:[UIImage imageNamed:@"AAglyp"] forState:UIControlStateNormal];
         [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.fontButton addTarget:self action:@selector(tapOnFontSelectButton:) forControlEvents:UIControlEventTouchUpInside];
         self.fontButton.hidden = YES;
+        
+        
+        self.mirrorButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.mirrorButton.frame = CGRectMake(self.frame.origin.x + 20.0f, self.frame.origin.y, 20.0f, 30.0f);
+        [self.mirrorButton setImage:[UIImage imageNamed:@"airplay"] forState:UIControlStateNormal];
+        [self.mirrorButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.mirrorButton addTarget:self action:@selector(tapOnAirMirrorButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.mirrorButton.hidden = YES;
+        
+        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
+        self.textView.editable = NO;
+        self.textView.userInteractionEnabled = NO;
+        self.textView.scrollEnabled = NO;
+        self.textView.backgroundColor = [UIColor clearColor];
+        self.textView.contentInset = UIEdgeInsetsZero;
+        self.textView.textAlignment = NSTextAlignmentLeft;
+        self.textView.userInteractionEnabled = NO;
+        
+        [self addSubview:self.textView];
+        [self addSubview:self.fontButton];
+        [self addSubview:self.mirrorButton];
+        
         [self setRestorationIdentifier:reuseIdentifier];
-        self.textView.contentInset = UIEdgeInsetsZero;  
         _menuMode = NO;
     }
     return self;
@@ -41,56 +66,12 @@
 }
 
 
-- (NSMutableAttributedString*) getTextContent:(NSString*)text {
-    if (text==nil) {
-        return nil;
-    }
-    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:text];
-    CTFontRef helveticaBold = CTFontCreateWithName((__bridge CFStringRef)self.font.fontName,self.font.pointSize,NULL);
-    [string addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)helveticaBold range:NSMakeRange(0,[string length])];
-    //设置字间距
-
-    long number = 2;
-    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault,kCFNumberSInt8Type,&number);
-    [string addAttribute:(NSString *)kCTKernAttributeName value:(__bridge id)num range:NSMakeRange(0,[string length])];
-    CFRelease(num);
-
-    //设置字体颜色
-    [string addAttribute:(id)kCTForegroundColorAttributeName value:(id)(self.textColor.CGColor) range:NSMakeRange(0,[string length])];
-    //创建文本对齐方式
-    CTTextAlignment alignment = kCTLeftTextAlignment;
-    CTParagraphStyleSetting alignmentStyle;
-    alignmentStyle.spec = kCTParagraphStyleSpecifierAlignment;
-    alignmentStyle.valueSize = sizeof(alignment);
-    alignmentStyle.value = &alignment;
-    //设置文本行间距
-    CGFloat lineSpace = 5.0;
-    CTParagraphStyleSetting lineSpaceStyle;
-    lineSpaceStyle.spec = kCTParagraphStyleSpecifierLineSpacingAdjustment;
-    lineSpaceStyle.valueSize = sizeof(lineSpace);
-    lineSpaceStyle.value =&lineSpace;
-    //设置文本段间距
-    CGFloat paragraphSpacing = 5.0;
-    CTParagraphStyleSetting paragraphSpaceStyle;
-    paragraphSpaceStyle.spec = kCTParagraphStyleSpecifierParagraphSpacing;
-    paragraphSpaceStyle.valueSize = sizeof(CGFloat);
-    paragraphSpaceStyle.value = &paragraphSpacing;
-    
-    //创建设置数组
-    CTParagraphStyleSetting settings[ ] ={alignmentStyle,lineSpaceStyle,paragraphSpaceStyle};
-    CTParagraphStyleRef style = CTParagraphStyleCreate(settings ,3);
-    //给文本添加设置
-    [string addAttribute:(id)kCTParagraphStyleAttributeName value:(__bridge id)style range:NSMakeRange(0 , [string length])];
-    return string;
-}
-
-- (void) setTextContent:(NSString*)text {
-    self.textView.attributedText = [self getTextContent:text];
-}
-
-
-- (IBAction)topOnFontSelectButton:(id)sender {
+- (void)tapOnFontSelectButton:(id)sender {
     [self.delegate clickFontMenuButton:sender];
+}
+
+- (void)tapOnAirMirrorButton:(id)sender {
+   
 }
 
 - (void) toggleShowMenu:(id) sender {
@@ -98,9 +79,11 @@
     if (_menuMode) {
         self.labelView.hidden = YES;
         self.fontButton.hidden = NO;
+        self.mirrorButton.hidden = NO;
     } else {
         self.labelView.hidden = NO;
         self.fontButton.hidden = YES;
+        self.mirrorButton.hidden = YES;
     }
 }
 

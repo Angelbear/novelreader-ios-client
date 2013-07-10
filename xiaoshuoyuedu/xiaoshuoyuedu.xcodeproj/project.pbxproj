@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8C178D43AF000A8C6A /* airplay.png */; };
+		B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8D178D43AF000A8C6A /* airplay@2x.png */; };
 		B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9501779C9C0005F455E /* BookInfoViewController.m */; };
 		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
 		B43CC7121780265A009BFA2E /* BelowBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B43CC70B1780265A009BFA2E /* BelowBottomView.m */; };
@@ -152,6 +154,8 @@
 /* Begin PBXFileReference section */
 		81C174DCCC4347C793B9FA56 /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xiaoshuoyuedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
+		B40B3C8C178D43AF000A8C6A /* airplay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplay.png; sourceTree = "<group>"; };
+		B40B3C8D178D43AF000A8C6A /* airplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplay@2x.png"; sourceTree = "<group>"; };
 		B41AD94F1779C9C0005F455E /* BookInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookInfoViewController.h; sourceTree = "<group>"; };
 		B41AD9501779C9C0005F455E /* BookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookInfoViewController.m; sourceTree = "<group>"; };
 		B41AD9541779CE07005F455E /* URLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLUtils.h; sourceTree = "<group>"; };
@@ -381,6 +385,8 @@
 		B43CC716178026E1009BFA2E /* iBooks */ = {
 			isa = PBXGroup;
 			children = (
+				B40B3C8C178D43AF000A8C6A /* airplay.png */,
+				B40B3C8D178D43AF000A8C6A /* airplay@2x.png */,
 				B4A68CD01783F72F00F650F5 /* slider-brightest-glyph.png */,
 				B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */,
 				B4466B03178432BF0077A1A6 /* ToC.png */,
@@ -830,6 +836,8 @@
 				B4589460178BFE73004A5495 /* FontMenuViewController.xib in Resources */,
 				B4589461178BFE73004A5495 /* SearchBookViewController.xib in Resources */,
 				B4589462178BFE73004A5495 /* SectionReaderTableViewCell.xib in Resources */,
+				B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */,
+				B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,13 +24,12 @@
 }
 @property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
 @property(nonatomic, strong) IBOutlet UIView* contentView;
-@property(nonatomic, strong) IBOutlet UITextView* textView;
+@property(nonatomic, strong) UITextView* textView;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
-@property(nonatomic, strong) IBOutlet UIButton* fontButton;
+@property(nonatomic, strong) UIButton* fontButton;
+@property(nonatomic, strong) UIButton* mirrorButton;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;
-- (IBAction)topOnFontSelectButton:(id)sender;
-- (void) setTextContent:(NSString*)text;
 @end

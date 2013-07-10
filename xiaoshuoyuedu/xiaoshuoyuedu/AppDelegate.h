@@ -18,8 +18,8 @@
     CGPoint _bookViewOrignCenter;
     UIModalTransitionStyle _modalTransitionStyle;
 }
-
-@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) NSMutableArray *windows;
+@property (strong, nonatomic) UIWindow *currentWindow;
 @property (strong, nonatomic) UIViewController* containerViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
 @property (strong, nonatomic) NSMutableArray* readerDeckControllers;
