@@ -36,7 +36,7 @@
 #import "BookShelfCellView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Common.h"
-
+#import "AppDelegate.h"
 @implementation BookShelfCellView
 
 @synthesize reuseIdentifier;
@@ -50,7 +50,8 @@ static UIImage *shelfImageLandscape = nil;
     if (shadingImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
         
-        CGRect deviceFrame = [UIScreen mainScreen].bounds;
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
         UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
@@ -70,7 +71,8 @@ static UIImage *shelfImageLandscape = nil;
 + (UIImage *)woodImage {
     if (woodImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
-        CGRect deviceFrame = [UIScreen mainScreen].bounds;
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
         UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
@@ -134,8 +136,9 @@ static UIImage *shelfImageLandscape = nil;
     [super layoutSubviews];
     
     [_shadingImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
     if (self.frame.size.width <= deviceFrame.size.width) {
         [_shelfImageView setHidden:NO];
         [_shelfImageViewLandscape setHidden:YES];

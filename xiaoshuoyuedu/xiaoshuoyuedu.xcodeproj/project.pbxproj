@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8C178D43AF000A8C6A /* airplay.png */; };
 		B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8D178D43AF000A8C6A /* airplay@2x.png */; };
+		B40B3C92178E574E000A8C6A /* WindowSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B40B3C91178E574E000A8C6A /* WindowSelectViewController.m */; };
+		B40B3C97178E642E000A8C6A /* RemoteControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B40B3C95178E642E000A8C6A /* RemoteControlViewController.m */; };
+		B40B3C98178E642E000A8C6A /* RemoteControlViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C96178E642E000A8C6A /* RemoteControlViewController.xib */; };
 		B41AD9521779C9C0005F455E /* BookInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9501779C9C0005F455E /* BookInfoViewController.m */; };
 		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
 		B43CC7121780265A009BFA2E /* BelowBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = B43CC70B1780265A009BFA2E /* BelowBottomView.m */; };
@@ -156,6 +159,11 @@
 		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
 		B40B3C8C178D43AF000A8C6A /* airplay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplay.png; sourceTree = "<group>"; };
 		B40B3C8D178D43AF000A8C6A /* airplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplay@2x.png"; sourceTree = "<group>"; };
+		B40B3C90178E574E000A8C6A /* WindowSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowSelectViewController.h; sourceTree = "<group>"; };
+		B40B3C91178E574E000A8C6A /* WindowSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowSelectViewController.m; sourceTree = "<group>"; };
+		B40B3C94178E642E000A8C6A /* RemoteControlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlViewController.h; sourceTree = "<group>"; };
+		B40B3C95178E642E000A8C6A /* RemoteControlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlViewController.m; sourceTree = "<group>"; };
+		B40B3C96178E642E000A8C6A /* RemoteControlViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RemoteControlViewController.xib; sourceTree = "<group>"; };
 		B41AD94F1779C9C0005F455E /* BookInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookInfoViewController.h; sourceTree = "<group>"; };
 		B41AD9501779C9C0005F455E /* BookInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookInfoViewController.m; sourceTree = "<group>"; };
 		B41AD9541779CE07005F455E /* URLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLUtils.h; sourceTree = "<group>"; };
@@ -349,6 +357,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B40B3C93178E6393000A8C6A /* mirror */ = {
+			isa = PBXGroup;
+			children = (
+				B40B3C94178E642E000A8C6A /* RemoteControlViewController.h */,
+				B40B3C95178E642E000A8C6A /* RemoteControlViewController.m */,
+				B40B3C96178E642E000A8C6A /* RemoteControlViewController.xib */,
+			);
+			path = mirror;
+			sourceTree = "<group>";
+		};
 		B426FDA21779293000205904 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +478,8 @@
 		B4589463178BFF05004A5495 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				B40B3C90178E574E000A8C6A /* WindowSelectViewController.h */,
+				B40B3C91178E574E000A8C6A /* WindowSelectViewController.m */,
 				B4589464178BFF2A004A5495 /* SectionReaderTableViewCell.h */,
 				B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */,
 			);
@@ -597,6 +617,7 @@
 		B4F93F4D17744D790025A1E8 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				B40B3C93178E6393000A8C6A /* mirror */,
 				B4589463178BFF05004A5495 /* custom */,
 				B4589458178BFE73004A5495 /* nib */,
 				B458944E178AA70A004A5495 /* base */,
@@ -838,6 +859,7 @@
 				B4589462178BFE73004A5495 /* SectionReaderTableViewCell.xib in Resources */,
 				B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */,
 				B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */,
+				B40B3C98178E642E000A8C6A /* RemoteControlViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,6 +963,8 @@
 				B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */,
 				B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */,
 				B4589466178BFF2A004A5495 /* SectionReaderTableViewCell.m in Sources */,
+				B40B3C92178E574E000A8C6A /* WindowSelectViewController.m in Sources */,
+				B40B3C97178E642E000A8C6A /* RemoteControlViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

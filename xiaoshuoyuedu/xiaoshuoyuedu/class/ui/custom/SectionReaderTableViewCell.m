@@ -7,10 +7,12 @@
 //
 
 #import "SectionReaderTableViewCell.h"
+#import "AppDelegate.h"
 #import <AFNetworking/AFNetworking.h>
 #import <QuartzCore/QuartzCore.h>
-#import <WEPopover/WEPopoverViewController.h>
+#import <WEPopover/WEPopoverTableViewController.h>
 #import <CoreText/CoreText.h>
+#import "WindowSelectViewController.h"
 @implementation SectionReaderTableViewCellViewController
 @end
 
@@ -21,7 +23,8 @@
     
     self = (SectionReaderTableViewCell*)controller.view;
     if (self) {
-        CGRect deviceFrame = [UIScreen mainScreen].bounds;
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         self.fontButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 20, 30.0f);
         [self.fontButton setImage:[UIImage imageNamed:@"AAglyp"] forState:UIControlStateNormal];
@@ -50,6 +53,9 @@
         [self addSubview:self.fontButton];
         [self addSubview:self.mirrorButton];
         
+        WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
+        self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
+        
         [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;
     }
@@ -71,7 +77,10 @@
 }
 
 - (void)tapOnAirMirrorButton:(id)sender {
-   
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    self.popup.popoverContentSize = CGSizeMake(200, [delegate.windows count] * 44.0f);
+    UIView* view = (UIView*)sender;
+    [self.popup presentPopoverFromRect:view.frame inView:self permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) toggleShowMenu:(id) sender {
@@ -79,11 +88,11 @@
     if (_menuMode) {
         self.labelView.hidden = YES;
         self.fontButton.hidden = NO;
-        self.mirrorButton.hidden = NO;
+        //self.mirrorButton.hidden = NO;
     } else {
         self.labelView.hidden = NO;
         self.fontButton.hidden = YES;
-        self.mirrorButton.hidden = YES;
+        //self.mirrorButton.hidden = YES;
     }
 }
 

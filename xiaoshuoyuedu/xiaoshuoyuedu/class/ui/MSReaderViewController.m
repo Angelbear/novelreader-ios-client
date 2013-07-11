@@ -13,6 +13,7 @@
 #import "Book.h"
 #import "SectionReaderTableViewController.h"
 #import <ViewDeck/IIViewDeckController.h>
+#import "AppDelegate.h"
 @interface MSReaderViewController () 
 @property(nonatomic, strong) NSMutableArray* sections;
 @property(nonatomic, assign) NSUInteger readingSection;
@@ -72,7 +73,8 @@ CGFloat _cellHeight;
     self.deckViewController.delegate = self;
     self.currentReaderViewController.delegate = self;
     self.tableView.bounces = NO;
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     self.tableView.frame = CGRectMake(0, 0, 200, deviceFrame.size.height);
     self.tableView.bounds = CGRectMake(0, 0, 200, deviceFrame.size.height);
 }

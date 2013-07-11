@@ -38,7 +38,8 @@
 
 - (id) init {
     self = [super initWithStyle:UITableViewStylePlain];
-    CGRect deviceRect = [ UIScreen mainScreen ].bounds;
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceRect = delegate.currentWindow.screen.bounds;
     _initialized = NO;
     self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
@@ -117,6 +118,9 @@
 
 - (void) prepareForRead {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceRect = delegate.currentWindow.screen.bounds;
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
     [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
@@ -150,6 +154,28 @@
     [delegate switchToNavitation];
 }
 
+
+- (void) moveToPrevPage {
+    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
+    if ( path.row == 0) {
+        [self.delegate prevSection];
+    } else {
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGFloat height = MAX(path.row - 1, 0) * delegate.currentWindow.screen.bounds.size.height;
+        [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:YES];
+    }
+}
+
+- (void) moveToNextPage {
+    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
+    if (path.row == [self.splitInfo count] - 1) {
+        [self.delegate nextSection];
+    } else {
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGFloat height = MIN(path.row + 1, [self.splitInfo count] - 1) * delegate.currentWindow.screen.bounds.size.height;
+        [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:YES];
+    }
+}
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
     CGPoint touchLocation = [recognizer locationInView:cell.textView];
@@ -254,7 +280,8 @@
                     break;
                 }
             }
-            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * [ UIScreen mainScreen ].bounds.size.height;
+            AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * delegate.currentWindow.screen.bounds.size.height;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -278,7 +305,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell-%lf-%lf",  delegate.currentBookView.bounds.size.width,  delegate.currentBookView.bounds.size.height];
     
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -298,7 +326,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [ UIScreen mainScreen ].bounds.size.height;
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    return delegate.currentWindow.screen.bounds.size.height;
 }
 
 @end

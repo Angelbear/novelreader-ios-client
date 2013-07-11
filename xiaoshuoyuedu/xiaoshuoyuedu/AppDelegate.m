@@ -17,6 +17,7 @@
 #import <ViewDeck/IISideController.h>
 #import "Common.h"
 #import <Crashlytics/Crashlytics.h>
+#import "ReaderCacheManager.h"
 
 @interface AppDelegate ()
 - (UIWindow *)  createWindowForScreen:(UIScreen *)screen;
@@ -40,10 +41,15 @@
     
     self.windows = [[NSMutableArray alloc] init];
     
+    self.remoteControllViewController = [[RemoteControlViewController alloc] initWithNibName:@"RemoteControlViewController" bundle:nil];
     _screens = [UIScreen screens];
     for (UIScreen *_screen in _screens){
         if (_screen == [UIScreen mainScreen]){
             _window = [self createWindowForScreen:_screen];
+            
+            self.currentWindow = _window;
+            self.mainWindow = _window;
+            
             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
             
             [DataBase initialize_database];
@@ -59,19 +65,18 @@
             MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
             masterViewController.navigationPaneViewController = self.navigationPaneViewController;
             self.navigationPaneViewController.masterViewController = masterViewController;
-            self.navigationPaneViewController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
+            self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height);
             
-            self.readerDeckController = [self createNewBookViewDeckController];
+            self.readerDeckController = [self createNewBookViewDeckController:_window];
             
             _window = [self createWindowForScreen:_screen];
             _window.rootViewController = self.navigationPaneViewController;
             [_window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
 
 
-            self.currentWindow = _window;
+            
             [_window makeKeyAndVisible];
         }
-        
     }
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(screenDidConnect:)
@@ -85,8 +90,8 @@
     return YES;
 }
 
-- (IIViewDeckController*) createNewBookViewDeckController {
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+- (IIViewDeckController*) createNewBookViewDeckController:(UIWindow*) window {
+    CGRect deviceFrame = window.screen.bounds;
     MSReaderViewController *readerMasterViewController = [[MSReaderViewController alloc] init];
     
     CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
@@ -109,7 +114,7 @@
 }
 
 - (void) animationToReader:(BookView*)bookView {
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGRect deviceFrame = self.currentWindow.screen.bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     [UIView transitionWithView:self.currentWindow
                       duration:0.25f
@@ -128,7 +133,7 @@
 
 - (void) animationBack {
     CGFloat statusHeight = isiOS7 ? 0 : 20;
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGRect deviceFrame = self.currentWindow.screen.bounds;
      self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
     [UIView transitionWithView:self.currentWindow
                       duration:0.25f
@@ -152,7 +157,7 @@
             return viewDeckController;
         }
     }
-    IIViewDeckController* viewDeckController = [self createNewBookViewDeckController];
+    IIViewDeckController* viewDeckController = [self createNewBookViewDeckController:self.currentWindow];
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)viewDeckController.rightController;
     [self.readerDeckControllers addObject:viewDeckController];
     [readerMasterViewController loadBook:book];
@@ -238,6 +243,35 @@
     [window setRootViewController:controller];
     [window setHidden:NO];
 }
+
+- (void) switchToWindow:(UIWindow*) window {
+    if (window == self.mainWindow) {
+        [self.remoteControllViewController removeFromParentViewController];
+    } else {
+        self.mainWindow.rootViewController = self.remoteControllViewController;
+        [self.mainWindow makeKeyAndVisible];
+    }
+    [self.navigationPaneViewController removeFromParentViewController];
+    [self.readerDeckController removeFromParentViewController];
+    
+    CGRect deviceFrame = window.screen.bounds;
+    self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width -40 , 0, deviceFrame.size.width, deviceFrame.size.height);
+    
+    self.readerDeckController.view.frame =  CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height);
+    
+    
+    window.rootViewController = self.navigationPaneViewController;
+    [window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
+    
+    self.currentWindow = window;
+    [window makeKeyAndVisible];
+    
+    [[ReaderCacheManager init_instance] clearAllSplitInfos];
+    [self switchToReader:self.currentBookView.book];
+     SectionReaderTableViewController* sectionReader = (SectionReaderTableViewController*)self.readerDeckController.centerController;
+    [sectionReader prepareForRead];
+}
+
 - (void) screenDidConnect:(NSNotification *) notification {
     UIScreen                    *_screen            = nil;
     UIWindow                    *_window            = nil;
@@ -245,6 +279,7 @@
     NSLog(@"Screen connected");
     _screen = [notification object];
     _window = [self createWindowForScreen:_screen];
+    [self.windows addObject:_window];
 
     return;
 }
@@ -253,12 +288,15 @@
     UIScreen    *_screen    = nil;
     
     NSLog(@"Screen disconnected");
+    int windowIndex = -1;
     _screen = [notification object];
     for (UIWindow *_window in self.windows){
         if (_window.screen == _screen){
-            NSUInteger windowIndex = [self.windows indexOfObject:_window];
-            [self.windows removeObjectAtIndex:windowIndex];
+            windowIndex = [self.windows indexOfObject:_window];
         }
+    }
+    if (windowIndex >= 0) {
+        [self.windows removeObjectAtIndex:windowIndex];
     }
     return;
 }

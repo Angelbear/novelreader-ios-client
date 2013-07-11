@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MSNavigationPaneViewController+iBooksOpen.h"
 #import "IIViewDeckController.h"
+#import "RemoteControlViewController.h"
 
 @class MSNavigationPaneViewController, MSReaderViewController, Book, BookView, SectionReaderTableViewController;
 
@@ -20,10 +21,12 @@
 }
 @property (strong, nonatomic) NSMutableArray *windows;
 @property (strong, nonatomic) UIWindow *currentWindow;
+@property (strong, nonatomic) UIWindow *mainWindow;
 @property (strong, nonatomic) UIViewController* containerViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
 @property (strong, nonatomic) NSMutableArray* readerDeckControllers;
 @property (strong, nonatomic) IIViewDeckController* readerDeckController;
+@property (strong, nonatomic) RemoteControlViewController* remoteControllViewController;
 @property (strong, nonatomic) BookView* currentBookView;
 @property (nonatomic, assign) CGPoint bookViewOrignCenter;
 @property (nonatomic, assign) UIModalTransitionStyle modalTransitionStyle;
@@ -31,4 +34,5 @@
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view;
 - (void) switchToNavitation;
 - (BOOL) isReaderRightPanelOpen;
+- (void) switchToWindow:(UIWindow*) window;
 @end

@@ -31,4 +31,6 @@
 @property (nonatomic, weak) id<ChangeSectionDelegate> delegate;
 - (void) prepareForRead;
 - (void) reloadSection;
+- (void) moveToNextPage;
+- (void) moveToPrevPage;
 @end

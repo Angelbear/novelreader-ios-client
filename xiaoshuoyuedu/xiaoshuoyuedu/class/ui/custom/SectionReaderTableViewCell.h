@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FontMenuViewController.h"
 
+@class WEPopoverController;
 @protocol SectionReaderMenuDelegate <NSObject>
 - (void) clickFontMenuButton:(id) sender;
 - (void) clickBacktoBookShelfButton:(id) sender;
@@ -30,6 +31,7 @@
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
 @property(nonatomic, strong) UIButton* fontButton;
 @property(nonatomic, strong) UIButton* mirrorButton;
+@property(nonatomic, strong) WEPopoverController* popup;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;
 @end

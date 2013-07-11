@@ -255,7 +255,8 @@ BOOL animating;
 {
     [super viewDidLoad];
     
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     
     _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width, 44)];
     [_searchBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
