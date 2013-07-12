@@ -25,6 +25,9 @@
     if (self) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+        
+        self.contentView.frame = deviceFrame;
+        
         self.fontButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 20, 30.0f);
         [self.fontButton setImage:[UIImage imageNamed:@"AAglyp"] forState:UIControlStateNormal];

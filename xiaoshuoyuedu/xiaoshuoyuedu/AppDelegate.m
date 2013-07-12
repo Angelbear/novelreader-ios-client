@@ -69,7 +69,6 @@
             
             self.readerDeckController = [self createNewBookViewDeckController:_window];
             
-            _window = [self createWindowForScreen:_screen];
             _window.rootViewController = self.navigationPaneViewController;
             [_window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
 
