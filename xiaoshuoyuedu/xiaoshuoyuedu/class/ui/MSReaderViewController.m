@@ -14,9 +14,11 @@
 #import "SectionReaderTableViewController.h"
 #import <ViewDeck/IIViewDeckController.h>
 #import "AppDelegate.h"
-@interface MSReaderViewController () 
+@interface MSReaderViewController ()
 @property(nonatomic, strong) NSMutableArray* sections;
 @property(nonatomic, assign) NSUInteger readingSection;
+@property(nonatomic, copy) NSArray *filteredSections;
+@property(nonatomic, copy) NSString *currentSearchString;
 @end
 
 @implementation MSReaderViewController
@@ -64,7 +66,7 @@ CGFloat _cellHeight;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * self.readingSection)];
+    //[self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * self.readingSection)];
 }
 
 - (void)viewDidLoad
@@ -73,11 +75,36 @@ CGFloat _cellHeight;
     self.deckViewController.delegate = self;
     self.currentReaderViewController.delegate = self;
     self.tableView.bounces = NO;
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
-    self.tableView.frame = CGRectMake(0, 0, 200, deviceFrame.size.height);
-    self.tableView.bounds = CGRectMake(0, 0, 200, deviceFrame.size.height);
+
+    
+    UISearchBar* searchBar = [[UISearchBar alloc] init];
+    searchBar.frame=CGRectMake(0, self.tableView.frame.origin.y, self.tableView.frame.size.width, 44);
+    [searchBar sizeToFit];
+    self.tableView.tableHeaderView = searchBar;
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, 44)];
+    self.searchBar.placeholder = @"搜索";
+    self.searchBar.delegate = self;
+    
+    self.strongSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    self.searchDisplayController.searchResultsDataSource = self;
+    self.searchDisplayController.searchResultsDelegate = self;
+    self.searchDisplayController.delegate = self;
+    
+    self.tableView.tableHeaderView = self.searchBar;
+    
+    SEL setPinsTableHeaderViewSelector = NSSelectorFromString(@"_setPinsTableHeaderView:");
+    if ([self.tableView respondsToSelector:setPinsTableHeaderViewSelector]) {
+        objc_msgSend(self.tableView, setPinsTableHeaderViewSelector, YES);
+    }
+
 }
+
+- (void)scrollTableViewToSearchBarAnimated:(BOOL)animated
+{
+    // The search bar is always visible, so just scroll to the first section
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:NSNotFound inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:animated];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -109,6 +136,7 @@ CGFloat _cellHeight;
         cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     }
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -182,5 +210,38 @@ CGFloat _cellHeight;
     [self transitionToViewController:sec];
     [DataBase updateBookMark:self.bookmark];
 }
+
+#pragma mark - Search Delegate
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
+    self.filteredSections = nil;
+    self.currentSearchString = @"";
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    self.filteredSections = nil;
+    self.currentSearchString = nil;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    if (searchString.length > 0) { // Should always be the case
+        NSArray *sectionsToSearch = self.sections;
+        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0) { // If the new search string starts with the last search string, reuse the already filtered array so searching is faster
+            sectionsToSearch = self.filteredSections;
+        }
+        
+        self.filteredSections = [sectionsToSearch filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(from contains %@)", searchString]];
+    } else {
+        self.filteredSections = self.sections;
+    }
+    
+    self.currentSearchString = searchString;
+    
+    return YES;
+}
+
 
 @end

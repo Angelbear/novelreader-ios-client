@@ -11,11 +11,13 @@
 #import "SectionReaderTableViewController.h"
 
 @class Book, Bookmark, IIViewDeckController, SectionReaderTableViewController;
-@interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate, ChangeSectionDelegate>
+@interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate, ChangeSectionDelegate,UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (nonatomic, weak) IIViewDeckController *deckViewController;
 @property (nonatomic, strong) SectionReaderTableViewController* currentReaderViewController;
 @property (nonatomic, strong) Book* book;
 @property (nonatomic, strong) Bookmark* bookmark;
+@property (nonatomic, strong) UISearchBar* searchBar;
+@property (nonatomic, strong) UISearchDisplayController* strongSearchDisplayController;
 - (void) loadBook:(Book*) book;
 @end
