@@ -121,6 +121,8 @@
 		B4D4B92417815220008BAA84 /* badge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92217815220008BAA84 /* badge@2x.png */; };
 		B4D4B9271781575D008BAA84 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B9261781575D008BAA84 /* Bookmark.m */; };
 		B4D4B92A17816736008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */; };
+		B4D5C895178FCF8300568415 /* sync_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D5C893178FCF8300568415 /* sync_btn.png */; };
+		B4D5C896178FCF8300568415 /* sync_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D5C894178FCF8300568415 /* sync_btn@2x.png */; };
 		B4DD87671789A15800A82644 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DD87651789A15700A82644 /* AboutViewController.m */; };
 		B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B4DD876A1789A80100A82644 /* ReaderCacheManager.m */; };
 		B4E1A17417787B260068877C /* SearchBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E1A17217787B250068877C /* SearchBookViewController.m */; };
@@ -296,6 +298,8 @@
 		B4D4B9261781575D008BAA84 /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookmark.m; sourceTree = "<group>"; };
 		B4D4B92817816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSNavigationPaneViewController+iBooksOpen.h"; sourceTree = "<group>"; };
 		B4D4B92917816735008BAA84 /* MSNavigationPaneViewController+iBooksOpen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSNavigationPaneViewController+iBooksOpen.m"; sourceTree = "<group>"; };
+		B4D5C893178FCF8300568415 /* sync_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync_btn.png; sourceTree = "<group>"; };
+		B4D5C894178FCF8300568415 /* sync_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sync_btn@2x.png"; sourceTree = "<group>"; };
 		B4DD87641789A15700A82644 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		B4DD87651789A15700A82644 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		B4DD87691789A80100A82644 /* ReaderCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderCacheManager.h; sourceTree = "<group>"; };
@@ -655,6 +659,8 @@
 			children = (
 				B43CC716178026E1009BFA2E /* iBooks */,
 				B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */,
+				B4D5C893178FCF8300568415 /* sync_btn.png */,
+				B4D5C894178FCF8300568415 /* sync_btn@2x.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
 				B4A68C9B1783D6D200F650F5 /* WoodCell.png */,
 				B454F022178176EF0026C113 /* Default-Landscape@2x.png */,
@@ -860,6 +866,8 @@
 				B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */,
 				B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */,
 				B40B3C98178E642E000A8C6A /* RemoteControlViewController.xib in Resources */,
+				B4D5C895178FCF8300568415 /* sync_btn.png in Resources */,
+				B4D5C896178FCF8300568415 /* sync_btn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

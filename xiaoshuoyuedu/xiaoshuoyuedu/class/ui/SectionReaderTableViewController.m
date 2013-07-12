@@ -98,17 +98,36 @@
 - (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON {
     [super success:request withReponse:response data:JSON];
     SectionReaderTableViewController* _self = (SectionReaderTableViewController*)_weakReferenceSelf;
-    if (JSON != nil) {
+    if (JSON != nil && _self != nil) {
         _self.section.text = [JSON objectForKey:@"text"];
+        _self.bookmark.offset = 0;
+        [DataBase updateBookMark:_self.bookmark];
         [DataBase updateSection:_self.section];
         [_self prepareForRead];
     }
 }
 
+- (void)failure:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response error:(NSError*)error data:(id)JSON {
+    [super failure:request withReponse:response error:error data:JSON];
+
+    SectionReaderTableViewController* _self = (SectionReaderTableViewController*)_weakReferenceSelf;
+    if ( _self != nil && [_self.section.from isEqualToString:@"lixiangwenxue"] && error.code!= -999) {
+        NSArray *parts = [_self.section.url componentsSeparatedByString:@"/"];
+        NSString *filename = [parts objectAtIndex:[parts count]-1];
+        NSUInteger section_id = [[filename stringByReplacingOccurrencesOfString:@".html" withString:@""] integerValue];
+        section_id++;
+        NSString* newPath = [NSString stringWithFormat:@"%@%d.html", [_self.section.url substringToIndex:[_self.section.url rangeOfString:filename options:NSBackwardsSearch].location] , section_id];
+       NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:newPath]];
+        [self loadJSONRequest:searchUrl];
+    }
+}
+
+
 - (void) reloadSection {
     if (self.section != nil) {
-        self.section.text = nil;
-        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        if (self.section.text == nil || self.section.text.length == 0) {
+            self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        }
         [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
         [self.tableView reloadData];
         NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]];
@@ -138,23 +157,6 @@
     });
 }
 
-- (void) clickFontMenuButton:(id) sender {
-    FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
-    fontMenuViewController.delegate = self;
-    SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
-    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
-    self.wePopupController.delegate = self;
-    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
-    UIView* source = (UIView*) sender;
-    [self.wePopupController presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-
-- (void) clickBacktoBookShelfButton:(id) sender {
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [delegate switchToNavitation];
-}
-
-
 - (void) moveToPrevPage {
     NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     if ( path.row == 0) {
@@ -176,26 +178,27 @@
         [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:YES];
     }
 }
+
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
     SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
     CGPoint touchLocation = [recognizer locationInView:cell.textView];
     if (   touchLocation.x > self.contentSize.width / 3.0f
-        && touchLocation.x < self.contentSize.width * 2.0f / 3.0f
-        && touchLocation.y > self.contentSize.height / 3.0f
-        && touchLocation.y < self.contentSize.height * 2.0f / 3.0f ) {
+        && touchLocation.x < self.contentSize.width * 2.0f / 2.0f
+        && touchLocation.y > self.contentSize.height / 4.0f
+        && touchLocation.y < self.contentSize.height * 3.0f / 4.0f ) {
         [cell toggleShowMenu:recognizer];
         return;
     }
     NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     if (   path.row == [self.splitInfo count] - 1
         && touchLocation.x > self.contentSize.width * 2.0f / 3.0f
-        && touchLocation.y > self.contentSize.height * 2.0f / 3.0f ) {
+        && touchLocation.y > self.contentSize.height * 3.0f / 4.0f ) {
         [self.delegate nextSection];
         return;
     }
     if (   path.row == 0
         && touchLocation.x < self.contentSize.width  / 3.0f
-        && touchLocation.y < self.contentSize.height / 3.0f ) {
+        && touchLocation.y < self.contentSize.height / 4.0f ) {
         [self.delegate prevSection];
         return;
     }
@@ -238,7 +241,33 @@
     [self.tableView setContentOffset:CGPointMake(0.0f, [height floatValue]) animated:NO];
 }
 
-#pragma WEPopoverControllerDelegate 
+#pragma mark - SectionReaderMenuDelegate
+
+- (void) clickInfoButton:(id)sender {
+    
+}
+
+- (void) clickRefreshButton:(id)sender {
+    [self reloadSection];
+}
+
+- (void) clickFontMenuButton:(id) sender {
+    FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
+    fontMenuViewController.delegate = self;
+    SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
+    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
+    self.wePopupController.delegate = self;
+    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
+    UIView* source = (UIView*) sender;
+    [self.wePopupController presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+- (void) clickBacktoBookShelfButton:(id) sender {
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [delegate switchToNavitation];
+}
+
+#pragma mark - WEPopoverControllerDelegate 
 - (void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController {
     
 }
@@ -318,7 +347,10 @@
     cell.contentView.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
     cell.textView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
     cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
-    [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
+    
+    if (self.section.text != nil && self.section.text.length > 0) {
+        [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
+    }
     cell.labelView.text = self.section.name;
     cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];
     cell.delegate = self;

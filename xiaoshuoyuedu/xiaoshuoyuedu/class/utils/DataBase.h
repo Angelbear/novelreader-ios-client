@@ -21,6 +21,7 @@
 + (BOOL) deleteBook:(Book*) book;
 + (BOOL) updateBook:(Book*) book;
 + (NSUInteger) insertSection:(Section*) section;
++ (NSUInteger) insertSections:(NSArray*) sections;
 + (BOOL) deleteSection:(Section*) section;
 + (BOOL) updateSection:(Section*) section;
 + (NSUInteger) createDefaultBookMark:(Book*)book;

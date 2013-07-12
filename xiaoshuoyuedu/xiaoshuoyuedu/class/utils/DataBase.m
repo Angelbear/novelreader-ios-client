@@ -24,10 +24,12 @@
 
 + (void) initialize_database {
     FMDatabase* db    = [DataBase get_database_instance];
+    NSString* sql = @"PRAGMA foreign_keys = ON;";
     NSString*   create_books_sql = @"CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, author TEXT, cover BLOB, source TEXT, url TEXT UNIQUE, last_update_time INTEGER);";
     NSString*   create_sections_sql = @"CREATE TABLE IF NOT EXISTS sections (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, name TEXT, text TEXT, source TEXT, url TEXT UNIQUE,  last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE);";
     NSString*   create_bookmarks_sql = @"CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY AUTOINCREMENT, book_id INTEGER, section_id INTEGER, offset INTEGER, default_bookmark INTEGER, last_update_time INTEGER, FOREIGN KEY(book_id) REFERENCES books(id) ON DELETE CASCADE, FOREIGN KEY(section_id) REFERENCES sections(id) ON DELETE CASCADE)";
     [db open];
+    [db executeQuery:sql];
     [db executeUpdate:create_books_sql];
     [db executeUpdate:create_sections_sql];
     [db executeUpdate:create_bookmarks_sql];
@@ -279,6 +281,21 @@
     NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.from, section.url,  [self currentTimeStamp], nil];
     [db executeUpdate:sql_insert_sections withArgumentsInArray:args];
     NSUInteger result = db.lastInsertRowId;
+    [db close];
+    return result;
+}
+
++ (NSUInteger) insertSections:(NSArray*) sections {
+    FMDatabase* db    = [DataBase get_database_instance];
+    [db open];
+    [db beginTransaction];
+    NSString* sql_insert_sections = @"INSERT INTO sections (book_id, name, text, source, url, last_update_time) VALUES (?,?,?,?,?,?)";
+    NSUInteger result = 0;
+    for (Section* section in sections) {        
+        NSArray* args = [[NSArray alloc] initWithObjects:@(section.book_id), section.name, section.text, section.from, section.url,  [self currentTimeStamp], nil];
+        result += [db executeUpdate:sql_insert_sections withArgumentsInArray:args];
+    }
+    [db commit];
     [db close];
     return result;
 }

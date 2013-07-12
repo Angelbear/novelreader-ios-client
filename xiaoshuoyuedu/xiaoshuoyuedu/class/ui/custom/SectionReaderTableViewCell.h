@@ -13,6 +13,8 @@
 @protocol SectionReaderMenuDelegate <NSObject>
 - (void) clickFontMenuButton:(id) sender;
 - (void) clickBacktoBookShelfButton:(id) sender;
+- (void) clickRefreshButton:(id)sender;
+- (void) clickInfoButton:(id)sender;
 @end
 
 @interface SectionReaderTableViewCellViewController : UIViewController
@@ -30,7 +32,9 @@
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
 @property(nonatomic, strong) UIButton* fontButton;
+@property(nonatomic, strong) UIButton* refreshButton;
 @property(nonatomic, strong) UIButton* mirrorButton;
+@property(nonatomic, strong) UIButton* infoButton;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;

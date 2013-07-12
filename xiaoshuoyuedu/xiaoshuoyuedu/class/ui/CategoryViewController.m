@@ -33,11 +33,19 @@
     return self;
 }
 
+- (void) pullRefresh:(UIRefreshControl*) sender {
+    [self retrieveCategoryInfo];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self retrieveCategoryInfo];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullRefresh:) forControlEvents:UIControlEventValueChanged];
+    
+     [self retrieveCategoryInfo];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -53,8 +61,15 @@
         _self.searchResult = JSON;
         [_self.tableView reloadData];
     }
+    [_self.refreshControl endRefreshing];
 }
 
+
+- (void)failure:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response error:(NSError*)error data:(id)JSON {
+    [super failure:request withReponse:response error:error data:JSON];
+    CategoryViewController* _self = (CategoryViewController*)_weakReferenceSelf;
+    [_self.refreshControl endRefreshing];
+}
 
 - (void) retrieveCategoryInfo {
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/category/get_category_info?from=lixiangwenxue", SERVER_HOST];

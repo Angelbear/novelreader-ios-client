@@ -141,6 +141,8 @@
         if (JSON != nil && weakReferenceSelf !=nil) {
             NSUInteger book_id = [DataBase insertBook:weakReferenceSelf.bookModel];
             weakReferenceSelf.bookModel.book_id = book_id;
+           
+            NSMutableArray* sections = [[NSMutableArray alloc] init];
             for (int i = 0; i < [JSON count]; i++) {
                 id sec = [JSON objectAtIndex:i];
                 Section* section = [[Section alloc] init];
@@ -150,11 +152,17 @@
                 section.name = [sec valueForKey:@"name"];
                 section.text = @"";
                 section.from = weakReferenceSelf.fromSite;
-                [DataBase insertSection:section];
+                [sections addObject:section];
             }
-            [DataBase createDefaultBookMark:weakReferenceSelf.bookModel];
-            [self.downloadButton removeFromSuperview];
-            [self.view addSubview:self.readButton];
+            
+            if ([sections count] > 0) {
+                [DataBase insertSections:sections];            
+                [DataBase createDefaultBookMark:weakReferenceSelf.bookModel];
+                [self.downloadButton removeFromSuperview];
+                [self.view addSubview:self.readButton];
+            } else {
+                [DataBase deleteBook:weakReferenceSelf.bookModel];
+            }
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {

@@ -29,15 +29,27 @@
         self.contentView.frame = deviceFrame;
         
         self.fontButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 20, 30.0f);
+        self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 32.0f, 32.0f);
         [self.fontButton setImage:[UIImage imageNamed:@"AAglyp"] forState:UIControlStateNormal];
         [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.fontButton addTarget:self action:@selector(tapOnFontSelectButton:) forControlEvents:UIControlEventTouchUpInside];
         self.fontButton.hidden = YES;
         
+        self.refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.refreshButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 72, self.frame.origin.y, 32.0f, 32.0f);
+        [self.refreshButton setImage:[UIImage imageNamed:@"sync_btn"] forState:UIControlStateNormal];
+        [self.refreshButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
+        [self.refreshButton addTarget:self action:@selector(tapOnRefreshButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.refreshButton.hidden = YES;
+    
+        self.infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        self.infoButton.backgroundColor = [UIColor clearColor];
+        self.infoButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 104, self.frame.origin.y, 32.0f, 32.0f);
+        [self.infoButton addTarget:self action:@selector(tapOnInfoButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.infoButton.hidden = YES;
         
         self.mirrorButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.mirrorButton.frame = CGRectMake(self.frame.origin.x + 20.0f, self.frame.origin.y, 20.0f, 30.0f);
+        self.mirrorButton.frame = CGRectMake(self.frame.origin.x + 20.0f, self.frame.origin.y, 32.0f, 32.0f);
         [self.mirrorButton setImage:[UIImage imageNamed:@"airplay"] forState:UIControlStateNormal];
         [self.mirrorButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.mirrorButton addTarget:self action:@selector(tapOnAirMirrorButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -54,7 +66,9 @@
         
         [self addSubview:self.textView];
         [self addSubview:self.fontButton];
+        [self addSubview:self.refreshButton];
         [self addSubview:self.mirrorButton];
+        [self addSubview:self.infoButton];
         
         WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
         self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
@@ -74,9 +88,16 @@
     self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
 }
 
+- (void)tapOnRefreshButton:(id)sender {
+    [self.delegate clickRefreshButton:sender];
+}
 
 - (void)tapOnFontSelectButton:(id)sender {
     [self.delegate clickFontMenuButton:sender];
+}
+
+- (void)tapOnInfoButton:(id)sender {
+    [self.delegate clickInfoButton:sender];
 }
 
 - (void)tapOnAirMirrorButton:(id)sender {
@@ -91,10 +112,14 @@
     if (_menuMode) {
         self.labelView.hidden = YES;
         self.fontButton.hidden = NO;
+        self.refreshButton.hidden = NO;
+        self.infoButton.hidden = NO;
         //self.mirrorButton.hidden = NO;
     } else {
         self.labelView.hidden = NO;
         self.fontButton.hidden = YES;
+        self.refreshButton.hidden = YES;
+        self.infoButton.hidden = YES;
         //self.mirrorButton.hidden = YES;
     }
 }
