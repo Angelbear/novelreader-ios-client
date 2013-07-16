@@ -76,10 +76,6 @@ CGFloat _cellHeight;
     self.currentReaderViewController.delegate = self;
     self.tableView.bounces = NO;
 
-    UISearchBar* searchBar = [[UISearchBar alloc] init];
-    searchBar.frame=CGRectMake(0, self.tableView.frame.origin.y, self.tableView.frame.size.width, 44);
-    [searchBar sizeToFit];
-    //self.tableView.tableHeaderView = searchBar;
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, 44)];
     self.searchBar.placeholder = @"搜索";
     self.searchBar.delegate = self;
@@ -89,15 +85,6 @@ CGFloat _cellHeight;
     self.strongSearchDisplayController.delegate = self;
     self.strongSearchDisplayController.searchResultsDataSource = self;
     self.strongSearchDisplayController.searchResultsDelegate = self;
-    
-    
-    /*self.tableView.tableHeaderView = self.searchBar;
-    
-    
-    SEL setPinsTableHeaderViewSelector = NSSelectorFromString(@"_setPinsTableHeaderView:");
-    if ([self.tableView respondsToSelector:setPinsTableHeaderViewSelector]) {
-        objc_msgSend(self.tableView, setPinsTableHeaderViewSelector, YES);
-    }*/
     
     [self.tableView addSubview:self.searchBar];
     
