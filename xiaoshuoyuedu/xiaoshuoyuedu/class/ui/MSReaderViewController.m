@@ -48,6 +48,10 @@ CGFloat _cellHeight;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         self.sections = [DataBase getAllSectionsOfBook:self.book];
         self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
+        if ([self.sections count] == 0) {
+            return;
+        }
+        
         NSUInteger indexForJump = 0;
         for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
             Section* section = [self.sections objectAtIndex:indexForJump];
@@ -55,6 +59,9 @@ CGFloat _cellHeight;
                 break;
             }
         }
+        
+        indexForJump = MAX(0, MIN(indexForJump, [self.sections count] - 1));
+        
         self.readingSection = indexForJump;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];

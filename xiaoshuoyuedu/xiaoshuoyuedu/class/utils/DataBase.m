@@ -71,6 +71,9 @@
         bookmark.last_update_time = [resultSet intForColumn:@"last_update_time"];
         [db close];
         return bookmark;
+    } else {
+        [DataBase createDefaultBookMark:book];
+        return [DataBase getDefaultBookmarkForBook:book];
     }
     [db close];
     return nil;
