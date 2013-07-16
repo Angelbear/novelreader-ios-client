@@ -16,7 +16,7 @@
 #import "AppDelegate.h"
 @interface MSReaderViewController ()
 @property(nonatomic, strong) NSMutableArray* sections;
-@property(nonatomic, assign) NSUInteger readingSection;
+@property(nonatomic, strong) Section* currentSection;
 @property(nonatomic, copy) NSArray *filteredSections;
 @property(nonatomic, copy) NSString *currentSearchString;
 @end
@@ -36,7 +36,6 @@ CGFloat _cellHeight;
 
 - (id) init {
     self = [super initWithStyle:UITableViewStylePlain];
-    self.readingSection = 0;
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     _cellHeight = cell.frame.size.height;
     return self;
@@ -56,13 +55,13 @@ CGFloat _cellHeight;
         for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
             Section* section = [self.sections objectAtIndex:indexForJump];
             if (self.bookmark.section_id == section.section_id) {
+                self.currentSection = section;
                 break;
             }
         }
         
         indexForJump = MAX(0, MIN(indexForJump, [self.sections count] - 1));
         
-        self.readingSection = indexForJump;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
             [self transitionToViewController:[self.sections objectAtIndex:indexForJump]];
@@ -73,7 +72,14 @@ CGFloat _cellHeight;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //[self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * self.readingSection)];
+    [self.searchBar sizeToFit];
+    if (self.strongSearchDisplayController.isActive) {
+        NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
+        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+    } else {
+        NSUInteger index = [self.sections indexOfObject:self.currentSection];
+        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+    }
 }
 
 - (void)viewDidLoad
@@ -83,10 +89,11 @@ CGFloat _cellHeight;
     self.currentReaderViewController.delegate = self;
     self.tableView.bounces = NO;
 
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, 44)];
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     self.searchBar.placeholder = @"搜索";
     self.searchBar.delegate = self;
-    
+    [self.searchBar sizeToFit];
+        
     self.strongSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     
     self.strongSearchDisplayController.delegate = self;
@@ -95,6 +102,7 @@ CGFloat _cellHeight;
     
     [self.tableView addSubview:self.searchBar];
     
+
     self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
     self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
 
@@ -151,13 +159,22 @@ CGFloat _cellHeight;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    BOOL current = NO;
     if (tableView == self.strongSearchDisplayController.searchResultsTableView) {
-        return;
+        NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
+        if (index == indexPath.row) {
+            current = YES;
+        }
+    } else {
+        NSUInteger index = [self.sections indexOfObject:self.currentSection];
+        if (index == indexPath.row) {
+            current = YES;
+        }
     }
-    
-    if (self.readingSection == indexPath.row) {
+    if (current) {
         cell.selected = YES;
     } else {
+        cell.selected = NO;
         cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     }
 }
@@ -222,21 +239,22 @@ CGFloat _cellHeight;
     }
     
     [self transitionToViewController:section];
-    self.readingSection = indexPath.row;
-    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
-    self.bookmark.section_id = sec.section_id;
+    self.currentSection = section;
+    self.bookmark.section_id = section.section_id;
     self.bookmark.offset = 0;
     [DataBase updateBookMark:self.bookmark];
-    [self.tableView reloadData];
+    [tableView reloadData];
 }
 
 
 #pragma mark - ChangeSectionDelegate
 - (void) nextSection {
-    if (self.readingSection < [self.sections count] - 1) {
-        self.readingSection ++;
+    NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    if (index < [self.sections count] - 1) {
+        index ++;
     }
-    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
+    Section* sec = (Section*)[self.sections objectAtIndex:index];
+    self.currentSection = sec;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = 0;
     [self transitionToViewController:sec];
@@ -244,10 +262,12 @@ CGFloat _cellHeight;
 }
 
 - (void) prevSection {
-    if (self.readingSection > 0) {
-        self.readingSection --;
+    NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    if (index > 0) {
+        index --;
     }
-    Section* sec = (Section*)[self.sections objectAtIndex:self.readingSection];
+    Section* sec = (Section*)[self.sections objectAtIndex:index];
+    self.currentSection = sec;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = [sec.text length];
     [self transitionToViewController:sec];
@@ -271,10 +291,9 @@ CGFloat _cellHeight;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchString {
     if (searchString.length > 0) { // Should always be the case
         NSArray *sectionsToSearch = self.sections;
-        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0) { // If the new search string starts with the last search string, reuse the already filtered array so searching is faster
+        if (self.currentSearchString.length > 0 && [searchString rangeOfString:self.currentSearchString].location == 0) {
             sectionsToSearch = self.filteredSections;
         }
-        
         self.filteredSections = [sectionsToSearch filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(name contains %@)", searchString]];
     } else {
         self.filteredSections = self.sections;
@@ -282,6 +301,11 @@ CGFloat _cellHeight;
     
     self.currentSearchString = searchString;
     [self.strongSearchDisplayController.searchResultsTableView reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar {
+    NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
 }
 
 @end
