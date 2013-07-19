@@ -9,7 +9,6 @@
 #import "ReaderCacheManager.h"
 
 @implementation ReaderCacheManager
-ReaderCacheManager* _instance;
 
 - (id) init {
     self = [super init];
@@ -20,9 +19,11 @@ ReaderCacheManager* _instance;
 }
 
 + (ReaderCacheManager*) init_instance {
-    if (_instance == nil) {
+    static ReaderCacheManager* _instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _instance = [[ReaderCacheManager alloc] init];
-    }
+    });
     return _instance;
 }
 

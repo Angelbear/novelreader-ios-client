@@ -73,10 +73,39 @@
         WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
         self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
         
+        self.downloadPanel.hidden = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
+        tap.cancelsTouchesInView = NO;
+        [self addGestureRecognizer:tap];
+
         [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;
     }
     return self;
+}
+
+-(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
+    CGPoint touchLocation = [recognizer locationInView:self.textView];
+    if (   touchLocation.x > self.frame.size.width / 3.0f
+        && touchLocation.x < self.frame.size.width * 2.0f / 2.0f
+        && touchLocation.y > self.frame.size.height / 4.0f
+        && touchLocation.y < self.frame.size.height * 3.0f / 4.0f ) {
+        [self toggleShowMenu:recognizer];
+        return;
+    }
+    
+    if (   touchLocation.x > self.frame.size.width * 2.0f / 3.0f
+        && touchLocation.y > self.frame.size.height * 3.0f / 4.0f ) {
+        [self.delegate moveToNextPage];
+        return;
+    }
+    if (   touchLocation.x < self.frame.size.width  / 3.0f
+        && touchLocation.y < self.frame.size.height / 4.0f ) {
+        [self.delegate moveToPrevPage];
+        return;
+    }
+    
 }
 
 - (void) layoutSubviews {
@@ -88,7 +117,7 @@
     self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
 }
 
-- (void)tapOnRefreshButton:(id)sender {
+- (IBAction)tapOnRefreshButton:(id)sender {
     [self.delegate clickRefreshButton:sender];
 }
 

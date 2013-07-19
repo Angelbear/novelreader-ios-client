@@ -31,7 +31,7 @@
 
 - (void) retrieveRankInfo:(NSUInteger) pageNo {
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/category/get_category?page=%d&type=%d&from=%@", SERVER_HOST, pageNo, self.type, self.fromSource];
-    [self loadJSONRequest:searchUrl];
+    [self loadJSONRequest:searchUrl type:NOVEL_DOWNLOAD_TASK_TYPE_SEARCH];
     if (pageNo == 0) {
         [self.refreshControl beginRefreshing];
     }

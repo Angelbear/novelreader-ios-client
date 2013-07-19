@@ -20,6 +20,8 @@
     #define SERVER_HOST NOVEL_SERVER
 #endif
 
+#define MAX_CONCURRENT_REQUEST_NUM 2
+
 #define DATABASE_NAME @"data.db"
 
 #define isRetina ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)

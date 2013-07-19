@@ -9,6 +9,7 @@
 #import "MSReaderViewController.h"
 #import "DataBase.h"
 #import "Bookmark.h"
+#import "Common.h"
 #import "Section.h"
 #import "Book.h"
 #import "SectionReaderTableViewController.h"
@@ -159,24 +160,27 @@ CGFloat _cellHeight;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BOOL current = NO;
+    Section * sec;
+    
     if (tableView == self.strongSearchDisplayController.searchResultsTableView) {
-        NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
-        if (index == indexPath.row) {
-            current = YES;
-        }
+        sec = [self.filteredSections objectAtIndex:indexPath.row];
     } else {
-        NSUInteger index = [self.sections indexOfObject:self.currentSection];
-        if (index == indexPath.row) {
-            current = YES;
-        }
+        sec = [self.sections objectAtIndex:indexPath.row];
     }
-    if (current) {
+    
+    if (self.currentSection == sec) {
         cell.selected = YES;
     } else {
         cell.selected = NO;
         cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     }
+
+    if (sec.text !=nil && [sec.text length] > 0) {
+        cell.imageView.image = [UIImage imageNamed:@"checkmark"];
+    } else {
+        cell.imageView.image = [UIImage imageNamed:@"sync"];
+    }
+
 }
 
 
@@ -198,6 +202,17 @@ CGFloat _cellHeight;
     }
     cell.textLabel.text = sec.name;
     cell.backgroundColor = [UIColor blackColor];
+    
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, sec.from, [URLUtils uri_encode:sec.url]];
+    if ( [[DownloadManager init_instance] queryDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl] != nil) {
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        spinner.frame = CGRectMake(0, 0, 24, 24);
+        cell.accessoryView = spinner;
+        [spinner startAnimating];
+    } else {
+        cell.accessoryView = nil;
+    }
+    
     if (sec.text !=nil && [sec.text length] > 0) {
         cell.imageView.image = [UIImage imageNamed:@"checkmark"];
     } else {
@@ -213,11 +228,7 @@ CGFloat _cellHeight;
     [self.currentReaderViewController setSection:section];
     [self.currentReaderViewController setBookmark:self.bookmark];
     [self.deckViewController closeRightViewAnimated:YES completion:^(IIViewDeckController* controller, BOOL finished) {
-        if (section.text !=nil && [section.text length] > 0) {
-            [self.currentReaderViewController prepareForRead];
-        } else {
-            [self.currentReaderViewController reloadSection];
-        }
+        [self.currentReaderViewController prepareForRead];
     }];   
 }
 
@@ -274,6 +285,17 @@ CGFloat _cellHeight;
     [DataBase updateBookMark:self.bookmark];
 }
 
+- (void) downloadLaterSections {
+    NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    for (;index < [self.sections count]; index++) {
+        Section* section = [self.sections objectAtIndex:index];
+        NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, section.from, [URLUtils uri_encode:section.url]];
+        [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl success:^(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
+            [self.tableView reloadData];
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        }];
+    }
+}
 #pragma mark - Search Delegate
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller

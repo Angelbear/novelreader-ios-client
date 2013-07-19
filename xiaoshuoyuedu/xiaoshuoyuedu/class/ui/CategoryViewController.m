@@ -73,7 +73,7 @@
 
 - (void) retrieveCategoryInfo {
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/category/get_category_info?from=lixiangwenxue", SERVER_HOST];
-    [self loadJSONRequest:searchUrl];
+    [self loadJSONRequest:searchUrl type:NOVEL_DOWNLOAD_TASK_TYPE_SEARCH];
 }
 
 #pragma mark - Table view data source

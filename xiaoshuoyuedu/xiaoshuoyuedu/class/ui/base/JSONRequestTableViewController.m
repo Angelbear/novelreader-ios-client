@@ -8,7 +8,6 @@
 
 #import "JSONRequestTableViewController.h"
 
-
 @interface JSONRequestTableViewController ()
 
 @end
@@ -30,19 +29,12 @@
     _weakReferenceSelf = self;
 }
 
-- (void) loadJSONRequest:(NSString *)searchUrl {
-    NSURL *url = [NSURL URLWithString:searchUrl];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    [request setTimeoutInterval:20.0f];
-    
-    self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        [_weakReferenceSelf success:request withReponse:response data:JSON];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-    {
-        [_weakReferenceSelf failure:request withReponse:response error:error data:JSON];
+- (void) loadJSONRequest:(NSString *)searchUrl type:(NOVEL_DOWNLOAD_TASK_TYPE)type {
+    self.currentOperation = [[DownloadManager init_instance] addDownloadTask:type url:searchUrl success:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
+        [_weakReferenceSelf success:request withReponse:response data:data];
+    } failure:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        [_weakReferenceSelf failure:request withReponse:response error:error data:data];
     }];
-    [self.currentOperation start];
     [self showHUDWithCancel];
 }
 
@@ -50,13 +42,18 @@
     [self.currentOperation cancel];
     [self.HUD setHidden:YES];
 }
+
 - (void)showHUDWithCancel {
-    if (self.navigationController != nil) {
-        self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    if (self.HUD == nil) {
+        if (self.navigationController != nil) {
+            self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        } else {
+            self.HUD = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+        }
+        [self.HUD addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelOperation:)]];
     } else {
-        self.HUD = [MBProgressHUD showHUDAddedTo:self.tableView animated:YES];
+        [self.HUD setHidden:NO];
     }
-    [self.HUD addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelOperation:)]];
 }
 
 

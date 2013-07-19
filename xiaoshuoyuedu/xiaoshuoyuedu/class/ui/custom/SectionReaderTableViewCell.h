@@ -15,6 +15,8 @@
 - (void) clickBacktoBookShelfButton:(id) sender;
 - (void) clickRefreshButton:(id)sender;
 - (void) clickInfoButton:(id)sender;
+- (void) moveToNextPage;
+- (void) moveToPrevPage;
 @end
 
 @interface SectionReaderTableViewCellViewController : UIViewController
@@ -35,6 +37,10 @@
 @property(nonatomic, strong) UIButton* refreshButton;
 @property(nonatomic, strong) UIButton* mirrorButton;
 @property(nonatomic, strong) UIButton* infoButton;
+@property(nonatomic, strong) IBOutlet UIView* downloadPanel;
+@property(nonatomic, strong) IBOutlet UIButton* downloadButton;
+@property(nonatomic, strong) IBOutlet UIButton* downloadLaterButton;
+@property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) toggleShowMenu:(id) sender;

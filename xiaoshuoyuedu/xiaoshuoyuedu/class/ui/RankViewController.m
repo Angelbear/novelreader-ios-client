@@ -87,7 +87,7 @@
 
 - (void) retrieveRankInfo:(NSUInteger) pageNo {
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/rank/get_rank?page=%d&from=lixiangwenxue", SERVER_HOST, pageNo];
-    [self loadJSONRequest:searchUrl];
+    [self loadJSONRequest:searchUrl type:NOVEL_DOWNLOAD_TASK_TYPE_SEARCH];
     if (pageNo == 0) {
         [self.refreshControl beginRefreshing];
     }

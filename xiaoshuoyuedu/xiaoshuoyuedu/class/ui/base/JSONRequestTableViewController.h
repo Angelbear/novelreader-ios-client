@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "DownloadManager.h"
 
 @interface JSONRequestTableViewController : UITableViewController {
     __weak JSONRequestTableViewController* _weakReferenceSelf;
 }
 @property(nonatomic, strong) AFJSONRequestOperation *currentOperation;
 @property(nonatomic, strong) MBProgressHUD* HUD;
-- (void)loadJSONRequest:(NSString*)url;
+- (void) loadJSONRequest:(NSString *)searchUrl  type:(NOVEL_DOWNLOAD_TASK_TYPE)type;
+- (void)showHUDWithCancel;
 - (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON;
 - (void)failure:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response error:(NSError*)error data:(id)JSON;
 @end

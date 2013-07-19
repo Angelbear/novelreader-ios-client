@@ -19,6 +19,7 @@
 #import <WEPopover/WEPopoverController.h>
 #import "FontMenuViewController.h"
 #import "ReaderCacheManager.h"
+#import "DownloadManager.h"
 @interface SectionReaderTableViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
@@ -65,8 +66,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
-    [self.tableView addGestureRecognizer:tap];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.pagingEnabled = YES;
@@ -81,9 +80,7 @@
     
     if (self.section.text !=nil && [self.section.text length] > 0) {
         [self prepareForRead];
-    } else {
-        [self reloadSection];
-    }
+    } 
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,7 +115,12 @@
         section_id++;
         NSString* newPath = [NSString stringWithFormat:@"%@%d.html", [_self.section.url substringToIndex:[_self.section.url rangeOfString:filename options:NSBackwardsSearch].location] , section_id];
        NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:newPath]];
-        [self loadJSONRequest:searchUrl];
+        [_self loadJSONRequest:searchUrl type:NO];
+    } else {
+       if (_self.section.text == nil || _self.section.text.length == 0) {
+           SectionReaderTableViewCell* cell = [[_self.tableView visibleCells] objectAtIndex:0];
+           cell.downloadPanel.hidden = NO;
+       }
     }
 }
 
@@ -130,31 +132,38 @@
         }
         [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
         [self.tableView reloadData];
+        
         NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]];
-        [self loadJSONRequest:searchUrl];
+        [self loadJSONRequest:searchUrl type:NOVEL_DOWNLOAD_TASK_TYPE_SECTION];
     }
 }
 
 - (void) prepareForRead {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceRect = delegate.currentWindow.screen.bounds;
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
-    [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
-            if (cachedInfo) {
-                self.splitInfo = cachedInfo;
-            } else {
-                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
-                [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
-            }
-            _initialized = NO;
-            [self.tableView reloadData];
+    if (self.section != nil && self.section.text != nil && self.section.text.length != 0) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGRect deviceRect = delegate.currentWindow.screen.bounds;
+        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
+        [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+            self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
+                if (cachedInfo) {
+                    self.splitInfo = cachedInfo;
+                } else {
+                    self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
+                    [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
+                }
+                _initialized = NO;
+                [self.tableView reloadData];
+            });
         });
-    });
+    } else {
+        _initialized = NO;
+        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        [self.tableView reloadData];
+    }
 }
 
 - (void) moveToPrevPage {
@@ -179,31 +188,6 @@
     }
 }
 
--(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
-    SectionReaderTableViewCell *cell = (SectionReaderTableViewCell*)[[self.tableView visibleCells] objectAtIndex:0];
-    CGPoint touchLocation = [recognizer locationInView:cell.textView];
-    if (   touchLocation.x > self.contentSize.width / 3.0f
-        && touchLocation.x < self.contentSize.width * 2.0f / 2.0f
-        && touchLocation.y > self.contentSize.height / 4.0f
-        && touchLocation.y < self.contentSize.height * 3.0f / 4.0f ) {
-        [cell toggleShowMenu:recognizer];
-        return;
-    }
-    NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
-    if (   path.row == [self.splitInfo count] - 1
-        && touchLocation.x > self.contentSize.width * 2.0f / 3.0f
-        && touchLocation.y > self.contentSize.height * 3.0f / 4.0f ) {
-        [self.delegate nextSection];
-        return;
-    }
-    if (   path.row == 0
-        && touchLocation.x < self.contentSize.width  / 3.0f
-        && touchLocation.y < self.contentSize.height / 4.0f ) {
-        [self.delegate prevSection];
-        return;
-    }
-    
-}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     if([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
@@ -301,22 +285,29 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (!_initialized) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-            NSUInteger indexForJump = 0;
-            for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
-                if (self.bookmark.offset < [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
-                    indexForJump --;
-                    break;
+        if (self.section != nil && self.section.text!=nil && [self.section.text length] > 0) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+                NSUInteger indexForJump = 0;
+                for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
+                    if (self.bookmark.offset < [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
+                        indexForJump --;
+                        break;
+                    }
                 }
-            }
-            AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-            CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * delegate.currentWindow.screen.bounds.size.height;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                CGFloat height = MIN(indexForJump, [self.splitInfo count] - 1) * delegate.currentWindow.screen.bounds.size.height;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView setContentOffset:CGPointMake(0.0f, height) animated:NO];
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                });
+               _initialized = YES;
             });
-           _initialized = YES;
-        });
+        } else {
+            SectionReaderTableViewCell* readerCell = (SectionReaderTableViewCell*)cell;
+            readerCell.textView.text = @"";
+            readerCell.downloadPanel.hidden = NO;
+            _initialized = YES;
+        }
     }
 }
 
