@@ -14,6 +14,14 @@
 #import <CoreText/CoreText.h>
 #import "WindowSelectViewController.h"
 @implementation SectionReaderTableViewCellViewController
+
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    self.cellView.frame = deviceFrame;
+    self.cellView.content.frame = deviceFrame;
+}
+
 @end
 
 @implementation SectionReaderTableViewCell
@@ -64,7 +72,10 @@
         self.textView.textAlignment = NSTextAlignmentLeft;
         self.textView.userInteractionEnabled = NO;
         
-        [self addSubview:self.textView];
+        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 32.0f, deviceFrame.size.width, deviceFrame.size.height - 47.0f)];
+        self.textLabelView.userInteractionEnabled = NO;
+        
+        [self addSubview:self.textLabelView];
         [self addSubview:self.fontButton];
         [self addSubview:self.refreshButton];
         [self addSubview:self.mirrorButton];
@@ -75,9 +86,11 @@
         
         self.downloadPanel.hidden = YES;
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
-        tap.cancelsTouchesInView = NO;
-        [self addGestureRecognizer:tap];
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
+        self.tapRecognizer.cancelsTouchesInView = NO;
+        [self addGestureRecognizer:self.tapRecognizer];
+        
+        [self bringSubviewToFront:self.downloadPanel];
 
         [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;
@@ -86,9 +99,9 @@
 }
 
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
-    CGPoint touchLocation = [recognizer locationInView:self.textView];
+    CGPoint touchLocation = [recognizer locationInView:self.textLabelView];
     if (   touchLocation.x > self.frame.size.width / 3.0f
-        && touchLocation.x < self.frame.size.width * 2.0f / 2.0f
+        && touchLocation.x < self.frame.size.width * 2.0f / 3.0f
         && touchLocation.y > self.frame.size.height / 4.0f
         && touchLocation.y < self.frame.size.height * 3.0f / 4.0f ) {
         [self toggleShowMenu:recognizer];
@@ -108,6 +121,18 @@
     
 }
 
+- (void) setNovelText:(NSString*)text {
+    if (text == nil || [text length] == 0) {
+        self.downloadPanel.hidden = NO;
+        [self removeGestureRecognizer:self.tapRecognizer];
+    } else {
+        self.downloadPanel.hidden = YES;
+        [self addGestureRecognizer:self.tapRecognizer];
+    }
+    [self.textLabelView setText:text];
+    //self.textView.text = text;
+}
+
 - (void) layoutSubviews {
     [super layoutSubviews];
     NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -119,6 +144,10 @@
 
 - (IBAction)tapOnRefreshButton:(id)sender {
     [self.delegate clickRefreshButton:sender];
+}
+
+- (IBAction)tapOnDownloadLaterButton:(id)sender {
+    [self.delegate clickDownloadLaterButton:sender];
 }
 
 - (void)tapOnFontSelectButton:(id)sender {
@@ -151,13 +180,6 @@
         self.infoButton.hidden = YES;
         //self.mirrorButton.hidden = YES;
     }
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

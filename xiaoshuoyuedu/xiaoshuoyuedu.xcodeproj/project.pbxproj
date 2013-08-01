@@ -67,6 +67,7 @@
 		B4589461178BFE73004A5495 /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945C178BFE73004A5495 /* SearchBookViewController.xib */; };
 		B4589462178BFE73004A5495 /* SectionReaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945D178BFE73004A5495 /* SectionReaderTableViewCell.xib */; };
 		B4589466178BFF2A004A5495 /* SectionReaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */; };
+		B46213A217A8F3D800B8A9DF /* YLLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B46213A117A8F3D800B8A9DF /* YLLabel.m */; };
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
 		B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */; };
@@ -173,7 +174,7 @@
 		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B431887417953759007E84DF /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		B431887517953759007E84DF /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		B431888917955D32007E84DF /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libPods-xiaoshuoyuedu.a"; path = "Pods/build/Release-iphoneos/libPods-xiaoshuoyuedu.a"; sourceTree = "<group>"; };
+		B431888917955D32007E84DF /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-xiaoshuoyuedu.a"; path = "Pods/build/Release-iphoneos/libPods-xiaoshuoyuedu.a"; sourceTree = "<group>"; };
 		B43CC70A1780265A009BFA2E /* BelowBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BelowBottomView.h; sourceTree = "<group>"; };
 		B43CC70B1780265A009BFA2E /* BelowBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BelowBottomView.m; sourceTree = "<group>"; };
 		B43CC70C1780265A009BFA2E /* BookShelfCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfCellView.h; sourceTree = "<group>"; };
@@ -231,6 +232,8 @@
 		B458945D178BFE73004A5495 /* SectionReaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionReaderTableViewCell.xib; sourceTree = "<group>"; };
 		B4589464178BFF2A004A5495 /* SectionReaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionReaderTableViewCell.h; sourceTree = "<group>"; };
 		B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionReaderTableViewCell.m; sourceTree = "<group>"; };
+		B46213A017A8F3D800B8A9DF /* YLLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLabel.h; sourceTree = "<group>"; };
+		B46213A117A8F3D800B8A9DF /* YLLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLabel.m; sourceTree = "<group>"; };
 		B46EC4E1177C6B3400C6873B /* CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryViewController.h; sourceTree = "<group>"; };
 		B46EC4E2177C6B3400C6873B /* CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryViewController.m; sourceTree = "<group>"; };
 		B46EC4E6177C6EA800C6873B /* CategoryResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryResultViewController.h; sourceTree = "<group>"; };
@@ -494,6 +497,8 @@
 		B4589463178BFF05004A5495 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				B46213A017A8F3D800B8A9DF /* YLLabel.h */,
+				B46213A117A8F3D800B8A9DF /* YLLabel.m */,
 				B40B3C90178E574E000A8C6A /* WindowSelectViewController.h */,
 				B40B3C91178E574E000A8C6A /* WindowSelectViewController.m */,
 				B4589464178BFF2A004A5495 /* SectionReaderTableViewCell.h */,
@@ -979,6 +984,7 @@
 				B40B3C92178E574E000A8C6A /* WindowSelectViewController.m in Sources */,
 				B40B3C97178E642E000A8C6A /* RemoteControlViewController.m in Sources */,
 				B431887617953759007E84DF /* DownloadManager.m in Sources */,
+				B46213A217A8F3D800B8A9DF /* YLLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

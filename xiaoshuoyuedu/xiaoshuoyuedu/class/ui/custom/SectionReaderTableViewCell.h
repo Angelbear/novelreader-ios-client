@@ -8,19 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "FontMenuViewController.h"
-
+#import "YLLabel.h"
 @class WEPopoverController;
 @protocol SectionReaderMenuDelegate <NSObject>
 - (void) clickFontMenuButton:(id) sender;
 - (void) clickBacktoBookShelfButton:(id) sender;
 - (void) clickRefreshButton:(id)sender;
+- (void) clickDownloadLaterButton:(id)sender;
 - (void) clickInfoButton:(id)sender;
 - (void) moveToNextPage;
 - (void) moveToPrevPage;
-@end
-
-@interface SectionReaderTableViewCellViewController : UIViewController
-
 @end
 
 @interface SectionReaderTableViewCell : UITableViewCell
@@ -28,8 +25,9 @@
     BOOL _menuMode;
 }
 @property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
-@property(nonatomic, strong) IBOutlet UIView* contentView;
+@property(nonatomic, strong) IBOutlet UIView* content;
 @property(nonatomic, strong) UITextView* textView;
+@property(nonatomic, strong) YLLabel* textLabelView;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
@@ -43,5 +41,10 @@
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
+- (void) setNovelText:(NSString*)text;
 - (void) toggleShowMenu:(id) sender;
+@end
+
+@interface SectionReaderTableViewCellViewController : UIViewController
+@property(nonatomic, strong) IBOutlet SectionReaderTableViewCell* cellView;
 @end

@@ -9,6 +9,7 @@
 #import "FontUtils.h"
 #import <CoreText/CoreText.h>
 #import "UITextView+Dimensions.h"
+#import "Common.h"
 
 @implementation FontUtils
 
@@ -40,6 +41,53 @@
 #define kGapFactor 8.0
 #define kMaxFieldHeight 9999.0
 
++ (CGFloat)stringSize:(NSString*)text font:(UIFont*)_font atWidth:(CGFloat)width
+{
+    NSMutableAttributedString* _string = [[NSMutableAttributedString alloc] initWithString:text];
+    CTTextAlignment alignment = kCTJustifiedTextAlignment;
+    
+    CGFloat paragraphSpacing = 0.0;
+    CGFloat paragraphSpacingBefore = 0.0;
+    CGFloat firstLineHeadIndent = 0.0;
+    CGFloat headIndent = 0.0;
+    
+    CTParagraphStyleSetting settings[] =
+    {
+        {kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
+        {kCTParagraphStyleSpecifierFirstLineHeadIndent, sizeof(CGFloat), &firstLineHeadIndent},
+        {kCTParagraphStyleSpecifierHeadIndent, sizeof(CGFloat), &headIndent},
+        {kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpacing},
+        {kCTParagraphStyleSpecifierParagraphSpacingBefore, sizeof(CGFloat), &paragraphSpacingBefore},
+    };
+    
+    CTParagraphStyleRef style;
+    style = CTParagraphStyleCreate(settings, sizeof(settings)/sizeof(CTParagraphStyleSetting));
+    
+    if (NULL == style) {
+        // error...
+        return 0.0;
+    }
+    
+    [_string addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:(__bridge NSObject*)style, (NSString*)kCTParagraphStyleAttributeName, nil]
+                     range:NSMakeRange(0, [_string length])];
+    
+    CFRelease(style);
+    
+    if (nil == _font) {
+        _font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE];
+    }
+    
+    CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)_font.fontName, _font.pointSize, NULL);
+    [_string addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:(__bridge NSObject*)fontRef, (NSString*)kCTFontAttributeName, nil]
+                     range:NSMakeRange(0, [_string length])];
+
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)_string);
+    CGSize targetSize = CGSizeMake(width - 16.0f, CGFLOAT_MAX);
+    CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [_string length]), NULL, targetSize, NULL);
+    CFRelease(framesetter);
+    return fitSize.height;
+}
+
 // recursive method called by the main API
 + (CFRange) sizeStringToFit:(NSString*)aString min:(int)aMin max:(int)aMax size:(CGSize)size font:(UIFont*)font
 {
@@ -50,12 +98,10 @@
     
     int mean = (aMin + aMax)/2;
     NSString* subString = [aString substringToIndex:mean];
-    
-    //CGSize tallerSize = CGSizeMake(size.width - kFudgeFactor ,kMaxFieldHeight);
-    //CGSize stringSize = [subString sizeWithFont:font constrainedToSize:tallerSize];
+
     CGFloat height = [UITextView heightWithText:subString font:font atWidth:size.width];
     
-    if (height <= size.height - kGapFactor)
+    if (height <= size.height + kGapFactor)
         return [FontUtils sizeStringToFit:aString min:mean max:aMax size:size font:font]; // too small
     else
         return [FontUtils sizeStringToFit:aString min:aMin max:mean size:size font:font];// too big
@@ -64,12 +110,10 @@
  + (CFRange)sizeStringToFit:(NSString*)aString size:(CGSize)size font:(UIFont*)font range:(CFRange)range
 {
     NSString* subString = [aString substringWithRange:NSMakeRange(range.location, range.length)];
-    //CGSize tallerSize = CGSizeMake(size.width - kFudgeFactor, kMaxFieldHeight);
-    //CGSize stringSize = [subString sizeWithFont:font constrainedToSize:tallerSize];
-     CGFloat height = [UITextView heightWithText:subString font:font atWidth:size.width];
+    CGFloat height = [UITextView heightWithText:subString font:font atWidth:size.width];
     
     // if it fits, just return
-    if (height < size.height - kGapFactor)
+    if (height < size.height + kGapFactor)
         return CFRangeMake(range.location, range.length);
     
     // too big - call the recursive method to size it
@@ -101,7 +145,6 @@
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
     NSUInteger prediect_columns = (int)(size.width / test_size.width);
-    //NSUInteger prediect_rows = (int)(size.height / test_size.height);
     CGFloat height = size.height;
     CFRange r = {0, 0};
     NSInteger str_len = [string length];
@@ -119,7 +162,8 @@
             if (r.location + count > str_len) {
                 break;
             }
-            calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+            calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+            //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
             calcAPICallNum ++;
         } while ( calcHeight < height );
         
@@ -127,13 +171,15 @@
             count = str_len - r.location;
         }
         
-        calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+        calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+        //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
         calcAPICallNum ++;
         
         if (calcHeight > height) {            
             do {
                 count--;
-                calcHeight = [UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+                calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
+                //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
                 calcAPICallNum ++;
             } while (calcHeight > height);
         }

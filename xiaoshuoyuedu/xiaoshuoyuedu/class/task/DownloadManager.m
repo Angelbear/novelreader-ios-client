@@ -19,6 +19,7 @@
     if (self) {
         _client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", SERVER_HOST]]];
         [_client.operationQueue setMaxConcurrentOperationCount: MAX_CONCURRENT_REQUEST_NUM];
+        [_client setDefaultHeader:@"User-Agent" value:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3"];
     }
     return self;
 }
@@ -53,10 +54,9 @@
     return NO;
 }
 
-- (AFJSONRequestOperation*) addDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE) type url:(NSString*)url success:(DownloadSuccessBlock)blockSuccess failure:(DownloadFailureBlock)blockFailure {
+- (AFJSONRequestOperation*) addDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE) type url:(NSString*)url piority:(NSOperationQueuePriority)piority success:(DownloadSuccessBlock)blockSuccess failure:(DownloadFailureBlock)blockFailure {
     NSURL *uri = [NSURL URLWithString:url];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:uri];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
     [request setTimeoutInterval:20.0f];
     
     if ([self queryDownloadTask:type url:url] != nil) {
@@ -73,6 +73,7 @@
             blockFailure(request, response, JSON, error);
         }
     }];
+    [currentOperation setQueuePriority:piority];
     [_client enqueueHTTPRequestOperation:currentOperation];
     return currentOperation;
 }

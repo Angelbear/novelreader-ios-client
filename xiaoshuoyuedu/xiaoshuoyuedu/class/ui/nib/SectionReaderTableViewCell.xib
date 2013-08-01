@@ -272,14 +272,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">contentView</string>
-						<reference key="source" ref="226666999"/>
-						<reference key="destination" ref="33659494"/>
-					</object>
-					<int key="connectionID">624</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">downloadButton</string>
 						<reference key="source" ref="226666999"/>
 						<reference key="destination" ref="543295531"/>
@@ -303,6 +295,14 @@
 					<int key="connectionID">771</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">content</string>
+						<reference key="source" ref="226666999"/>
+						<reference key="destination" ref="33659494"/>
+					</object>
+					<int key="connectionID">774</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">tapOnRefreshButton:</string>
 						<reference key="source" ref="543295531"/>
@@ -310,6 +310,15 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">650</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">tapOnDownloadLaterButton:</string>
+						<reference key="source" ref="871806059"/>
+						<reference key="destination" ref="226666999"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">772</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1030,7 +1039,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">771</int>
+			<int key="maxID">774</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1053,19 +1062,22 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SectionReaderTableViewCell</string>
 					<string key="superclassName">UITableViewCell</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">tapOnRefreshButton:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">tapOnRefreshButton:</string>
-						<object class="IBActionInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="tapOnDownloadLaterButton:">id</string>
+						<string key="tapOnRefreshButton:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="tapOnDownloadLaterButton:">
+							<string key="name">tapOnDownloadLaterButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnRefreshButton:">
 							<string key="name">tapOnRefreshButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-					</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="contentView">UIView</string>
+						<string key="content">UIView</string>
 						<string key="downloadButton">UIButton</string>
 						<string key="downloadLaterButton">UIButton</string>
 						<string key="downloadPanel">UIView</string>
@@ -1074,8 +1086,8 @@
 						<string key="timeView">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="contentView">
-							<string key="name">contentView</string>
+						<object class="IBToOneOutletInfo" key="content">
+							<string key="name">content</string>
 							<string key="candidateClassName">UIView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="downloadButton">

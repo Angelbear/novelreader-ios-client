@@ -30,7 +30,7 @@
 }
 
 - (void) loadJSONRequest:(NSString *)searchUrl type:(NOVEL_DOWNLOAD_TASK_TYPE)type {
-    self.currentOperation = [[DownloadManager init_instance] addDownloadTask:type url:searchUrl success:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
+    self.currentOperation = [[DownloadManager init_instance] addDownloadTask:type url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
         [_weakReferenceSelf success:request withReponse:response data:data];
     } failure:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
         [_weakReferenceSelf failure:request withReponse:response error:error data:data];

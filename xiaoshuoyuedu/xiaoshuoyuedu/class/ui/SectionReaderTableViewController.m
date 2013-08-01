@@ -42,7 +42,7 @@
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceRect = delegate.currentWindow.screen.bounds;
     _initialized = NO;
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 47.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-size"] != nil) {
         _fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
@@ -119,7 +119,7 @@
     } else {
        if (_self.section.text == nil || _self.section.text.length == 0) {
            SectionReaderTableViewCell* cell = [[_self.tableView visibleCells] objectAtIndex:0];
-           cell.downloadPanel.hidden = NO;
+           [cell setNovelText:@""];
        }
     }
 }
@@ -143,7 +143,7 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceRect = delegate.currentWindow.screen.bounds;
-        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
+        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 47.0f);
         [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
@@ -235,6 +235,11 @@
     [self reloadSection];
 }
 
+- (void) clickDownloadLaterButton:(id)sender {
+    [self reloadSection];
+    [self.delegate downloadLaterSections];
+}
+
 - (void) clickFontMenuButton:(id) sender {
     FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
     fontMenuViewController.delegate = self;
@@ -304,8 +309,7 @@
             });
         } else {
             SectionReaderTableViewCell* readerCell = (SectionReaderTableViewCell*)cell;
-            readerCell.textView.text = @"";
-            readerCell.downloadPanel.hidden = NO;
+            [readerCell setNovelText:@""];
             _initialized = YES;
         }
     }
@@ -335,12 +339,14 @@
      }
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
     
-    cell.contentView.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
-    cell.textView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
-    cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
+    cell.content.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
+    //cell.textView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
+    //cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
+    cell.textLabelView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
+    cell.textLabelView.font = [UIFont fontWithName:_fontName size:_fontSize];
     
     if (self.section.text != nil && self.section.text.length > 0) {
-        [cell.textView setText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
+        [cell setNovelText:[self.section.text substringWithRange:NSMakeRange([[split objectAtIndex:0] intValue], [[split objectAtIndex:1] intValue])]];
     }
     cell.labelView.text = self.section.name;
     cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];

@@ -286,15 +286,24 @@ CGFloat _cellHeight;
 }
 
 - (void) downloadLaterSections {
-    NSUInteger index = [self.sections indexOfObject:self.currentSection];
-    for (;index < [self.sections count]; index++) {
-        Section* section = [self.sections objectAtIndex:index];
-        NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, section.from, [URLUtils uri_encode:section.url]];
-        [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl success:^(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
-            [self.tableView reloadData];
-        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
-        }];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSUInteger index = [self.sections indexOfObject:self.currentSection];
+        index++;
+        for (;index < [self.sections count]; index++) {
+            __block Section* section = [self.sections objectAtIndex:index];
+            if (section.text == nil || section.text.length == 0) {
+                NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, section.from, [URLUtils uri_encode:section.url]];
+                [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl piority:NSOperationQueuePriorityLow success:^(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
+                    if (data != nil) {
+                        section.text = [data objectForKey:@"text"];
+                        [DataBase updateSection:section];
+                        [self.tableView reloadData];
+                    }
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+                }];
+            }
+        }
+    });
 }
 #pragma mark - Search Delegate
 

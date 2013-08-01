@@ -27,5 +27,5 @@ typedef void (^DownloadFailureBlock)(NSURLRequest *request, NSHTTPURLResponse *r
 + (DownloadManager*) init_instance;
 - (AFJSONRequestOperation*) queryDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE) type url:(NSString*) url;
 - (BOOL) cancelDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE) type url:(NSString*) url;
-- (AFJSONRequestOperation*) addDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE)type url:(NSString*)url success:(DownloadSuccessBlock)blockSuccess failure:(DownloadFailureBlock)blockFailure;
+- (AFJSONRequestOperation*) addDownloadTask:(NOVEL_DOWNLOAD_TASK_TYPE) type url:(NSString*)url piority:(NSOperationQueuePriority)piority success:(DownloadSuccessBlock)blockSuccess failure:(DownloadFailureBlock)blockFailure;
 @end
