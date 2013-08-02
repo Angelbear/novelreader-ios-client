@@ -1,0 +1,3 @@
+/* Localized versions of Info.plist keys */
+CFBundleName = "小説リーダー";
+CFBundleDisplayName = "小説リーダー";

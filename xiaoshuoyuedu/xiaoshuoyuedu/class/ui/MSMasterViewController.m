@@ -96,11 +96,11 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 {
     self.paneViewControllerType = NSUIntegerMax;
     self.paneViewControllerTitles = @{
-        @(MSPaneViewControllerTypeBookShelf) : @"书架",
-        @(MSPaneViewControllerTypeRank) : @"排行榜",
-        @(MSPaneViewControllerTypeCategory) : @"类别",
-        @(MSPaneViewControllerTypeSearch) : @"搜索",
-        @(MSPaneViewControllerTypeMore) : @"更多",
+        @(MSPaneViewControllerTypeBookShelf) : NSLocalizedString(@"bookshelf",@""),
+        @(MSPaneViewControllerTypeRank) : NSLocalizedString(@"rank",@""),
+        @(MSPaneViewControllerTypeCategory) : NSLocalizedString(@"category",@""),
+        @(MSPaneViewControllerTypeSearch) : NSLocalizedString(@"search",@""),
+        @(MSPaneViewControllerTypeMore) : NSLocalizedString(@"more",@""),
     };
     self.paneViewControllerClasses = @{
         @(MSPaneViewControllerTypeBookShelf) : BookShelfViewController.class,
@@ -111,9 +111,9 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     };
 
     self.sectionTitles = @{
-        @(MSMasterViewControllerTableViewSectionTypeLocal) : @"本地",
-        @(MSMasterViewControllerTableViewSectionTypeList) : @"列表",
-        @(MSMasterViewControllerTableViewSectionTypeMore) : @"其他",
+        @(MSMasterViewControllerTableViewSectionTypeLocal) : NSLocalizedString(@"local",@""),
+        @(MSMasterViewControllerTableViewSectionTypeList) : NSLocalizedString(@"list",@""),
+        @(MSMasterViewControllerTableViewSectionTypeMore) : NSLocalizedString(@"else",@""),
     };
     
     self.tableViewSectionBreaks = @[
