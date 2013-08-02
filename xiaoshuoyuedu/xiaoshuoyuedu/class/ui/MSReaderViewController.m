@@ -14,7 +14,9 @@
 #import "Book.h"
 #import "SectionReaderTableViewController.h"
 #import <ViewDeck/IIViewDeckController.h>
+#import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
+
 @interface MSReaderViewController ()
 @property(nonatomic, strong) NSMutableArray* sections;
 @property(nonatomic, strong) Section* currentSection;

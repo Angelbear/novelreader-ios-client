@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MSNavigationPaneViewController+iBooksOpen.h"
+#import "BookView.h"
 #import "IIViewDeckController.h"
 #import "RemoteControlViewController.h"
 

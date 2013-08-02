@@ -8,34 +8,9 @@
 
 #import "FontUtils.h"
 #import <CoreText/CoreText.h>
-#import "UITextView+Dimensions.h"
 #import "Common.h"
 
 @implementation FontUtils
-
-/*
-+ (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font
-{
-    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
-    CTFontRef fnt = CTFontCreateWithName((__bridge CFStringRef)font.fontName, font.pointSize,NULL);
-    CFAttributedStringRef str = CFAttributedStringCreate(kCFAllocatorDefault,
-                                                         (CFStringRef)string,
-                                                         (CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:(__bridge id)fnt,kCTFontAttributeName,nil]);
-    CTFramesetterRef fs = CTFramesetterCreateWithAttributedString(str);
-    CFRange r = {0,0};
-    CFRange res = {0,0};
-    size.height -= [font lineHeight];
-    NSInteger str_len = [string length];
-    do {
-        CTFramesetterSuggestFrameSizeWithConstraints(fs,r, NULL, size, &res);
-        [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:res.length], nil]];
-        r.location += res.length;
-    } while(r.location < str_len);
-    CFRelease(fs);
-    CFRelease(str);
-    CFRelease(fnt);
-    return result;
-}*/
 
 #define kFudgeFactor 16.0
 #define kGapFactor 8.0
@@ -87,57 +62,6 @@
     CFRelease(framesetter);
     return fitSize.height;
 }
-
-// recursive method called by the main API
-+ (CFRange) sizeStringToFit:(NSString*)aString min:(int)aMin max:(int)aMax size:(CGSize)size font:(UIFont*)font
-{
-    if ((aMax-aMin) <= 1)
-	{
-        return CFRangeMake(0,   aMax);
-	}
-    
-    int mean = (aMin + aMax)/2;
-    NSString* subString = [aString substringToIndex:mean];
-
-    CGFloat height = [UITextView heightWithText:subString font:font atWidth:size.width];
-    
-    if (height <= size.height + kGapFactor)
-        return [FontUtils sizeStringToFit:aString min:mean max:aMax size:size font:font]; // too small
-    else
-        return [FontUtils sizeStringToFit:aString min:aMin max:mean size:size font:font];// too big
-}
-
- + (CFRange)sizeStringToFit:(NSString*)aString size:(CGSize)size font:(UIFont*)font range:(CFRange)range
-{
-    NSString* subString = [aString substringWithRange:NSMakeRange(range.location, range.length)];
-    CGFloat height = [UITextView heightWithText:subString font:font atWidth:size.width];
-    
-    // if it fits, just return
-    if (height < size.height + kGapFactor)
-        return CFRangeMake(range.location, range.length);
-    
-    // too big - call the recursive method to size it
-    CFRange calcRange = [FontUtils sizeStringToFit:aString min:0 max:[subString length] size:size font:font];
-    return CFRangeMake(range.location, calcRange.length);
-}
- 
-+ (NSArray*) findPageSplits2:(NSString*)string size:(CGSize)size font:(UIFont*)font {
-    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
-    NSInteger str_len = [string length];
-    CFRange r = {0, str_len};
-    do {
-        while (r.location < str_len && [string characterAtIndex:r.location] == '\n') {
-            r.location ++;
-            r.length --;
-        }
-        CFRange q = [FontUtils sizeStringToFit:string size:size font:font range:r];
-        [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:q.location], [NSNumber numberWithInt:q.length], nil]];
-        r.location = q.location + q.length;
-        r.length = str_len - r.location;
-    } while (r.location < str_len);
-    return result;
-}
-
 
 #define TEST_CHINISE_CHARACTER @"永"
 

@@ -11,8 +11,8 @@
 #import "MSMasterViewController.h"
 #import "DataBase.h"
 #import "Book.h"
+#import "BookView.h"
 #import "MSReaderViewController.h"
-#import "MSNavigationPaneViewController+iBooksOpen.h"
 #import "SectionReaderTableViewController.h"
 #import <ViewDeck/IISideController.h>
 #import "Common.h"

@@ -20,6 +20,7 @@
 #import "FontMenuViewController.h"
 #import "ReaderCacheManager.h"
 #import "DownloadManager.h"
+#import <QuartzCore/QuartzCore.h>
 @interface SectionReaderTableViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;

@@ -15,7 +15,6 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "AppDelegate.h"
 #import <QuartzCore/QuartzCore.h>
-#import "MyCellView.h"
 #import "BookView.h"
 #import "BookShelfCellView.h"
 #import "BelowBottomView.h"
