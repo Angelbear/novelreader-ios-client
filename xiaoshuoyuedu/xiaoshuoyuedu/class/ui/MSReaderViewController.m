@@ -274,7 +274,7 @@ CGFloat _cellHeight;
     [DataBase updateBookMark:self.bookmark];
 }
 
-- (void) prevSection {
+- (void) prevSectionEnd {
     NSUInteger index = [self.sections indexOfObject:self.currentSection];
     if (index > 0) {
         index --;
@@ -283,6 +283,19 @@ CGFloat _cellHeight;
     self.currentSection = sec;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = [sec.text length];
+    [self transitionToViewController:sec];
+    [DataBase updateBookMark:self.bookmark];
+}
+
+- (void) prevSectionBegin {
+    NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    if (index > 0) {
+        index --;
+    }
+    Section* sec = (Section*)[self.sections objectAtIndex:index];
+    self.currentSection = sec;
+    self.bookmark.section_id = sec.section_id;
+    self.bookmark.offset = 0;
     [self transitionToViewController:sec];
     [DataBase updateBookMark:self.bookmark];
 }

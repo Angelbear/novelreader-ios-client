@@ -20,6 +20,8 @@
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.cellView.frame = deviceFrame;
     self.cellView.content.frame = deviceFrame;
+    
+    
 }
 
 @end
@@ -35,34 +37,7 @@
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
         self.contentView.frame = deviceFrame;
-        
-        self.fontButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.fontButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 40, self.frame.origin.y, 32.0f, 32.0f);
-        [self.fontButton setImage:[UIImage imageNamed:@"AAglyp"] forState:UIControlStateNormal];
-        [self.fontButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.fontButton addTarget:self action:@selector(tapOnFontSelectButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.fontButton.hidden = YES;
-        
-        self.refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.refreshButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 72, self.frame.origin.y, 32.0f, 32.0f);
-        [self.refreshButton setImage:[UIImage imageNamed:@"sync_btn"] forState:UIControlStateNormal];
-        [self.refreshButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.refreshButton addTarget:self action:@selector(tapOnRefreshButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.refreshButton.hidden = YES;
-    
-        self.infoButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-        self.infoButton.backgroundColor = [UIColor clearColor];
-        self.infoButton.frame = CGRectMake(self.frame.origin.x + deviceFrame.size.width - 104, self.frame.origin.y, 32.0f, 32.0f);
-        [self.infoButton addTarget:self action:@selector(tapOnInfoButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.infoButton.hidden = YES;
-        
-        self.mirrorButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.mirrorButton.frame = CGRectMake(self.frame.origin.x + 20.0f, self.frame.origin.y, 32.0f, 32.0f);
-        [self.mirrorButton setImage:[UIImage imageNamed:@"airplay"] forState:UIControlStateNormal];
-        [self.mirrorButton.imageView setContentMode:UIViewContentModeScaleAspectFit];
-        [self.mirrorButton addTarget:self action:@selector(tapOnAirMirrorButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.mirrorButton.hidden = YES;
-        
+
         self.textView = [[UITextView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
         self.textView.editable = NO;
         self.textView.userInteractionEnabled = NO;
@@ -72,14 +47,16 @@
         self.textView.textAlignment = NSTextAlignmentLeft;
         self.textView.userInteractionEnabled = NO;
         
-        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 32.0f, deviceFrame.size.width, deviceFrame.size.height - 47.0f)];
+        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
         self.textLabelView.userInteractionEnabled = NO;
         
-        [self addSubview:self.textLabelView];
-        [self addSubview:self.fontButton];
-        [self addSubview:self.refreshButton];
-        [self addSubview:self.mirrorButton];
-        [self addSubview:self.infoButton];
+        [self addSubview:self.textLabelView];    
+        
+        self.dropDownMenuView.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuView.hidden = YES;
+        self.fontButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.mirrorButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self addSubview:self.dropDownMenuView];
         
         WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
         self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
@@ -88,6 +65,7 @@
         
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
         self.tapRecognizer.cancelsTouchesInView = NO;
+        self.tapRecognizer.delegate = self;
         [self addGestureRecognizer:self.tapRecognizer];
         
         [self bringSubviewToFront:self.downloadPanel];
@@ -97,6 +75,14 @@
     }
     return self;
 }
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UIButton class]]) {
+        return NO;
+    }
+    return YES;
+}
+
 
 -(void) didTapOnTableView:(UIGestureRecognizer*) recognizer {
     CGPoint touchLocation = [recognizer locationInView:self.textLabelView];
@@ -124,13 +110,10 @@
 - (void) setNovelText:(NSString*)text {
     if (text == nil || [text length] == 0) {
         self.downloadPanel.hidden = NO;
-        [self removeGestureRecognizer:self.tapRecognizer];
     } else {
         self.downloadPanel.hidden = YES;
-        [self addGestureRecognizer:self.tapRecognizer];
     }
     [self.textLabelView setText:text];
-    //self.textView.text = text;
 }
 
 - (void) layoutSubviews {
@@ -150,8 +133,17 @@
     [self.delegate clickDownloadLaterButton:sender];
 }
 
-- (void)tapOnFontSelectButton:(id)sender {
+- (IBAction)tapOnFontSelectButton:(id)sender {
     [self.delegate clickFontMenuButton:sender];
+}
+
+
+- (IBAction)tapOnNextButton:(id)sender {
+    [self.delegate moveToNextSection];
+}
+
+- (IBAction)tapOnPrevButton:(id)sender {
+    [self.delegate moveToPrevSection];
 }
 
 - (void)tapOnInfoButton:(id)sender {
@@ -165,20 +157,44 @@
     [self.popup presentPopoverFromRect:view.frame inView:self permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
+
+- (void) showMenu:(BOOL)state {
+    _menuMode = state;
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+    if (_menuMode) {
+        self.dropDownMenuView.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuView.hidden = NO;
+    } else {
+        self.dropDownMenuView.hidden = YES;
+        self.dropDownMenuView.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+    }
+}
+
 - (void) toggleShowMenu:(id) sender {
     _menuMode = !_menuMode;
+    [self.delegate toggleMenuState:_menuMode];
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     if (_menuMode) {
-        self.labelView.hidden = YES;
-        self.fontButton.hidden = NO;
-        self.refreshButton.hidden = NO;
-        self.infoButton.hidden = NO;
-        //self.mirrorButton.hidden = NO;
+        self.dropDownMenuView.hidden = NO;
+        [UIView animateWithDuration:0.3f
+                              delay:0.0f
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+            self.dropDownMenuView.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
+        } completion:^(BOOL finished) {
+            
+        }];
     } else {
-        self.labelView.hidden = NO;
-        self.fontButton.hidden = YES;
-        self.refreshButton.hidden = YES;
-        self.infoButton.hidden = YES;
-        //self.mirrorButton.hidden = YES;
+        [UIView animateWithDuration:0.3f
+                              delay:0.0f
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+            self.dropDownMenuView.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        } completion:^(BOOL finished) {
+            self.dropDownMenuView.hidden = YES;
+        }];
     }
 }
 

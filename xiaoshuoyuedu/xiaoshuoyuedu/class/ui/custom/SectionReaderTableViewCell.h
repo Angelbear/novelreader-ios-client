@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "FontMenuViewController.h"
 #import "YLLabel.h"
+#import <QBKOverlayMenuView/QBKOverlayMenuView.h>
+
 @class WEPopoverController;
 @protocol SectionReaderMenuDelegate <NSObject>
+- (void) toggleMenuState:(BOOL) state;
 - (void) clickFontMenuButton:(id) sender;
 - (void) clickBacktoBookShelfButton:(id) sender;
 - (void) clickRefreshButton:(id)sender;
@@ -18,9 +21,11 @@
 - (void) clickInfoButton:(id)sender;
 - (void) moveToNextPage;
 - (void) moveToPrevPage;
+- (void) moveToNextSection;
+- (void) moveToPrevSection;
 @end
 
-@interface SectionReaderTableViewCell : UITableViewCell
+@interface SectionReaderTableViewCell : UITableViewCell<QBKOverlayMenuViewDelegate, UIGestureRecognizerDelegate>
 {
     BOOL _menuMode;
 }
@@ -31,18 +36,21 @@
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
-@property(nonatomic, strong) UIButton* fontButton;
-@property(nonatomic, strong) UIButton* refreshButton;
-@property(nonatomic, strong) UIButton* mirrorButton;
-@property(nonatomic, strong) UIButton* infoButton;
+@property(nonatomic, strong) IBOutlet UIButton* fontButton;
+@property(nonatomic, strong) IBOutlet UIButton* refreshButton;
+@property(nonatomic, strong) IBOutlet UIButton* mirrorButton;
+@property(nonatomic, strong) IBOutlet UIButton* infoButton;
 @property(nonatomic, strong) IBOutlet UIView* downloadPanel;
 @property(nonatomic, strong) IBOutlet UIButton* downloadButton;
 @property(nonatomic, strong) IBOutlet UIButton* downloadLaterButton;
+@property(nonatomic, strong) IBOutlet UIView* dropDownMenuView;
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
+@property(nonatomic, strong) QBKOverlayMenuView* menuView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) setNovelText:(NSString*)text;
 - (void) toggleShowMenu:(id) sender;
+- (void) showMenu:(BOOL)state;
 @end
 
 @interface SectionReaderTableViewCellViewController : UIViewController

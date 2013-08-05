@@ -1163,7 +1163,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1264,7 +1264,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1290,7 +1290,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (

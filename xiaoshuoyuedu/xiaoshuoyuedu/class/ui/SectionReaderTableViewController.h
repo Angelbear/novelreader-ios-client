@@ -16,7 +16,8 @@
 
 @protocol ChangeSectionDelegate
 - (void) nextSection;
-- (void) prevSection;
+- (void) prevSectionEnd;
+- (void) prevSectionBegin;
 - (void) downloadLaterSections;
 @end
 
@@ -26,6 +27,7 @@
     NSString* _fontName;
     CGFloat _fontSize;
     NSUInteger _themeIndex;
+    BOOL _menuMode;
 }
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;

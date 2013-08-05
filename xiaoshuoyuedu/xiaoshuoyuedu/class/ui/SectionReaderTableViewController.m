@@ -43,7 +43,7 @@
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceRect = delegate.currentWindow.screen.bounds;
     _initialized = NO;
-    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 47.0f);
+    self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
     self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
     if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-size"] != nil) {
         _fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
@@ -144,7 +144,7 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceRect = delegate.currentWindow.screen.bounds;
-        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 47.0f);
+        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
         [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
@@ -170,7 +170,7 @@
 - (void) moveToPrevPage {
     NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     if ( path.row == 0) {
-        [self.delegate prevSection];
+        [self.delegate prevSectionEnd];
     } else {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGFloat height = MAX(path.row - 1, 0) * delegate.currentWindow.screen.bounds.size.height;
@@ -189,6 +189,17 @@
     }
 }
 
+- (void) moveToNextSection {
+    [self.delegate nextSection];
+}
+
+- (void) moveToPrevSection {
+    [self.delegate prevSectionBegin];
+}
+
+- (void) toggleMenuState:(BOOL) state {
+    _menuMode = state;
+}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     if([gestureRecognizer isKindOfClass:[UISwipeGestureRecognizer class]]) {
@@ -201,6 +212,14 @@
     return NO;
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (_menuMode) {
+        _menuMode = NO;
+        SectionReaderTableViewCell* cell = [[self.tableView visibleCells] objectAtIndex:0];
+        [cell showMenu:NO];
+    }
+}
+         
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     NSIndexPath* path = [self.tableView.indexPathsForVisibleRows objectAtIndex:0 ];
     [self autoSaveBookmark:path.row];
@@ -341,8 +360,6 @@
     NSArray* split = [self.splitInfo objectAtIndex:indexPath.row];
     
     cell.content.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
-    //cell.textView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
-    //cell.textView.font = [UIFont fontWithName:_fontName size:_fontSize];
     cell.textLabelView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
     cell.textLabelView.font = [UIFont fontWithName:_fontName size:_fontSize];
     
@@ -352,6 +369,7 @@
     cell.labelView.text = self.section.name;
     cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];
     cell.delegate = self;
+    [cell showMenu:_menuMode];
     return cell;
 }
 
