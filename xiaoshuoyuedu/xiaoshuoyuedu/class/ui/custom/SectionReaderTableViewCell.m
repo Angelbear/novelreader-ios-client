@@ -20,8 +20,7 @@
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.cellView.frame = deviceFrame;
     self.cellView.content.frame = deviceFrame;
-    
-    
+    self.cellView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
 }
 
 @end
@@ -52,11 +51,9 @@
         
         [self addSubview:self.textLabelView];    
         
-        self.dropDownMenuView.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
-        self.dropDownMenuView.hidden = YES;
-        self.fontButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.mirrorButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [self addSubview:self.dropDownMenuView];
+        self.dropDownMenuToolbar.frame = CGRectMake(deviceFrame.origin.x, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.hidden = YES;
+        [self addSubview:self.dropDownMenuToolbar];
         
         WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
         self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
@@ -77,7 +74,7 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    if ([touch.view isKindOfClass:[UIButton class]]) {
+    if ([touch.view isKindOfClass:[UIButton class]] || [touch.view isKindOfClass:[UIBarButtonItem class]] ) {
         return NO;
     }
     return YES;
@@ -94,15 +91,17 @@
         return;
     }
     
-    if (   touchLocation.x > self.frame.size.width * 2.0f / 3.0f
-        && touchLocation.y > self.frame.size.height * 3.0f / 4.0f ) {
-        [self.delegate moveToNextPage];
-        return;
-    }
-    if (   touchLocation.x < self.frame.size.width  / 3.0f
-        && touchLocation.y < self.frame.size.height / 4.0f ) {
-        [self.delegate moveToPrevPage];
-        return;
+    if (!_menuMode) {
+        if (   touchLocation.x > self.frame.size.width * 2.0f / 3.0f
+            && touchLocation.y > self.frame.size.height * 3.0f / 4.0f ) {
+            [self.delegate moveToNextPage];
+            return;
+        }
+        if (   touchLocation.x < self.frame.size.width  / 3.0f
+            && touchLocation.y < self.frame.size.height / 4.0f ) {
+            [self.delegate moveToPrevPage];
+            return;
+        }
     }
     
 }
@@ -123,6 +122,8 @@
                                                   fromDate: [NSDate date]];
     
     self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
+    
+    [self showMenu:_menuMode];
 }
 
 - (IBAction)tapOnRefreshButton:(id)sender {
@@ -157,17 +158,20 @@
     [self.popup presentPopoverFromRect:view.frame inView:self permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
+- (void) setMenuState:(BOOL)state {
+    _menuMode = state;
+}
 
 - (void) showMenu:(BOOL)state {
     _menuMode = state;
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     if (_menuMode) {
-        self.dropDownMenuView.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
-        self.dropDownMenuView.hidden = NO;
+        self.dropDownMenuToolbar.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.hidden = NO;
     } else {
-        self.dropDownMenuView.hidden = YES;
-        self.dropDownMenuView.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.hidden = YES;
+        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
     }
 }
 
@@ -177,23 +181,24 @@
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     if (_menuMode) {
-        self.dropDownMenuView.hidden = NO;
-        [UIView animateWithDuration:0.3f
+        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.hidden = NO;
+        [UIView animateWithDuration:0.2f
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-            self.dropDownMenuView.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
+            self.dropDownMenuToolbar.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
         } completion:^(BOOL finished) {
             
         }];
     } else {
-        [UIView animateWithDuration:0.3f
+        [UIView animateWithDuration:0.2f
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-            self.dropDownMenuView.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+            self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
         } completion:^(BOOL finished) {
-            self.dropDownMenuView.hidden = YES;
+            self.dropDownMenuToolbar.hidden = YES;
         }];
     }
 }

@@ -52,7 +52,7 @@
             
             [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
             
-            [DataBase initialize_database];
+            [[DataBase get_database_instance] initialize_database];
             if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
                 [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
             }

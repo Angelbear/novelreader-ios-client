@@ -99,8 +99,8 @@
     if (JSON != nil && _self != nil) {
         _self.section.text = [JSON objectForKey:@"text"];
         _self.bookmark.offset = 0;
-        [DataBase updateBookMark:_self.bookmark];
-        [DataBase updateSection:_self.section];
+        [[DataBase get_database_instance] updateBookMark:_self.bookmark];
+        [[DataBase get_database_instance] updateSection:_self.section];
         [_self prepareForRead];
     }
 }
@@ -148,15 +148,15 @@
         [self.tableView setContentOffset:CGPointMake(0.0f, 0.0f) animated:NO];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+            NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
+            if (cachedInfo) {
+                self.splitInfo = cachedInfo;
+            } else {
+                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
+                [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
+            }
+            _initialized = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
-                if (cachedInfo) {
-                    self.splitInfo = cachedInfo;
-                } else {
-                    self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
-                    [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
-                }
-                _initialized = NO;
                 [self.tableView reloadData];
             });
         });
@@ -229,7 +229,7 @@
     self.bookmark.section_id = self.section.section_id;
     NSArray* split = [self.splitInfo objectAtIndex:index];
     self.bookmark.offset = [[split objectAtIndex:0] intValue];
-    [DataBase updateBookMark:self.bookmark];
+    [[DataBase get_database_instance] updateBookMark:self.bookmark];
 }
 
 -(void) didDragOnTableView:(UISwipeGestureRecognizer*) recognizer {
@@ -260,6 +260,43 @@
     [self.delegate downloadLaterSections];
 }
 
+- (UIView *)viewForBarItem:(UIBarButtonItem *)item inToolbar:(UIToolbar *)toolbar
+{
+    // NOTE: This relies on internal implementation
+    // TODO: Better implementation for iOS5+
+    
+    // Sort toolbar subviews to match order of toolbar items
+    NSArray *subviews = [toolbar.subviews sortedArrayUsingComparator:^NSComparisonResult(id view1, id view2) {
+        return [view1 frame].origin.x - [view2 frame].origin.x;
+    }];
+    
+    // NOTE: Not sure why but had to filter out UIImageView from toolbar subviews
+    NSMutableArray *mutableSubviews = [[NSMutableArray alloc] init];
+    for(UIView *subview in subviews) {
+        if(![subview isKindOfClass:[UIImageView class]]) {
+            [mutableSubviews addObject:subview];
+        }
+    }
+    
+    int itemIndex = [toolbar.items indexOfObject:item];
+    int adjustedIndex = itemIndex;
+    for(int i=0; i<itemIndex; i++) {
+        UIBarButtonItem *anItem = [toolbar.items objectAtIndex:i];
+        if(anItem.tag == -1) adjustedIndex--;
+    }
+    
+    UIView *buttonView = [mutableSubviews objectAtIndex:adjustedIndex];
+    return buttonView;
+}
+
+- (CGRect)rectForBarItem:(UIBarButtonItem *)item inToolbar:(UIToolbar *)toolbar toView:(UIView*)view
+{
+    UIView *buttonView = [self viewForBarItem:item inToolbar:toolbar];
+    CGRect rect = [buttonView convertRect:buttonView.bounds toView:view];
+    NSLog(@"%lf %lf %lf %lf", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    return rect;
+}
+
 - (void) clickFontMenuButton:(id) sender {
     FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
     fontMenuViewController.delegate = self;
@@ -267,8 +304,8 @@
     self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
     self.wePopupController.delegate = self;
     self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
-    UIView* source = (UIView*) sender;
-    [self.wePopupController presentPopoverFromRect:source.frame inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    UIBarButtonItem* source = (UIBarButtonItem*) sender;
+    [self.wePopupController presentPopoverFromRect:[self rectForBarItem:source inToolbar:cell.dropDownMenuToolbar toView:cell] inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) clickBacktoBookShelfButton:(id) sender {
@@ -369,7 +406,7 @@
     cell.labelView.text = self.section.name;
     cell.indexView.text = [NSString stringWithFormat:@"第%d/%d页", indexPath.row + 1, [self.splitInfo count]];
     cell.delegate = self;
-    [cell showMenu:_menuMode];
+    [cell setMenuState:_menuMode];
     return cell;
 }
 

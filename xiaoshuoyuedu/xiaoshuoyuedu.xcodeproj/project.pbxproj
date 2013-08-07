@@ -70,11 +70,6 @@
 		B46213AE17AB45AE00B8A9DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213AC17AB45AE00B8A9DF /* Localizable.strings */; };
 		B46213BC17AB4A2600B8A9DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213B417AB4A2600B8A9DF /* InfoPlist.strings */; };
 		B46213BD17AB4A2600B8A9DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213B617AB4A2600B8A9DF /* Localizable.strings */; };
-		B46213C117AB4A4500B8A9DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213BF17AB4A4500B8A9DF /* Localizable.strings */; };
-		B46213CC17AB4DAA00B8A9DF /* xiaoshuoyuedu-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B46213CB17AB4DAA00B8A9DF /* xiaoshuoyuedu-Info.plist */; };
-		B46213CF17AB4DC500B8A9DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213CD17AB4DC500B8A9DF /* InfoPlist.strings */; };
-		B46213DF17AB4EAF00B8A9DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213DB17AB4EAF00B8A9DF /* InfoPlist.strings */; };
-		B46213E017AB4EAF00B8A9DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213DD17AB4EAF00B8A9DF /* Localizable.strings */; };
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
 		B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */; };
@@ -916,11 +911,6 @@
 				B46213AE17AB45AE00B8A9DF /* Localizable.strings in Resources */,
 				B46213BC17AB4A2600B8A9DF /* InfoPlist.strings in Resources */,
 				B46213BD17AB4A2600B8A9DF /* Localizable.strings in Resources */,
-				B46213C117AB4A4500B8A9DF /* Localizable.strings in Resources */,
-				B46213CC17AB4DAA00B8A9DF /* xiaoshuoyuedu-Info.plist in Resources */,
-				B46213CF17AB4DC500B8A9DF /* InfoPlist.strings in Resources */,
-				B46213DF17AB4EAF00B8A9DF /* InfoPlist.strings in Resources */,
-				B46213E017AB4EAF00B8A9DF /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

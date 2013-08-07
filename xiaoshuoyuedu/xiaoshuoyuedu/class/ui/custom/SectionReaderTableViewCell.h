@@ -44,13 +44,14 @@
 @property(nonatomic, strong) IBOutlet UIButton* downloadButton;
 @property(nonatomic, strong) IBOutlet UIButton* downloadLaterButton;
 @property(nonatomic, strong) IBOutlet UIView* dropDownMenuView;
+@property(nonatomic, strong) IBOutlet UIToolbar* dropDownMenuToolbar;
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
 @property(nonatomic, strong) QBKOverlayMenuView* menuView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size;
 - (void) setNovelText:(NSString*)text;
-- (void) toggleShowMenu:(id) sender;
 - (void) showMenu:(BOOL)state;
+- (void) setMenuState:(BOOL)state;
 @end
 
 @interface SectionReaderTableViewCellViewController : UIViewController

@@ -118,8 +118,8 @@
 
 
 - (void) refreshBadgeNumber {
-    Bookmark* bookmark = [DataBase getDefaultBookmarkForBook:self.book];
-    NSMutableArray* sections = [DataBase getAllSectionsOfBook:self.book];
+    Bookmark* bookmark = [[DataBase get_database_instance] getDefaultBookmarkForBook:self.book];
+    NSMutableArray* sections = [[DataBase get_database_instance] getAllSectionsOfBook:self.book];
     
     NSUInteger unreadCount = [sections count];
     for (Section* sec in sections) {

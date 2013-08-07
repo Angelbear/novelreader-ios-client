@@ -69,6 +69,7 @@
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
     NSUInteger prediect_columns = (int)(size.width / test_size.width);
+    NSUInteger prediect_rows = (int)(size.height / test_size.height);
     CGFloat height = size.height;
     CFRange r = {0, 0};
     NSInteger str_len = [string length];
@@ -81,8 +82,8 @@
             r.location ++;
         }
         do {
-            //count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(4, round + 1) ));
-            count+=prediect_columns;
+            count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(2, round + 1) ));
+            //count+=prediect_columns;
             if (r.location + count > str_len) {
                 break;
             }

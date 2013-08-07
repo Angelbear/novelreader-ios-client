@@ -81,7 +81,7 @@
             }
             
             NSString* url = [JSON objectForKey:@"url"];
-            Book* book = [DataBase getBookByUrl:url];
+            Book* book = [[DataBase get_database_instance] getBookByUrl:url];
             if (book != nil) {
                 weakReferenceSelf.bookModel = book;
                 [weakReferenceSelf.downloadButton removeFromSuperview];
@@ -139,7 +139,7 @@
     
     self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            NSUInteger book_id = [DataBase insertBook:weakReferenceSelf.bookModel];
+            NSUInteger book_id = [[DataBase get_database_instance] insertBook:weakReferenceSelf.bookModel];
             weakReferenceSelf.bookModel.book_id = book_id;
            
             NSMutableArray* sections = [[NSMutableArray alloc] init];
@@ -156,12 +156,12 @@
             }
             
             if ([sections count] > 0) {
-                [DataBase insertSections:sections];            
-                [DataBase createDefaultBookMark:weakReferenceSelf.bookModel];
+                [[DataBase get_database_instance] insertSections:sections];
+                [[DataBase get_database_instance] createDefaultBookMark:weakReferenceSelf.bookModel];
                 [self.downloadButton removeFromSuperview];
                 [self.view addSubview:self.readButton];
             } else {
-                [DataBase deleteBook:weakReferenceSelf.bookModel];
+                [[DataBase get_database_instance] deleteBook:weakReferenceSelf.bookModel];
             }
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];

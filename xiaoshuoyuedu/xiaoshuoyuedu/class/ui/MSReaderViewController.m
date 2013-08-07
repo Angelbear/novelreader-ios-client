@@ -48,8 +48,8 @@ CGFloat _cellHeight;
 - (void) loadBook:(Book*) book {
     self.book = book;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        self.sections = [DataBase getAllSectionsOfBook:self.book];
-        self.bookmark = [DataBase getDefaultBookmarkForBook:self.book];
+        self.sections = [[DataBase get_database_instance] getAllSectionsOfBook:self.book];
+        self.bookmark = [[DataBase get_database_instance] getDefaultBookmarkForBook:self.book];
         if ([self.sections count] == 0) {
             return;
         }
@@ -255,7 +255,7 @@ CGFloat _cellHeight;
     self.currentSection = section;
     self.bookmark.section_id = section.section_id;
     self.bookmark.offset = 0;
-    [DataBase updateBookMark:self.bookmark];
+    [[DataBase get_database_instance] updateBookMark:self.bookmark];
     [tableView reloadData];
 }
 
@@ -271,7 +271,7 @@ CGFloat _cellHeight;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = 0;
     [self transitionToViewController:sec];
-    [DataBase updateBookMark:self.bookmark];
+    [[DataBase get_database_instance] updateBookMark:self.bookmark];
 }
 
 - (void) prevSectionEnd {
@@ -284,7 +284,7 @@ CGFloat _cellHeight;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = [sec.text length];
     [self transitionToViewController:sec];
-    [DataBase updateBookMark:self.bookmark];
+    [[DataBase get_database_instance] updateBookMark:self.bookmark];
 }
 
 - (void) prevSectionBegin {
@@ -297,7 +297,7 @@ CGFloat _cellHeight;
     self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = 0;
     [self transitionToViewController:sec];
-    [DataBase updateBookMark:self.bookmark];
+    [[DataBase get_database_instance] updateBookMark:self.bookmark];
 }
 
 - (void) downloadLaterSections {
@@ -311,7 +311,7 @@ CGFloat _cellHeight;
                 [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl piority:NSOperationQueuePriorityLow success:^(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
                     if (data != nil) {
                         section.text = [data objectForKey:@"text"];
-                        [DataBase updateSection:section];
+                        [[DataBase get_database_instance] updateSection:section];
                         [self.tableView reloadData];
                     }
                 } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
