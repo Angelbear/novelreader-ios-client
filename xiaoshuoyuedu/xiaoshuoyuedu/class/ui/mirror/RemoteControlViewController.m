@@ -8,7 +8,6 @@
 
 #import "RemoteControlViewController.h"
 #import "AppDelegate.h"
-#import "SectionReaderTableViewController.h"
 @interface RemoteControlViewController ()
 
 @end
@@ -26,13 +25,6 @@
 
 
 -(IBAction)didSwipeOnRemoteControlView:(UISwipeGestureRecognizer*) recognizer {
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    SectionReaderTableViewController* sectionReader = (SectionReaderTableViewController*)delegate.readerDeckController.centerController;
-    if (recognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        [sectionReader moveToPrevPage];
-    } else if (recognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        [sectionReader moveToNextPage];
-    }
 }
 
 

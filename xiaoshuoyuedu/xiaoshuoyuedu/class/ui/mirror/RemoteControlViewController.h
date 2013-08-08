@@ -7,6 +7,5 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SectionReaderTableViewController.h"
 @interface RemoteControlViewController : UIViewController
 @end

@@ -18,6 +18,7 @@
     BookView* _bookView;
     CGPoint _bookViewOrignCenter;
     UIModalTransitionStyle _modalTransitionStyle;
+    BOOL _isReading;
 }
 @property (strong, nonatomic) NSMutableArray *windows;
 @property (strong, nonatomic) UIWindow *currentWindow;
@@ -29,10 +30,12 @@
 @property (strong, nonatomic) RemoteControlViewController* remoteControllViewController;
 @property (strong, nonatomic) BookView* currentBookView;
 @property (nonatomic, assign) CGPoint bookViewOrignCenter;
+@property (nonatomic, assign) BOOL isReading;
 @property (nonatomic, assign) UIModalTransitionStyle modalTransitionStyle;
 - (void) switchToReader:(Book*) book;
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view;
 - (void) switchToNavitation;
 - (BOOL) isReaderRightPanelOpen;
+- (BOOL) openReaderRightPanel;
 - (void) switchToWindow:(UIWindow*) window;
 @end

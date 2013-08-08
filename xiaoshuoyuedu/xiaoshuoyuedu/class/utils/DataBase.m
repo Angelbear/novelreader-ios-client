@@ -49,9 +49,9 @@
 
 - (NSUInteger) createDefaultBookMark:(Book*)book {
     NSString* sql_insert_book = @"INSERT INTO bookmarks (book_id, section_id, offset, default_bookmark, last_update_time) VALUES (?,?,?,?,?)";
-    [_db open];
     NSError* error;
     NSMutableArray* sections = [[DataBase get_database_instance] getAllSectionsOfBook:book];
+    [_db open];
     if (sections !=nil  && [sections count] > 0) {
         Section* sec = [sections objectAtIndex:0];
         [_db update:sql_insert_book withErrorAndBindings:&error,@(book.book_id), @(sec.section_id), [NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [self currentTimeStamp]];

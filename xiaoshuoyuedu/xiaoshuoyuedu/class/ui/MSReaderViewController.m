@@ -12,7 +12,6 @@
 #import "Common.h"
 #import "Section.h"
 #import "Book.h"
-#import "SectionReaderTableViewController.h"
 #import <ViewDeck/IIViewDeckController.h>
 #import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
@@ -89,7 +88,7 @@ CGFloat _cellHeight;
 {
     [super viewDidLoad];
     self.deckViewController.delegate = self;
-    self.currentReaderViewController.delegate = self;
+    self.currentReaderViewController.change_section_delegate = self;
     self.tableView.bounces = NO;
 
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];

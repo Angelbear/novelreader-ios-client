@@ -64,8 +64,6 @@
 		B458945F178BFE73004A5495 /* BookInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945A178BFE73004A5495 /* BookInfoViewController.xib */; };
 		B4589460178BFE73004A5495 /* FontMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945B178BFE73004A5495 /* FontMenuViewController.xib */; };
 		B4589461178BFE73004A5495 /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945C178BFE73004A5495 /* SearchBookViewController.xib */; };
-		B4589462178BFE73004A5495 /* SectionReaderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945D178BFE73004A5495 /* SectionReaderTableViewCell.xib */; };
-		B4589466178BFF2A004A5495 /* SectionReaderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */; };
 		B46213A217A8F3D800B8A9DF /* YLLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B46213A117A8F3D800B8A9DF /* YLLabel.m */; };
 		B46213AE17AB45AE00B8A9DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213AC17AB45AE00B8A9DF /* Localizable.strings */; };
 		B46213BC17AB4A2600B8A9DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B46213B417AB4A2600B8A9DF /* InfoPlist.strings */; };
@@ -73,7 +71,6 @@
 		B46EC4E4177C6B3400C6873B /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E2177C6B3400C6873B /* CategoryViewController.m */; };
 		B46EC4E8177C6EA800C6873B /* CategoryResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */; };
 		B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */; };
-		B46EC4F3177EC70500C6873B /* SectionReaderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4F2177EC70300C6873B /* SectionReaderTableViewController.m */; };
 		B46EC4F9177ED1EF00C6873B /* FontUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B46EC4F8177ED1EF00C6873B /* FontUtils.m */; };
 		B46EC4FC177ED23900C6873B /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B46EC4FA177ED22600C6873B /* CoreText.framework */; };
 		B46EC525177FBC7000C6873B /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC524177FBC7000C6873B /* checkmark.png */; };
@@ -99,6 +96,13 @@
 		B47E105D17880091009DF30B /* btn_style4.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105117880091009DF30B /* btn_style4.png */; };
 		B47E105F17880091009DF30B /* btn_style5.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105317880091009DF30B /* btn_style5.png */; };
 		B47E106117880091009DF30B /* btn_style6.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105517880091009DF30B /* btn_style6.png */; };
+		B47F118D17B2198900E94A2E /* ATPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F118C17B2198900E94A2E /* ATPagingView.m */; };
+		B47F119017B21A1500E94A2E /* ReaderPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F118F17B21A1400E94A2E /* ReaderPagingViewController.m */; };
+		B47F119217B21E4300E94A2E /* SectionPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47F119117B21E4300E94A2E /* SectionPageView.xib */; };
+		B47F119517B21EAE00E94A2E /* SectionPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F119417B21EAE00E94A2E /* SectionPageView.m */; };
+		B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */; };
+		B48C56CB17B3856A00F3F8FF /* orientation~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* orientation~iPad.png */; };
+		B48C56CC17B3856A00F3F8FF /* orientation~iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */; };
 		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
@@ -227,9 +231,6 @@
 		B458945A178BFE73004A5495 /* BookInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookInfoViewController.xib; sourceTree = "<group>"; };
 		B458945B178BFE73004A5495 /* FontMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontMenuViewController.xib; sourceTree = "<group>"; };
 		B458945C178BFE73004A5495 /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
-		B458945D178BFE73004A5495 /* SectionReaderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionReaderTableViewCell.xib; sourceTree = "<group>"; };
-		B4589464178BFF2A004A5495 /* SectionReaderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionReaderTableViewCell.h; sourceTree = "<group>"; };
-		B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionReaderTableViewCell.m; sourceTree = "<group>"; };
 		B46213A017A8F3D800B8A9DF /* YLLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLabel.h; sourceTree = "<group>"; };
 		B46213A117A8F3D800B8A9DF /* YLLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLabel.m; sourceTree = "<group>"; };
 		B46213AD17AB45AE00B8A9DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -246,8 +247,6 @@
 		B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryResultViewController.m; sourceTree = "<group>"; };
 		B46EC4EE177EBA4600C6873B /* MSReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReaderViewController.h; sourceTree = "<group>"; };
 		B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReaderViewController.m; sourceTree = "<group>"; };
-		B46EC4F1177EC70200C6873B /* SectionReaderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionReaderTableViewController.h; sourceTree = "<group>"; };
-		B46EC4F2177EC70300C6873B /* SectionReaderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionReaderTableViewController.m; sourceTree = "<group>"; };
 		B46EC4F7177ED1EF00C6873B /* FontUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontUtils.h; sourceTree = "<group>"; };
 		B46EC4F8177ED1EF00C6873B /* FontUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontUtils.m; sourceTree = "<group>"; };
 		B46EC4FA177ED22600C6873B /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
@@ -274,6 +273,17 @@
 		B47E105117880091009DF30B /* btn_style4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_style4.png; sourceTree = "<group>"; };
 		B47E105317880091009DF30B /* btn_style5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_style5.png; sourceTree = "<group>"; };
 		B47E105517880091009DF30B /* btn_style6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_style6.png; sourceTree = "<group>"; };
+		B47F118B17B2198900E94A2E /* ATPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATPagingView.h; sourceTree = "<group>"; };
+		B47F118C17B2198900E94A2E /* ATPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATPagingView.m; sourceTree = "<group>"; };
+		B47F118E17B21A1400E94A2E /* ReaderPagingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderPagingViewController.h; sourceTree = "<group>"; };
+		B47F118F17B21A1400E94A2E /* ReaderPagingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderPagingViewController.m; sourceTree = "<group>"; };
+		B47F119117B21E4300E94A2E /* SectionPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionPageView.xib; sourceTree = "<group>"; };
+		B47F119317B21EAD00E94A2E /* SectionPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionPageView.h; sourceTree = "<group>"; };
+		B47F119417B21EAE00E94A2E /* SectionPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionPageView.m; sourceTree = "<group>"; };
+		B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ATPagingViewController+JSONRequest.h"; sourceTree = "<group>"; };
+		B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ATPagingViewController+JSONRequest.m"; sourceTree = "<group>"; };
+		B48C56C917B3856A00F3F8FF /* orientation~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation~iPad.png"; sourceTree = "<group>"; };
+		B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation~iPhone.png"; sourceTree = "<group>"; };
 		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
 		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
 		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
@@ -475,6 +485,8 @@
 			children = (
 				B458944F178AA730004A5495 /* JSONRequestTableViewController.h */,
 				B4589450178AA730004A5495 /* JSONRequestTableViewController.m */,
+				B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */,
+				B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -486,7 +498,7 @@
 				B458945A178BFE73004A5495 /* BookInfoViewController.xib */,
 				B458945B178BFE73004A5495 /* FontMenuViewController.xib */,
 				B458945C178BFE73004A5495 /* SearchBookViewController.xib */,
-				B458945D178BFE73004A5495 /* SectionReaderTableViewCell.xib */,
+				B47F119117B21E4300E94A2E /* SectionPageView.xib */,
 			);
 			path = nib;
 			sourceTree = "<group>";
@@ -494,12 +506,12 @@
 		B4589463178BFF05004A5495 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				B47F118B17B2198900E94A2E /* ATPagingView.h */,
+				B47F118C17B2198900E94A2E /* ATPagingView.m */,
 				B46213A017A8F3D800B8A9DF /* YLLabel.h */,
 				B46213A117A8F3D800B8A9DF /* YLLabel.m */,
 				B40B3C90178E574E000A8C6A /* WindowSelectViewController.h */,
 				B40B3C91178E574E000A8C6A /* WindowSelectViewController.m */,
-				B4589464178BFF2A004A5495 /* SectionReaderTableViewCell.h */,
-				B4589465178BFF2A004A5495 /* SectionReaderTableViewCell.m */,
 			);
 			path = custom;
 			sourceTree = "<group>";
@@ -682,8 +694,10 @@
 				B4A0D844177D85C900157BB0 /* BookShelfViewController.m */,
 				B46EC4EE177EBA4600C6873B /* MSReaderViewController.h */,
 				B46EC4EF177EBA4700C6873B /* MSReaderViewController.m */,
-				B46EC4F1177EC70200C6873B /* SectionReaderTableViewController.h */,
-				B46EC4F2177EC70300C6873B /* SectionReaderTableViewController.m */,
+				B47F118E17B21A1400E94A2E /* ReaderPagingViewController.h */,
+				B47F118F17B21A1400E94A2E /* ReaderPagingViewController.m */,
+				B47F119317B21EAD00E94A2E /* SectionPageView.h */,
+				B47F119417B21EAE00E94A2E /* SectionPageView.m */,
 				B4A68CC71783F41200F650F5 /* FontMenuViewController.h */,
 				B4A68CC81783F41200F650F5 /* FontMenuViewController.m */,
 			);
@@ -696,6 +710,8 @@
 				B43CC716178026E1009BFA2E /* iBooks */,
 				B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */,
 				B4D5C893178FCF8300568415 /* sync_btn.png */,
+				B48C56C917B3856A00F3F8FF /* orientation~iPad.png */,
+				B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */,
 				B4D5C894178FCF8300568415 /* sync_btn@2x.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
 				B4A68C9B1783D6D200F650F5 /* WoodCell.png */,
@@ -902,7 +918,6 @@
 				B458945F178BFE73004A5495 /* BookInfoViewController.xib in Resources */,
 				B4589460178BFE73004A5495 /* FontMenuViewController.xib in Resources */,
 				B4589461178BFE73004A5495 /* SearchBookViewController.xib in Resources */,
-				B4589462178BFE73004A5495 /* SectionReaderTableViewCell.xib in Resources */,
 				B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */,
 				B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */,
 				B40B3C98178E642E000A8C6A /* RemoteControlViewController.xib in Resources */,
@@ -911,6 +926,9 @@
 				B46213AE17AB45AE00B8A9DF /* Localizable.strings in Resources */,
 				B46213BC17AB4A2600B8A9DF /* InfoPlist.strings in Resources */,
 				B46213BD17AB4A2600B8A9DF /* Localizable.strings in Resources */,
+				B47F119217B21E4300E94A2E /* SectionPageView.xib in Resources */,
+				B48C56CB17B3856A00F3F8FF /* orientation~iPad.png in Resources */,
+				B48C56CC17B3856A00F3F8FF /* orientation~iPhone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1000,7 +1018,6 @@
 				B4A0D842177D4C6F00157BB0 /* Section.m in Sources */,
 				B4A0D845177D85C900157BB0 /* BookShelfViewController.m in Sources */,
 				B46EC4F0177EBA4900C6873B /* MSReaderViewController.m in Sources */,
-				B46EC4F3177EC70500C6873B /* SectionReaderTableViewController.m in Sources */,
 				B46EC4F9177ED1EF00C6873B /* FontUtils.m in Sources */,
 				B43CC7121780265A009BFA2E /* BelowBottomView.m in Sources */,
 				B43CC7131780265A009BFA2E /* BookShelfCellView.m in Sources */,
@@ -1010,11 +1027,14 @@
 				B4DD87671789A15800A82644 /* AboutViewController.m in Sources */,
 				B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */,
 				B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */,
-				B4589466178BFF2A004A5495 /* SectionReaderTableViewCell.m in Sources */,
 				B40B3C92178E574E000A8C6A /* WindowSelectViewController.m in Sources */,
 				B40B3C97178E642E000A8C6A /* RemoteControlViewController.m in Sources */,
 				B431887617953759007E84DF /* DownloadManager.m in Sources */,
 				B46213A217A8F3D800B8A9DF /* YLLabel.m in Sources */,
+				B47F118D17B2198900E94A2E /* ATPagingView.m in Sources */,
+				B47F119017B21A1500E94A2E /* ReaderPagingViewController.m in Sources */,
+				B47F119517B21EAE00E94A2E /* SectionPageView.m in Sources */,
+				B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

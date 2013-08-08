@@ -1,18 +1,18 @@
 //
-//  SectionReaderTableViewController.h
+//  ReaderPagingView.h
 //  xiaoshuoyuedu
 //
-//  Created by Yangyang Zhao on 13-6-29.
+//  Created by Yangyang Zhao on 13-8-7.
 //  Copyright (c) 2013年 Yangyang Zhao. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Bookmark.h"
-#import "SectionReaderTableViewCell.h"
+#import "ATPagingView.h"
 #import <WEPopover/WEPopoverController.h>
 #import "FontMenuViewController.h"
 #import "JSONRequestTableViewController.h"
-@class Section;
+#import "SectionPageView.h"
+
+@class Section, Bookmark;
 
 @protocol ChangeSectionDelegate
 - (void) nextSection;
@@ -21,8 +21,8 @@
 - (void) downloadLaterSections;
 @end
 
-
-@interface SectionReaderTableViewController : JSONRequestTableViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate> {
+@interface ReaderPagingViewController : ATPagingViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate>
+{
     BOOL _initialized;
     NSString* _fontName;
     CGFloat _fontSize;
@@ -32,7 +32,7 @@
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
 @property (nonatomic, strong) WEPopoverController* wePopupController;
-@property (nonatomic, weak) id<ChangeSectionDelegate> delegate;
+@property (nonatomic, weak) id<ChangeSectionDelegate> change_section_delegate;
 - (void) prepareForRead;
 - (void) reloadSection;
 - (void) moveToNextPage;

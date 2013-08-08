@@ -11,5 +11,4 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'CustomBadge', '~> 2.0'
   pod 'WEPopover', '~> 0.0.1'
   pod 'ViewDeck', '~> 2.2.11'
-  pod 'QBKOverlayMenuView', '~> 0.0.1'
 end

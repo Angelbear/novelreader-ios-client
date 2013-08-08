@@ -35,14 +35,6 @@ install_resource()
       ;;
   esac
 }
-install_resource 'QBKOverlayMenuView/Source/img/main-button-left.png'
-install_resource 'QBKOverlayMenuView/Source/img/main-button-left@2x.png'
-install_resource 'QBKOverlayMenuView/Source/img/main-button-up.png'
-install_resource 'QBKOverlayMenuView/Source/img/main-button-up@2x.png'
-install_resource 'QBKOverlayMenuView/Source/img/mainBackground.png'
-install_resource 'QBKOverlayMenuView/Source/img/mainBackground@2x.png'
-install_resource 'QBKOverlayMenuView/Source/img/rw-button.png'
-install_resource 'QBKOverlayMenuView/Source/img/rw-button@2x.png'
 install_resource 'WEPopover/popoverArrowDown.png'
 install_resource 'WEPopover/popoverArrowDown@2x.png'
 install_resource 'WEPopover/popoverArrowDownSimple.png'

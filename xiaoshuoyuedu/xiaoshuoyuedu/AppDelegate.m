@@ -13,12 +13,11 @@
 #import "Book.h"
 #import "BookView.h"
 #import "MSReaderViewController.h"
-#import "SectionReaderTableViewController.h"
 #import <ViewDeck/IISideController.h>
 #import "Common.h"
 #import <Crashlytics/Crashlytics.h>
 #import "ReaderCacheManager.h"
-
+#import "ReaderPagingViewController.h"
 @interface AppDelegate ()
 - (UIWindow *)  createWindowForScreen:(UIScreen *)screen;
 - (void)        addViewController:(UIViewController *)controller toWindow:(UIWindow *)window;
@@ -31,6 +30,7 @@
 @synthesize currentBookView =_bookView;
 @synthesize bookViewOrignCenter = _bookViewOrignCenter;
 @synthesize modalTransitionStyle = _modalTransitionStyle;
+@synthesize isReading = _isReading;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -38,6 +38,7 @@
     
     UIWindow    *_window    = nil;
     NSArray     *_screens   = nil;
+    _isReading = NO;
     
     self.windows = [[NSMutableArray alloc] init];
     
@@ -97,7 +98,7 @@
     
     IISideController *constrainedRightController = [[IISideController alloc] initWithViewController:readerMasterViewController constrained:openSize];
    
-    SectionReaderTableViewController* readerViewController = [[SectionReaderTableViewController alloc] init];
+    ReaderPagingViewController* readerViewController = [[ReaderPagingViewController alloc] init];
     
     IIViewDeckController* readerDeckController = [[IIViewDeckController alloc] initWithCenterViewController:readerViewController leftViewController:nil rightViewController:constrainedRightController];
     readerDeckController.openSlideAnimationDuration = 0.15f;
@@ -113,6 +114,7 @@
 }
 
 - (void) animationToReader:(BookView*)bookView {
+    _isReading = YES;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     [UIView transitionWithView:self.currentWindow
@@ -131,6 +133,7 @@
 }
 
 - (void) animationBack {
+    _isReading = NO;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
      self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
@@ -186,6 +189,10 @@
 
 - (BOOL) isReaderRightPanelOpen {
     return [self.readerDeckController isAnySideOpen];
+}
+
+- (BOOL) openReaderRightPanel {
+    return [self.readerDeckController openRightView];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -267,7 +274,7 @@
     
     [[ReaderCacheManager init_instance] clearAllSplitInfos];
     [self switchToReader:self.currentBookView.book];
-     SectionReaderTableViewController* sectionReader = (SectionReaderTableViewController*)self.readerDeckController.centerController;
+    ReaderPagingViewController* sectionReader = (ReaderPagingViewController*)self.readerDeckController.centerController;
     [sectionReader prepareForRead];
 }
 

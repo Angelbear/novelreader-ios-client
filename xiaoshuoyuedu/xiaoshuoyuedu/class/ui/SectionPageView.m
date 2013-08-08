@@ -1,55 +1,42 @@
 //
-//  SectionReaderTableViewCell.m
+//  SectionPageView.m
 //  xiaoshuoyuedu
 //
-//  Created by Yangyang Zhao on 13-6-29.
+//  Created by Yangyang Zhao on 13-8-7.
 //  Copyright (c) 2013年 Yangyang Zhao. All rights reserved.
 //
 
-#import "SectionReaderTableViewCell.h"
+#import "SectionPageView.h"
 #import "AppDelegate.h"
 #import <AFNetworking/AFNetworking.h>
 #import <QuartzCore/QuartzCore.h>
 #import <WEPopover/WEPopoverTableViewController.h>
 #import <CoreText/CoreText.h>
 #import "WindowSelectViewController.h"
-@implementation SectionReaderTableViewCellViewController
+@implementation SectionPageViewController
 
 - (void) viewDidLoad {
     [super viewDidLoad];
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    self.cellView.frame = deviceFrame;
-    self.cellView.content.frame = deviceFrame;
-    self.cellView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
+    self.contentView.frame = deviceFrame;
+    self.contentView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
 }
 
 @end
 
-@implementation SectionReaderTableViewCell
+@implementation SectionPageView
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier fontSize:(CGFloat)size {
-    SectionReaderTableViewCellViewController* controller = [[SectionReaderTableViewCellViewController alloc] initWithNibName:@"SectionReaderTableViewCell" bundle:nil];
-    
-    self = (SectionReaderTableViewCell*)controller.view;
+- (id)init {
+    SectionPageViewController* controller = [[SectionPageViewController alloc] initWithNibName:@"SectionPageView" bundle:nil];
+    self = (SectionPageView*)controller.view;
     if (self) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
-        self.contentView.frame = deviceFrame;
-
-        self.textView = [[UITextView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
-        self.textView.editable = NO;
-        self.textView.userInteractionEnabled = NO;
-        self.textView.scrollEnabled = NO;
-        self.textView.backgroundColor = [UIColor clearColor];
-        self.textView.contentInset = UIEdgeInsetsZero;
-        self.textView.textAlignment = NSTextAlignmentLeft;
-        self.textView.userInteractionEnabled = NO;
-        
         self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
         self.textLabelView.userInteractionEnabled = NO;
         
-        [self addSubview:self.textLabelView];    
+        [self addSubview:self.textLabelView];
         
         self.dropDownMenuToolbar.frame = CGRectMake(deviceFrame.origin.x, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.hidden = YES;
@@ -66,8 +53,6 @@
         [self addGestureRecognizer:self.tapRecognizer];
         
         [self bringSubviewToFront:self.downloadPanel];
-
-        [self setRestorationIdentifier:reuseIdentifier];
         _menuMode = NO;
     }
     return self;
@@ -147,6 +132,15 @@
     [self.delegate moveToPrevSection];
 }
 
+- (IBAction)changeOrientation:(id)sender {
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft) {
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait  animated:NO];
+    } else if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)  {
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft  animated:NO];
+    }
+    
+}
+
 - (void)tapOnInfoButton:(id)sender {
     [self.delegate clickInfoButton:sender];
 }
@@ -167,11 +161,17 @@
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     if (_menuMode) {
-        self.dropDownMenuToolbar.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
+        if (delegate.isReading) {
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+        }
+        self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
     } else {
-        self.dropDownMenuToolbar.hidden = YES;
+        if (delegate.isReading) {
+            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        }
         self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.hidden = YES;
     }
 }
 
@@ -181,25 +181,31 @@
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     if (_menuMode) {
-        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
-        [UIView animateWithDuration:0.2f
+        [UIView animateWithDuration:0.3f
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-            self.dropDownMenuToolbar.frame = CGRectMake(0, 0, deviceFrame.size.width, 44.0f);
-        } completion:^(BOOL finished) {
-            
-        }];
+                             if (delegate.isReading) {
+                                 [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                             }
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, deviceFrame.size.width, 44.0f);
+                         } completion:^(BOOL finished) {
+                             
+                         }];
     } else {
-        [UIView animateWithDuration:0.2f
+        [UIView animateWithDuration:0.3f
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-            self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
-        } completion:^(BOOL finished) {
-            self.dropDownMenuToolbar.hidden = YES;
-        }];
+                             if (delegate.isReading) {
+                                 [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+                             }
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+                         } completion:^(BOOL finished) {
+                             self.dropDownMenuToolbar.hidden = YES;
+                         }];
     }
 }
 
