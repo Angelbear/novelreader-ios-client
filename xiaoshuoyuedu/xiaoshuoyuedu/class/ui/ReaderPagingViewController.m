@@ -63,6 +63,7 @@
     self.pagingView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.pagingView.horizontal = NO;
     self.pagingView.gapBetweenPages = 0.0f;
+    self.pagingView.recyclingEnabled = NO;
     
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
     
@@ -73,6 +74,30 @@
     if (self.section.text !=nil && [self.section.text length] > 0) {
         [self prepareForRead];
     }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    SectionPageView* page = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
+    _menuMode = NO;
+    [page showMenu:NO];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    //[self.contentView showMenu:NO];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    CGRect deviceRect = [UIScreen mainScreen].bounds;
+    if (isLandscape) {
+        self.contentSize = CGSizeMake(deviceRect.size.height , deviceRect.size.width - 35.0f);
+    } else {
+        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f); 
+    }
+    [self prepareForRead];
 }
 
 

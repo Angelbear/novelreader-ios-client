@@ -68,7 +68,7 @@
             self.navigationPaneViewController.masterViewController = masterViewController;
             self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height);
             
-            self.readerDeckController = [self createNewBookViewDeckController:_window];
+            self.readerDeckController =  [[MSViewDeckController alloc] init];
             
             _window.rootViewController = self.navigationPaneViewController;
             //[_window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
@@ -157,20 +157,6 @@
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
     }];
 
-}
-
-- (IIViewDeckController* )findViewDeckController:(Book*) book {
-    for (IIViewDeckController* viewDeckController in self.readerDeckControllers) {
-        MSReaderViewController *readerMasterViewController = (MSReaderViewController*)viewDeckController.rightController;
-        if (readerMasterViewController.book.book_id == book.book_id) {
-            return viewDeckController;
-        }
-    }
-    IIViewDeckController* viewDeckController = [self createNewBookViewDeckController:self.currentWindow];
-    MSReaderViewController *readerMasterViewController = (MSReaderViewController*)viewDeckController.rightController;
-    [self.readerDeckControllers addObject:viewDeckController];
-    [readerMasterViewController loadBook:book];
-    return viewDeckController;
 }
 
 - (void) switchToReader:(Book*) book {

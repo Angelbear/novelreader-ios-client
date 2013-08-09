@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BookView.h"
-#import "IIViewDeckController.h"
 #import "RemoteControlViewController.h"
-
+#import "MSViewDeckController.h"
 @class MSNavigationPaneViewController, MSReaderViewController, Book, BookView, SectionReaderTableViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -26,7 +25,7 @@
 @property (strong, nonatomic) UIViewController* containerViewController;
 @property (strong, nonatomic) MSNavigationPaneViewController *navigationPaneViewController;
 @property (strong, nonatomic) NSMutableArray* readerDeckControllers;
-@property (strong, nonatomic) IIViewDeckController* readerDeckController;
+@property (strong, nonatomic) MSViewDeckController* readerDeckController;
 @property (strong, nonatomic) RemoteControlViewController* remoteControllViewController;
 @property (strong, nonatomic) BookView* currentBookView;
 @property (nonatomic, assign) CGPoint bookViewOrignCenter;

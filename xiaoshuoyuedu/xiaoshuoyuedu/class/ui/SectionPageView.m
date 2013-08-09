@@ -13,6 +13,7 @@
 #import <WEPopover/WEPopoverTableViewController.h>
 #import <CoreText/CoreText.h>
 #import "WindowSelectViewController.h"
+#import "Common.h"
 @implementation SectionPageViewController
 
 - (void) viewDidLoad {
@@ -20,6 +21,10 @@
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.contentView.frame = deviceFrame;
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
 }
 
 @end
@@ -30,15 +35,20 @@
     SectionPageViewController* controller = [[SectionPageViewController alloc] initWithNibName:@"SectionPageView" bundle:nil];
     self = (SectionPageView*)controller.view;
     if (self) {
+        
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+
+        CGFloat Width = isLandscape ? deviceFrame.size.height : deviceFrame.size.width;
+        CGFloat Height = isLandscape ? deviceFrame.size.width : deviceFrame.size.height;
         
-        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f)];
+        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, Width, Height - 35.0f)];
         self.textLabelView.userInteractionEnabled = NO;
         
         [self addSubview:self.textLabelView];
         
-        self.dropDownMenuToolbar.frame = CGRectMake(deviceFrame.origin.x, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, Width, 44.0f);
+        self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
         [self addSubview:self.dropDownMenuToolbar];
         
@@ -181,18 +191,18 @@
 - (void) showMenu:(BOOL)state {
     _menuMode = state;
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+    CGFloat Width =  self.frame.size.width;
     if (_menuMode) {
         if (delegate.isReading) {
             [[UIApplication sharedApplication] setStatusBarHidden:NO];
         }
-        self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
     } else {
         if (delegate.isReading) {
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
         }
-        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = YES;
     }
 }
@@ -201,9 +211,9 @@
     _menuMode = !_menuMode;
     [self.delegate toggleMenuState:_menuMode];
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+    CGFloat Width = self.frame.size.width;
     if (_menuMode) {
-        self.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
         [UIView animateWithDuration:0.3f
                               delay:0.0f
@@ -212,7 +222,7 @@
                              if (delegate.isReading) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
                              }
-                             self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, deviceFrame.size.width, 44.0f);
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              
                          }];
@@ -224,7 +234,7 @@
                              if (delegate.isReading) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                              }
-                             self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, deviceFrame.size.width, 44.0f);
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              self.dropDownMenuToolbar.hidden = YES;
                          }];

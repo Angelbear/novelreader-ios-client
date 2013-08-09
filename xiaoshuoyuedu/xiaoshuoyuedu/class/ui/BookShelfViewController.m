@@ -303,18 +303,11 @@ BOOL animating;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
-    if (delegate.isReading) {
-        return NO;
-    }
     return YES;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
-    if (!delegate.isReading) {
-        [_bookShelfView oritationChangeReloadData];
-    }
+    [_bookShelfView oritationChangeReloadData];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -322,10 +315,7 @@ BOOL animating;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
-    if (!delegate.isReading) {
-        [_bookShelfView didFinshRotation];
-    }
+     [_bookShelfView didFinshRotation];
 }
 
 #pragma mark GSBookShelfViewDataSource
