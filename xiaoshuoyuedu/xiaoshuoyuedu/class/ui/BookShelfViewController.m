@@ -257,14 +257,17 @@ BOOL animating;
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width, 44)];
+    CGFloat width =  isLandscape ? deviceFrame.size.height : deviceFrame.size.width;
+    CGFloat height =  isLandscape ? deviceFrame.size.width : deviceFrame.size.height;
+    
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
     [_searchBar setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    _belowBottomView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width, CELL_HEIGHT * 2)];
+    _belowBottomView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, width, CELL_HEIGHT * 2)];
     [_belowBottomView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
-    _aboveTopView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width, CELL_HEIGHT * 2)];
+    _aboveTopView = [[BelowBottomView alloc] initWithFrame:CGRectMake(0, 0, width, CELL_HEIGHT * 2)];
     [_aboveTopView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     
-    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height)];
+    _bookShelfView = [[GSBookShelfView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     [_bookShelfView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     [_bookShelfView setDataSource:self];
     
@@ -300,7 +303,29 @@ BOOL animating;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
+    if (delegate.isReading) {
+        return NO;
+    }
     return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
+    if (!delegate.isReading) {
+        [_bookShelfView oritationChangeReloadData];
+    }
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    AppDelegate* delegate = (AppDelegate*)[UIApplication  sharedApplication].delegate;
+    if (!delegate.isReading) {
+        [_bookShelfView didFinshRotation];
+    }
 }
 
 #pragma mark GSBookShelfViewDataSource

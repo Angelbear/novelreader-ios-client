@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking 1
 
+// BookShelf
+#define COCOAPODS_POD_AVAILABLE_BookShelf
+#define COCOAPODS_VERSION_MAJOR_BookShelf 1
+#define COCOAPODS_VERSION_MINOR_BookShelf 0
+#define COCOAPODS_VERSION_PATCH_BookShelf 0
+
 // CKRefreshControl
 #define COCOAPODS_POD_AVAILABLE_CKRefreshControl
 #define COCOAPODS_VERSION_MAJOR_CKRefreshControl 1
@@ -41,12 +47,6 @@
 #define COCOAPODS_VERSION_MAJOR_FMDB_standard 2
 #define COCOAPODS_VERSION_MINOR_FMDB_standard 1
 #define COCOAPODS_VERSION_PATCH_FMDB_standard 0
-
-// GSBookShelf
-#define COCOAPODS_POD_AVAILABLE_GSBookShelf
-#define COCOAPODS_VERSION_MAJOR_GSBookShelf 0
-#define COCOAPODS_VERSION_MINOR_GSBookShelf 0
-#define COCOAPODS_VERSION_PATCH_GSBookShelf 1
 
 // GVCache
 #define COCOAPODS_POD_AVAILABLE_GVCache

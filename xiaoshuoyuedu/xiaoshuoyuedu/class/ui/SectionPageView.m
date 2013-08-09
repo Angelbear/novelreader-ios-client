@@ -133,10 +133,32 @@
 }
 
 - (IBAction)changeOrientation:(id)sender {
+    // check current orientation
+    CGRect deviceframe = [UIScreen mainScreen].bounds;
     if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft) {
+        // no, the orientation is wrong, we must rotate the UI
+        self.userInteractionEnabled = NO;
+        [UIView beginAnimations:@"orientation" context:NULL];
+        [UIView setAnimationDelegate:self];
+        // setup status bar
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait  animated:NO];
+        // rotate main view, in this sample the view of navigation controller is the root view in main window
+        [self setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
+        // set size of view
+        [self setFrame:CGRectMake(0, 0, deviceframe.size.width, deviceframe.size.height)];
+        [UIView commitAnimations];
     } else if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)  {
+        // no, the orientation is wrong, we must rotate the UI
+        self.userInteractionEnabled = NO;
+        [UIView beginAnimations:@"orientation" context:NULL];
+        [UIView setAnimationDelegate:self];
+        // setup status bar
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft  animated:NO];
+        // rotate main view, in this sample the view of navigation controller is the root view in main window
+        [self setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
+        // set size of view
+        [self setFrame:CGRectMake(0, 0, deviceframe.size.height, deviceframe.size.width)];
+        [UIView commitAnimations];
     }
     
 }

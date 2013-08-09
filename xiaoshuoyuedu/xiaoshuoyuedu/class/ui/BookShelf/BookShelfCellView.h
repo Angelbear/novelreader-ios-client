@@ -45,6 +45,7 @@ typedef enum {
     UIImageView *_shelfImageView;
     UIImageView *_shelfImageViewLandscape;
     UIImageView *_woodImageView;
+    UIImageView *_woodImageViewLandscape;
     UIImageView *_shadingImageView;
     
     UIImageView *_sideImageView_left;
@@ -55,7 +56,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *reuseIdentifier;
 
 + (UIImage *)shadingImage;
-+ (UIImage *)woodImage;
++ (UIImage *)woodImagePortrait;
++ (UIImage *)woodImageLandscape;
 + (UIImage *)shelfImageProtrait;
 + (UIImage *)shelfImageLandscape;
 

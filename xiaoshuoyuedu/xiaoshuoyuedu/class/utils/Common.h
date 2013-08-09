@@ -28,6 +28,8 @@
 
 #define isiPad ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 
+#define isLandscape (([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft) || ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight))
+
 #define CELL_HEIGHT 139.0f
 
 #define DEFAULT_FONT_SIZE 20.0f

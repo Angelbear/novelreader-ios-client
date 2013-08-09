@@ -43,7 +43,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-         CGFloat baseWidth = isiPad ? 768 : 320;
+         CGFloat baseWidth = isLandscape ? (isiPad ? 1024 : 480)
+                                         : (isiPad ? 768 : 320);
         
         BookShelfCellView *cell1 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, 0, baseWidth, CELL_HEIGHT)];
         BookShelfCellView *cell2 = [[BookShelfCellView alloc] initWithFrame:CGRectMake(0, CELL_HEIGHT, baseWidth, CELL_HEIGHT)];

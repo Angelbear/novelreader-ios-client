@@ -36,6 +36,7 @@
 #import "GSBookViewContainerView.h"
 #import "GSBookShelfView.h"
 #import "GSBookView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kRatio_width_spacing 2.5f
 #define kRatio_height_width 1.2f
@@ -126,7 +127,9 @@ typedef enum {
     _bookViewWidth = [_parentBookShelfView.dataSource bookViewWidthOfBookShelfView:_parentBookShelfView];
     _bookViewHeight = [_parentBookShelfView.dataSource bookViewHeightOfBookShelfView:_parentBookShelfView];
     
-    _bookViewSpacingWidth = (cellWidth - 2 * cellMargin - numOfBooksInCell * _bookViewWidth) / (numOfBooksInCell - 1);
+    _bookViewSpacingWidth = numOfBooksInCell == 1 ? 0 : (cellWidth - 2 * cellMargin - numOfBooksInCell * _bookViewWidth) / (numOfBooksInCell - 1);
+    
+    NSAssert(_bookViewSpacingWidth >= 0, @"invalid book size");
 }
 
 - (void)reloadData {
@@ -146,11 +149,12 @@ typedef enum {
     _isRemoving = NO;
     
     for (UIView *view in _visibleBookViews) {
+        [self addReuseableBookView:view];
         [view removeFromSuperview];
     }
     [_visibleBookViews removeAllObjects];
     
-    [_reuseableBookViews removeAllObjects];
+    //[_reuseableBookViews removeAllObjects];
 }
 
 #pragma mark - Reuse
@@ -186,7 +190,7 @@ typedef enum {
 #pragma mark - Layout 
 
 - (UIView *)addBookViewAsSubviewWithBookViewPosition:(BookViewPostion)position {
-    
+    [UIView setAnimationsEnabled:NO];
     UIView *bookView = [_parentBookShelfView.dataSource bookShelfView:_parentBookShelfView bookViewAtIndex:position.index];
     // Take a look at the "Discussion" in removeBookViewWithType:
     // Since _dragView won't be removed from supervie, we should not add it or change the frame either. And although the new bookView returned from dataSource have the same position with _dragView, but they are not the same view, so set _dragView to bookView, ignore the bookView returned from dataSource.
@@ -207,6 +211,7 @@ typedef enum {
         }
         
     }
+    [UIView setAnimationsEnabled:YES];
     return bookView;
 }
 
@@ -238,7 +243,7 @@ typedef enum {
             rmIndex = [_visibleBookViews count] - 1;
     }
     UIView *bookView = [_visibleBookViews objectAtIndex:rmIndex];
-    // Discusstion:When Drag And Scroll happends,somtimes _dragView's pickupPosition may have not changed. Then it may be told to be removed from superView, and this will cause the _dragView dissappear. So here we prevent the removeFromSuperview from happening, but still remove it from the _visibleBookViews. _visibleBookViews tells which view is visible except the _dragView, which means _dragView is "invisible" for _visibleBookViews when it's original position scroll out of the _visibleRect.
+    // Discusstion:When Drag And Scroll happends,somtimes _dragView's pickupPosition may have not changed. Then it may be told to be removed from superView, and this will cause the _dragView dissappear. So here we prevent the removeFromSuperview from happening, but still remove it from the _visibleBookViews. _visibleBookViews tells which view is visible except the _dragView, which means _dragView is "invisible" for _visibleBookViews when it's original position scroll out of the _availableRect.
     if (_isDragViewPickedUp && bookView == _dragView) {
         _isDragViewRemovedFromVisibleBookViews = YES;
     }
@@ -250,7 +255,7 @@ typedef enum {
 }
 
 
-- (void)layoutSubviewsWithVisibleRect:(CGRect)visibleRect {
+- (void)layoutSubviewsWithAvailableRect:(CGRect)availableRect visibleRect:(CGRect)visibleRect{
     // To reduce memory usage, we only add visible bookViews to the subviews. So every time it scrolls, we shoud add and remove some bookViews.You can check the sample project (ScrollView Suit >> Tiling) for information.
     
     // Discussion: the layout sequence is easy to understand. There are 6 situation we should consider.  You can draw these condition on a papper to get it more clear.
@@ -272,18 +277,20 @@ typedef enum {
 
     
     //NSLog(@"bookViewContainer layout");
-    //NSLog(@"visibleRect %@", NSStringFromCGRect(visibleRect));
+    //NSLog(@"availableRect %@", NSStringFromCGRect(availableRect));
+    _availableRect = availableRect;
     _visibleRect = visibleRect;
     
-    NSInteger numberOfBooksInCell = _parentBookShelfView.numberOfBooksInCell;
+    NSInteger numberOfBooksInCell = [_parentBookShelfView.dataSource numberOFBooksInCellOfBookShelfView:_parentBookShelfView];
     
     NSInteger numberOfBooks = [_parentBookShelfView.dataSource numberOfBooksInBookShelfView:_parentBookShelfView];
     
     NSInteger numberOfCells = ceilf((float)numberOfBooks / (float)numberOfBooksInCell);
     
+    NSInteger cellHeight = [_parentBookShelfView.dataSource cellHeightOfBookShelfView:_parentBookShelfView];
     
-    NSInteger firstNeededRow = MAX(0, floorf(CGRectGetMinY(visibleRect) / _parentBookShelfView.cellHeight));
-    NSInteger lastNeededRow = MIN(numberOfCells - 1, floorf(CGRectGetMaxY(visibleRect) / _parentBookShelfView.cellHeight));
+    NSInteger firstNeededRow = MAX(0, floorf(CGRectGetMinY(availableRect) / cellHeight));
+    NSInteger lastNeededRow = MIN(numberOfCells - 1, floorf(CGRectGetMaxY(availableRect) / cellHeight));
     
     //NSLog(@"\n------------\nfirstNeededRow:%d firstVisibleRow:%d\nlastNeededRow: %d lastVisibleRow: %d\n************", firstNeededRow, _firstVisibleRow, lastNeededRow, _lastVisibleRow);
     
@@ -372,6 +379,11 @@ typedef enum {
     _lastVisibleRow = lastNeededRow;
 }
 
+- (void)layoutSubviews {
+    // Do nothing here
+    // use layoutSubviewsWithavailableRect: instead
+}
+
 #pragma mark - BookViewPosition 
 
 #pragma mark - BookView Rect
@@ -416,7 +428,7 @@ typedef enum {
 }
 
 - (CGRect)bookViewRectAtBookViewPosition:(BookViewPostion)position {
-    // Dose not need position.index here
+    // Do not need position.index here
     CGFloat cellHeight = _parentBookShelfView.cellHeight;
     CGFloat bookViewBottomOffset = _parentBookShelfView.bookViewBottomOffset;
     CGFloat cellMarginWidth = _parentBookShelfView.cellMargin;
@@ -427,6 +439,22 @@ typedef enum {
     return CGRectMake(originX, originY, _bookViewWidth, _bookViewHeight);
 }
 
+- (CGRect)bookViewEffectiveRectAtBookViewPosition:(BookViewPostion)position {
+    CGFloat cellHeight = _parentBookShelfView.cellHeight;
+    CGFloat bookViewBottomOffset = _parentBookShelfView.bookViewBottomOffset;
+    CGFloat cellMarginWidth = _parentBookShelfView.cellMargin;
+    
+    NSInteger numberOfBooksInCell = _parentBookShelfView.numberOfBooksInCell;
+    
+    CGFloat originX = position.col * (_bookViewWidth + _bookViewSpacingWidth) + (position.col > 0 ? (cellMarginWidth - _bookViewSpacingWidth / 2) : 0);
+    
+    CGFloat effectiveWidth = _bookViewWidth + _bookViewSpacingWidth + ((position.col == 0 || position.col == numberOfBooksInCell - 1) ? (cellMarginWidth - _bookViewSpacingWidth / 2) : 0);
+    
+    CGFloat originY = position.row * cellHeight + bookViewBottomOffset - _bookViewHeight;
+    
+    return CGRectMake(originX, originY, effectiveWidth, _bookViewHeight);
+}
+
 - (BookViewPostion)bookViewPositionAtPoint:(CGPoint)point {
     // Always return a valid BookViewPosition
     CGFloat cellHeight = _parentBookShelfView.cellHeight;
@@ -435,11 +463,23 @@ typedef enum {
     
     CGFloat cellMarginWidth = _parentBookShelfView.cellMargin; 
     
-    NSInteger currentCol = floorf((point.x - cellMarginWidth) / (_bookViewWidth + _bookViewSpacingWidth));
+    CGFloat firstColWidth = cellMarginWidth + _bookViewWidth + _bookViewSpacingWidth / 2;
+    CGFloat middleColWidth = _bookViewWidth + _bookViewSpacingWidth;
     
     NSInteger numberOfBooksInCell = _parentBookShelfView.numberOfBooksInCell;
     
+    NSInteger currentCol;
+    
+    if (point.x < firstColWidth) {
+        currentCol = 0;
+    }
+    else {
+        currentCol =  MIN(floorf((point.x - firstColWidth) / middleColWidth) + 1, numberOfBooksInCell - 1);
+    }
+    
     BookViewPostion position = {currentRow, currentCol, currentRow * numberOfBooksInCell + currentCol};
+    
+    //NSLog(@"position [%d] [%d]", currentRow, currentCol);
     
     return position;
 }
@@ -550,33 +590,29 @@ typedef enum {
 #pragma mark - Scroll While Draging
 
 #define kScroll_trigger_dis 40.0f
-#define kScroll_interval_max 0.0075
-#define kScroll_interval_min 0.00050
+#define kScroll_dis_scale 27
+#define kScroll_max_speed 20
 
 - (void)stopScrollTimer {
-    [_scrollTimer invalidate];
+    [_displayLink removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [_displayLink invalidate];
+    _displayLink = nil;
 }
 
 - (void)scrollIfNecessary {
     if (_parentBookShelfView.scrollWhileDragingEnabled) {
         [self stopScrollTimer];
+        
         CGFloat distanceFromTop = _dragView.center.y - _visibleRect.origin.y;
-        if (distanceFromTop < kScroll_trigger_dis) {
-            double rate = (kScroll_trigger_dis - distanceFromTop) / 6.0;
-            NSTimeInterval interval = fmax(kScroll_interval_min, kScroll_interval_max / rate);
-            _scrollTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(dragScroll:) userInfo:[NSNumber numberWithBool:YES] repeats:YES];
-            
-        }
-        else if (distanceFromTop > _visibleRect.size.height - kScroll_trigger_dis) {
-            
-            double rate = (kScroll_trigger_dis - (_visibleRect.size.height - distanceFromTop)) / 6.0;
-            NSTimeInterval interval = fmax(kScroll_interval_min, kScroll_interval_max / rate);
-            _scrollTimer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(dragScroll:) userInfo:[NSNumber numberWithBool:NO] repeats:YES];
-            
+        if (distanceFromTop < kScroll_trigger_dis || distanceFromTop > _visibleRect.size.height - kScroll_trigger_dis) {
+            _lastDragScrollTime = CACurrentMediaTime(); // Note: See http://stackoverflow.com/questions/358207/iphone-how-to-get-current-milliseconds for speed comparation
+            _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(dragScroll:)];
+            [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
         }
     }
 }
 
+// Not used currently
 - (BOOL)canScroll:(BOOL)isScrollUp {
     if (isScrollUp) {
         if (_parentBookShelfView.contentOffset.y <= 0) {
@@ -591,18 +627,55 @@ typedef enum {
     return YES;
 }
 
+- (CGFloat)safeHorizontalScrollDistanceWithDistance:(CGFloat)distance isScrollUp:(BOOL)isScrollUp {
+    if (isScrollUp) {
+        CGFloat maxDis = _parentBookShelfView.contentOffset.y;
+        return MIN(maxDis, distance);
+    }
+    else {
+        CGFloat maxDis = _parentBookShelfView.contentSize.height - (_parentBookShelfView.contentOffset.y + _visibleRect.size.height);
+        return MIN(maxDis, distance);
+    }
+}
+
 - (void)dragScroll:(NSTimer *)timer {
-    // contentOffset +/- 1
-    BOOL isScrollUp = ((NSNumber *)timer.userInfo).boolValue;
-    if ([self canScroll:isScrollUp]) {
+    BOOL isScrollUp;
+    CGFloat distanceFromTop = _dragView.center.y - _visibleRect.origin.y;
+    double timeSinceLastScroll = CACurrentMediaTime() - _lastDragScrollTime; // Around 0.015
+    CGFloat scrollDistance = 0;
+    double rate; // Between 0 to 40
+    
+    if (distanceFromTop < kScroll_trigger_dis) {
+        isScrollUp = YES;
+        rate = (kScroll_trigger_dis - distanceFromTop);
+    }
+    else {
+        isScrollUp = NO;
+        rate = (kScroll_trigger_dis - (_visibleRect.size.height - distanceFromTop));
+    }
+    
+    
+    scrollDistance = rate * timeSinceLastScroll * kScroll_dis_scale; // Between 0 to around 20
+    scrollDistance = [self safeHorizontalScrollDistanceWithDistance:scrollDistance isScrollUp:isScrollUp];
+    if (scrollDistance >= 1) {
+        // Actually it won't scroll when the distance is below 1
+        // Also the contentOffset is always interger
+        // so there's no difference betteen scroll 1.0 and 1.4/1.9 ??
+        // we round the float to integer to get the best fit value <<- is this necessary ?
+        scrollDistance = roundf(scrollDistance);
+        scrollDistance = MIN(scrollDistance, kScroll_max_speed);
+        
         CGPoint newOffset = _parentBookShelfView.contentOffset;
-        newOffset.y = newOffset.y + (isScrollUp ? -1 : 1);
+        newOffset.y = newOffset.y + (isScrollUp ? -scrollDistance : scrollDistance);
         [_parentBookShelfView setContentOffset:newOffset];
         
         CGPoint newDragViewCenter = _dragView.center;
-        newDragViewCenter.y = newDragViewCenter.y + (isScrollUp ? -1 : 1);
+        newDragViewCenter.y = newDragViewCenter.y + (isScrollUp ? -scrollDistance : scrollDistance);
         _dragView.center = newDragViewCenter;
         [self moveBooksIfNecessary];
+        
+        // Refresh time only when it really scrolled
+        _lastDragScrollTime = CACurrentMediaTime();
     }
 }
 
@@ -612,10 +685,17 @@ typedef enum {
     [self bringSubviewToFront:_dragView];
     BookViewPostion position = [self bookViewPositionAtPoint:_dragView.center];
     CGRect bookViewRect = [self bookViewRectAtBookViewPosition:position];
+    CGRect bookviewEffectiveRect = [self bookViewEffectiveRectAtBookViewPosition:position];
+    
+    //NSLog(@"[0] %@", NSStringFromCGPoint(_dragView.center));
+    //NSLog(@"[1] %@", NSStringFromCGRect(bookViewRect));
+    //NSLog(@"[2] %@", NSStringFromCGRect(bookviewEffectiveRect));
 
-    if (CGRectContainsPoint(bookViewRect, _dragView.center) && [self isBookViewPositionVisible:position]) {
+    if (CGRectContainsPoint(bookviewEffectiveRect, _dragView.center) && [self isBookViewPositionVisible:position]) {
+        //NSLog(@"contain");
         if (!CGRectEqualToRect(bookViewRect, _pickUpRect)) {
             // Rerange _visibleBookViews
+            //NSLog(@"Rerange");
             [self animateBookViewToBookViewPostion:position rect:bookViewRect];
         }
     }
@@ -782,6 +862,9 @@ typedef enum {
                              if (indexOfVisibleBookViews >= 0) {
                                  if (indexOfVisibleBookViews >= [_visibleBookViews count]) {
                                      *stop = YES;
+                                     // added on 12.08.24 fix deletion when deletion index bigger than max visible index
+                                     // not increse steps, balance with steps++
+                                     steps--;
                                  }
                                  else {
                                      // shrink
@@ -819,7 +902,7 @@ typedef enum {
                          
                          [UIView animateWithDuration:animate ? 0.3 : 0.0
                                                delay:0.01
-                                             options:UIViewAnimationCurveLinear
+                                             options:UIViewAnimationOptionCurveLinear
                                           animations:^ {
                                               //NSLog(@"move animation");
                                               for (int i = 0; i < [_visibleBookViews count]; i++) {
@@ -862,7 +945,7 @@ typedef enum {
     // then in the animation, we set the bookView's scale to (1,1) to "show" the bookView and then refresh the _visibleBookView as we did in removeBookViewsAtIndexs:animate:
     [UIView animateWithDuration:animate ? 0.3 : 0.0
                           delay:0.0
-                        options:UIViewAnimationCurveLinear
+                        options:UIViewAnimationOptionCurveLinear
                      animations:^{
                          __block NSInteger steps = 0;
                          __block NSInteger moveFromIndex = 0;

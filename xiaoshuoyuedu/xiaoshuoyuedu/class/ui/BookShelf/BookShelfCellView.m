@@ -53,7 +53,7 @@ static UIImage *shelfImageLandscape = nil;
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
-        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
+        UIGraphicsBeginImageContext(CGSizeMake( (isLandscape ?  deviceFrame.size.height : deviceFrame.size.width )* scale, CELL_HEIGHT * scale));
         UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
         [shadingImageToDraw drawInRect:CGRectMake(0, 0, shadingImageToDraw.size.width * scale, shadingImageToDraw.size.height * scale)];
         
@@ -68,15 +68,32 @@ static UIImage *shelfImageLandscape = nil;
     return shadingImage;
 }
 
-+ (UIImage *)woodImage {
++ (UIImage *)woodImagePortrait {
     if (woodImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         CGRect deviceFrame = delegate.currentWindow.screen.bounds;
         
-        UIGraphicsBeginImageContext(CGSizeMake(deviceFrame.size.width * scale, CELL_HEIGHT * scale));
+        UIGraphicsBeginImageContext(CGSizeMake( deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
-        [woodImageToDraw drawInRect:CGRectMake(0, 0, woodImageToDraw.size.width * scale, woodImageToDraw.size.width * scale)];
+        [woodImageToDraw drawInRect:CGRectMake(0, 0, deviceFrame.size.width * scale, deviceFrame.size.height * scale)];
+        woodImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        woodImage = [UIImage imageWithCGImage:woodImage.CGImage scale:scale orientation:UIImageOrientationUp];
+    }
+    return woodImage;
+}
+
++ (UIImage *)woodImageLandscape {
+    if (woodImage == nil) {
+        CGFloat scale = isRetina ? 2.0f : 1.0f;
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+        
+        UIGraphicsBeginImageContext(CGSizeMake(  deviceFrame.size.height * scale, CELL_HEIGHT * scale));
+        UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
+        [woodImageToDraw drawInRect:CGRectMake(0, 0, deviceFrame.size.height * scale, deviceFrame.size.width * scale)];
         woodImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
@@ -120,11 +137,14 @@ static UIImage *shelfImageLandscape = nil;
         
         _shelfImageViewLandscape = [[UIImageView alloc] initWithImage:[BookShelfCellView shelfImageLandscape]];
         
-        _woodImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView woodImage]];
+        _woodImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView woodImagePortrait]];
+        
+        _woodImageViewLandscape = [[UIImageView alloc] initWithImage:[BookShelfCellView woodImageLandscape]];
         
         _shadingImageView = [[UIImageView alloc] initWithImage:[BookShelfCellView shadingImage]];
     
         [self addSubview:_woodImageView];
+        [self addSubview:_woodImageViewLandscape];
         [self addSubview:_shadingImageView];
         [self addSubview:_shelfImageView];
         [self addSubview:_shelfImageViewLandscape];
@@ -140,15 +160,23 @@ static UIImage *shelfImageLandscape = nil;
     CGRect deviceFrame = delegate.currentWindow.screen.bounds;
     
     if (self.frame.size.width <= deviceFrame.size.width) {
+        [_woodImageView setHidden:NO];
+        [_woodImageViewLandscape setHidden:YES];
         [_shelfImageView setHidden:NO];
         [_shelfImageViewLandscape setHidden:YES];
     }
     else {
+        [_woodImageView setHidden:YES];
+        [_woodImageViewLandscape setHidden:NO];
         [_shelfImageView setHidden:YES];
         [_shelfImageViewLandscape setHidden:NO];
     }
+    
     [_shelfImageView setFrame:CGRectMake(0, 130 - 23, self.frame.size.width, _shelfImageView.frame.size.height)];
     [_shelfImageViewLandscape setFrame:CGRectMake(0, 130 - 23, self.frame.size.width, _shelfImageViewLandscape.frame.size.height)];
+    
+    [_woodImageView setFrame:CGRectMake(0, 0, self.frame.size.width, _woodImageView.frame.size.height)];
+    [_woodImageViewLandscape setFrame:CGRectMake(0, 0, self.frame.size.width, _woodImageViewLandscape.frame.size.height)];
 
 }
 
