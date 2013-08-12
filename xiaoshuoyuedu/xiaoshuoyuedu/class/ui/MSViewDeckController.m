@@ -8,6 +8,7 @@
 
 #import "MSViewDeckController.h"
 #import "Common.h"
+#import "ForceOrientationViewController.h"
 @interface MSViewDeckController ()
 
 @end
@@ -20,7 +21,7 @@
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         self.readerMasterViewController = [[MSReaderViewController alloc] init];
         CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
-        
+        self.userDefaults = [GVUserDefaults standardUserDefaults];
         self.constrainedRightController = [[IISideController alloc] initWithViewController:self.readerMasterViewController constrained:openSize];
         
         self.readerViewController = [[ReaderPagingViewController alloc] init];
@@ -49,8 +50,24 @@
 	// Do any additional setup after loading the view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (self.userDefaults.orientationLocked && toInterfaceOrientation != self.userDefaults.fixedOrientation) {
+        return NO;
+    }
     return YES;
+}
+
+- (BOOL)shouldAutorotate {
+    if (self.userDefaults.orientationLocked && self.interfaceOrientation == self.userDefaults.fixedOrientation) {
+        return NO;
+    }
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscape);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -72,6 +89,13 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [self.readerViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
+- (void) forceOrientation:(UIInterfaceOrientation)orientation {
+    ForceOrientationViewController* controller = [[ForceOrientationViewController alloc] initWithOrientation:orientation];
+    [self presentViewController:controller animated:NO completion:^{
+        [controller dismissViewControllerAnimated:NO completion:nil];
+    }];
 }
 
 - (void)didReceiveMemoryWarning

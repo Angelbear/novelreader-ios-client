@@ -11,7 +11,7 @@
 #import "FontMenuViewController.h"
 #import "JSONRequestTableViewController.h"
 #import "SectionPageView.h"
-
+#import "GVUserDefaults+Properties.h"
 @class Section, Bookmark;
 
 @protocol ChangeSectionDelegate
@@ -24,11 +24,9 @@
 @interface ReaderPagingViewController : ATPagingViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate>
 {
     BOOL _initialized;
-    NSString* _fontName;
-    CGFloat _fontSize;
-    NSUInteger _themeIndex;
     BOOL _menuMode;
 }
+@property (nonatomic, strong) GVUserDefaults* userDefaults;
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
 @property (nonatomic, strong) WEPopoverController* wePopupController;

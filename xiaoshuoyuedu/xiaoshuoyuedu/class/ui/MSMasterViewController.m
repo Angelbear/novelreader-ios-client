@@ -148,7 +148,6 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     
     UINavigationController *paneNavigationViewController = nil;
     if ( [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]] != nil) {
-        NSLog(@"hit");
         id viewController = [self.navigationControllers objectForKey:[@(paneViewControllerType) stringValue]];
         if ([viewController isKindOfClass:[UINavigationController class]]) {
             paneNavigationViewController = (UINavigationController*) viewController;
@@ -166,6 +165,32 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     [self.navigationPaneViewController setPaneViewController:paneNavigationViewController animated:animateTransition completion:nil];
     
     self.paneViewControllerType = paneViewControllerType;
+}
+
+#pragma orientation - OrientationChange 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    BookShelfViewController* controller = [self.navigationControllers objectForKey:[@(MSPaneViewControllerTypeRank) stringValue]];
+    if (controller!=nil) {
+        [controller willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    BookShelfViewController* controller = [self.navigationControllers objectForKey:[@(MSPaneViewControllerTypeRank) stringValue]];
+    if (controller!=nil) {
+        [controller willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    BookShelfViewController* controller = [self.navigationControllers objectForKey:[@(MSPaneViewControllerTypeRank) stringValue]];
+    if (controller!=nil) {
+        [controller didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    }
 }
 
 #pragma mark - UITableViewDataSource

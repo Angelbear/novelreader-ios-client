@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GVUserDefaults+Properties.h"
 @protocol FontMenuDelegate <NSObject>
 - (void) increaseFontSize;
 - (void) decreaseFontSize;
@@ -17,11 +17,9 @@
 
 @interface FontMenuViewController : UIViewController<UITableViewDelegate, UITableViewDelegate>
 {
-    NSString* _fontName;
-    CGFloat _fontSize;
     NSUInteger _selectedIndex;
-    NSUInteger _themeSelectedIndex;
 }
+@property (nonatomic, strong) GVUserDefaults* userDefaults;
 @property (nonatomic, strong) IBOutlet UIButton* brightButton;
 @property (nonatomic, strong) IBOutlet UIButton* fontButton;
 @property (nonatomic, strong) IBOutlet UIButton* themeButton;

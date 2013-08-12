@@ -37,6 +37,7 @@
 @property(nonatomic, strong) IBOutlet UIButton* downloadButton;
 @property(nonatomic, strong) IBOutlet UIButton* downloadLaterButton;
 @property(nonatomic, strong) IBOutlet UIToolbar* dropDownMenuToolbar;
+@property(nonatomic, strong) IBOutlet UIBarButtonItem* deviceOrientationItem;
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (void) setNovelText:(NSString*)text;

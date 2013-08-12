@@ -36,6 +36,7 @@
 #import "BelowBottomView.h"
 #import "Common.h"
 #import "BookShelfCellView.h"
+#import "AppDelegate.h"
 
 @implementation BelowBottomView
 

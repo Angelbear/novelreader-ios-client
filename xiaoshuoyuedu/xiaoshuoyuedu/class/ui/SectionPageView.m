@@ -14,6 +14,7 @@
 #import <CoreText/CoreText.h>
 #import "WindowSelectViewController.h"
 #import "Common.h"
+#import "GVUserDefaults+Properties.h"
 @implementation SectionPageViewController
 
 - (void) viewDidLoad {
@@ -60,6 +61,14 @@
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnTableView:)];
         self.tapRecognizer.cancelsTouchesInView = NO;
         self.tapRecognizer.delegate = self;
+        
+        GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
+        if (ud.orientationLocked) {
+            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"lock"]];
+        } else {
+            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"orientation"]];
+        }
+        
         [self addGestureRecognizer:self.tapRecognizer];
         
         [self bringSubviewToFront:self.downloadPanel];
@@ -142,35 +151,21 @@
     [self.delegate moveToPrevSection];
 }
 
+
+
 - (IBAction)changeOrientation:(id)sender {
-    // check current orientation
-    CGRect deviceframe = [UIScreen mainScreen].bounds;
-    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationLandscapeLeft) {
-        // no, the orientation is wrong, we must rotate the UI
-        self.userInteractionEnabled = NO;
-        [UIView beginAnimations:@"orientation" context:NULL];
-        [UIView setAnimationDelegate:self];
-        // setup status bar
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait  animated:NO];
-        // rotate main view, in this sample the view of navigation controller is the root view in main window
-        [self setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-        // set size of view
-        [self setFrame:CGRectMake(0, 0, deviceframe.size.width, deviceframe.size.height)];
-        [UIView commitAnimations];
-    } else if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait)  {
-        // no, the orientation is wrong, we must rotate the UI
-        self.userInteractionEnabled = NO;
-        [UIView beginAnimations:@"orientation" context:NULL];
-        [UIView setAnimationDelegate:self];
-        // setup status bar
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft  animated:NO];
-        // rotate main view, in this sample the view of navigation controller is the root view in main window
-        [self setTransform: CGAffineTransformMakeRotation(M_PI / 2)];
-        // set size of view
-        [self setFrame:CGRectMake(0, 0, deviceframe.size.height, deviceframe.size.width)];
-        [UIView commitAnimations];
+    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    UIBarButtonItem* item = (UIBarButtonItem*)sender;
+    GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
+    if (ud.orientationLocked == YES) {
+        ud.orientationLocked = NO;
+        [item setImage:[UIImage imageNamed:@"orientation"]];
+    } else {
+        ud.orientationLocked = YES;
+        ud.fixedOrientation = delegate.orientation;
+        [item setImage:[UIImage imageNamed:@"lock"]];
     }
-    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)tapOnInfoButton:(id)sender {

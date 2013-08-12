@@ -35,17 +35,8 @@
     self.isRefreshing = NO;
     self._completedDownloadBooks = 0;
     self._activeDownloadClients = [NSMutableArray arrayWithCapacity:0];
+    self.books = [[DataBase get_database_instance] getAllBooks];
     return self;
-}
-
-- (void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.books = [[DataBase get_database_instance] getAllBooks];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_bookShelfView reloadData];
-        });
-    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -250,6 +241,11 @@ BOOL animating;
     }
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_bookShelfView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -325,9 +321,9 @@ BOOL animating;
 }
 
 - (NSInteger)numberOFBooksInCellOfBookShelfView:(GSBookShelfView *)bookShelfView {
-    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-    if (UIDeviceOrientationIsLandscape(orientation)) {
-        return isiPad ? 8 : 4;
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    if (UIDeviceOrientationIsLandscape(delegate.orientation)) {
+        return isiPad ? 8 : (_bookShelfView.frame.size.width > 320.0f ? 4 : 3);
     }
     else {
         return isiPad ? 6 : 3;

@@ -86,6 +86,10 @@
 		B46EC53E178006AA00C6873B /* bookshelf_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53A178006AA00C6873B /* bookshelf_ok.png */; };
 		B46EC53F178006AA00C6873B /* bookshelf_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */; };
 		B4738D2E17B4F150008AAC8B /* MSViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D2D17B4F150008AAC8B /* MSViewDeckController.m */; };
+		B4738D3117B8A1EF008AAC8B /* ForceOrientationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */; };
+		B4738D3717B8BE2C008AAC8B /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B4738D3617B8BE2C008AAC8B /* lock.png */; };
+		B4738D3A17B8C9A8008AAC8B /* GVUserDefaults+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D3917B8C9A8008AAC8B /* GVUserDefaults+Properties.m */; };
+		B4738D3D17B8D719008AAC8B /* MSMainPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D3C17B8D718008AAC8B /* MSMainPaneViewController.m */; };
 		B47E103E1781B6D5009DF30B /* checkmark-current.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E103D1781B6D5009DF30B /* checkmark-current.png */; };
 		B47E10461781CA6B009DF30B /* WoodTile@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */; };
 		B47E10471781CA6B009DF30B /* WoodTile@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */; };
@@ -265,6 +269,13 @@
 		B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookshelf_ok@2x.png"; sourceTree = "<group>"; };
 		B4738D2C17B4F150008AAC8B /* MSViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSViewDeckController.h; sourceTree = "<group>"; };
 		B4738D2D17B4F150008AAC8B /* MSViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSViewDeckController.m; sourceTree = "<group>"; };
+		B4738D2F17B8A1EF008AAC8B /* ForceOrientationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceOrientationViewController.h; sourceTree = "<group>"; };
+		B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceOrientationViewController.m; sourceTree = "<group>"; };
+		B4738D3617B8BE2C008AAC8B /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		B4738D3817B8C9A7008AAC8B /* GVUserDefaults+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GVUserDefaults+Properties.h"; sourceTree = "<group>"; };
+		B4738D3917B8C9A8008AAC8B /* GVUserDefaults+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GVUserDefaults+Properties.m"; sourceTree = "<group>"; };
+		B4738D3B17B8D717008AAC8B /* MSMainPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMainPaneViewController.h; sourceTree = "<group>"; };
+		B4738D3C17B8D718008AAC8B /* MSMainPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMainPaneViewController.m; sourceTree = "<group>"; };
 		B47E103D1781B6D5009DF30B /* checkmark-current.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark-current.png"; sourceTree = "<group>"; };
 		B47E10421781CA6B009DF30B /* WoodTile@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile@2x~ipad.png"; sourceTree = "<group>"; };
 		B47E10431781CA6B009DF30B /* WoodTile@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WoodTile@2x~iphone.png"; sourceTree = "<group>"; };
@@ -403,6 +414,8 @@
 				B46EC4F8177ED1EF00C6873B /* FontUtils.m */,
 				B4DD87691789A80100A82644 /* ReaderCacheManager.h */,
 				B4DD876A1789A80100A82644 /* ReaderCacheManager.m */,
+				B4738D3817B8C9A7008AAC8B /* GVUserDefaults+Properties.h */,
+				B4738D3917B8C9A8008AAC8B /* GVUserDefaults+Properties.m */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -490,6 +503,8 @@
 				B4589450178AA730004A5495 /* JSONRequestTableViewController.m */,
 				B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */,
 				B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */,
+				B4738D2F17B8A1EF008AAC8B /* ForceOrientationViewController.h */,
+				B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -695,6 +710,8 @@
 				B46EC4E7177C6EA800C6873B /* CategoryResultViewController.m */,
 				B4A0D843177D85C800157BB0 /* BookShelfViewController.h */,
 				B4A0D844177D85C900157BB0 /* BookShelfViewController.m */,
+				B4738D3B17B8D717008AAC8B /* MSMainPaneViewController.h */,
+				B4738D3C17B8D718008AAC8B /* MSMainPaneViewController.m */,
 				B4738D2C17B4F150008AAC8B /* MSViewDeckController.h */,
 				B4738D2D17B4F150008AAC8B /* MSViewDeckController.m */,
 				B46EC4EE177EBA4600C6873B /* MSReaderViewController.h */,
@@ -718,6 +735,7 @@
 				B48C56C917B3856A00F3F8FF /* orientation~iPad.png */,
 				B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */,
 				B4D5C894178FCF8300568415 /* sync_btn@2x.png */,
+				B4738D3617B8BE2C008AAC8B /* lock.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
 				B4A68C9B1783D6D200F650F5 /* WoodCell.png */,
 				B454F022178176EF0026C113 /* Default-Landscape@2x.png */,
@@ -934,6 +952,7 @@
 				B47F119217B21E4300E94A2E /* SectionPageView.xib in Resources */,
 				B48C56CB17B3856A00F3F8FF /* orientation~iPad.png in Resources */,
 				B48C56CC17B3856A00F3F8FF /* orientation~iPhone.png in Resources */,
+				B4738D3717B8BE2C008AAC8B /* lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,6 +1060,9 @@
 				B47F119517B21EAE00E94A2E /* SectionPageView.m in Sources */,
 				B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */,
 				B4738D2E17B4F150008AAC8B /* MSViewDeckController.m in Sources */,
+				B4738D3117B8A1EF008AAC8B /* ForceOrientationViewController.m in Sources */,
+				B4738D3A17B8C9A8008AAC8B /* GVUserDefaults+Properties.m in Sources */,
+				B4738D3D17B8D719008AAC8B /* MSMainPaneViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

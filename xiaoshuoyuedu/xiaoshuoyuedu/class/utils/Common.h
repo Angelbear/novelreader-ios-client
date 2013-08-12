@@ -28,7 +28,7 @@
 
 #define isiPad ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 
-#define isLandscape (([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeLeft) || ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight))
+#define isLandscape UIInterfaceOrientationIsLandscape(((AppDelegate*)[UIApplication sharedApplication].delegate).orientation)
 
 #define CELL_HEIGHT 139.0f
 
@@ -36,6 +36,8 @@
 
 #define MIN_FONT_SIZE 16.0f
 #define MAX_FONT_SIZE (isiPad ? 34.0f : 30.0f)
+
+#define READER_DECK_ANIMATION_TIME 0.25f
 
 #define MAKE_COLOR(r, g, b, a) [UIColor colorWithRed: (CGFloat)r / 256.0f green:(CGFloat)g /256.0f blue:(CGFloat)b /256.0f alpha:(CGFloat)a] 
 

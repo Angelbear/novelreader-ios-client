@@ -9,9 +9,11 @@
 #import "IIViewDeckController.h"
 #import "MSReaderViewController.h"
 #import "IISideController.h"
-
+#import "GVUserDefaults+Properties.h"
 @interface MSViewDeckController : IIViewDeckController
 @property (nonatomic, strong) MSReaderViewController *readerMasterViewController;
 @property (nonatomic, strong) IISideController *constrainedRightController;
 @property (nonatomic, strong) ReaderPagingViewController* readerViewController;
+@property (nonatomic, strong) GVUserDefaults* userDefaults;
+- (void) forceOrientation:(UIInterfaceOrientation)orientation;
 @end

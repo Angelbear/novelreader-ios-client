@@ -22,7 +22,6 @@
 #import "DownloadManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ATPagingViewController+JSONRequest.h"
-
 @interface ReaderPagingViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
@@ -37,22 +36,8 @@
         CGRect deviceRect = [UIScreen mainScreen].bounds;
         _initialized = NO;
         self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
+        self.userDefaults = [GVUserDefaults standardUserDefaults];
         self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
-        if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-size"] != nil) {
-            _fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
-        } else {
-            [[NSUserDefaults standardUserDefaults] setFloat:DEFAULT_FONT_SIZE forKey:@"font-size"];
-            _fontSize = DEFAULT_FONT_SIZE;
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-        if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-name"] != nil) {
-            _fontName = [[NSUserDefaults standardUserDefaults] objectForKey:@"font-name"];
-        } else {
-            [[NSUserDefaults standardUserDefaults] setObject:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE].fontName forKey:@"font-name"];
-            _fontName = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE].fontName;
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-        _themeIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"theme"];
     }
     return self;
 };
@@ -87,12 +72,11 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    //[self.contentView showMenu:NO];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     CGRect deviceRect = [UIScreen mainScreen].bounds;
-    if (isLandscape) {
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
         self.contentSize = CGSizeMake(deviceRect.size.height , deviceRect.size.width - 35.0f);
     } else {
         self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f); 
@@ -159,7 +143,7 @@
             if (cachedInfo) {
                 self.splitInfo = cachedInfo;
             } else {
-                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:_fontName size:_fontSize]];
+                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize]];
                 [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
             }
             _initialized = NO;
@@ -341,22 +325,22 @@
 
 #pragma mark - FontMenuDelegate
 - (void) increaseFontSize {
-    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
     [self prepareForRead];
 }
 
 - (void) decreaseFontSize {
-    _fontSize =  [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
     [self prepareForRead];
 }
 
 - (void) changeFont:(NSString*) fontName {
-    _fontName = fontName;
+    self.userDefaults.fontName = fontName;
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self prepareForRead];
 }
 
 - (void) changeTheme:(NSUInteger) themeIndex {
-    _themeIndex = themeIndex;
+    self.userDefaults.themeIndex = themeIndex;
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self.pagingView reloadData];
 }
 
@@ -373,9 +357,9 @@
     if (view == nil) {
         view = [[SectionPageView alloc] init];
     }
-    view.backgroundColor = [THEME_COLORS objectAtIndex:_themeIndex];
-    view.textLabelView.textColor = [FONT_COLORS objectAtIndex:_themeIndex];
-    view.textLabelView.font = [UIFont fontWithName:_fontName size:_fontSize];
+    view.backgroundColor = [THEME_COLORS objectAtIndex:self.userDefaults.themeIndex];
+    view.textLabelView.textColor = [FONT_COLORS objectAtIndex:self.userDefaults.themeIndex];
+    view.textLabelView.font = [UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize];
     NSArray* split = [self.splitInfo objectAtIndex:index];
     
     if (self.section.text != nil && self.section.text.length > 0) {

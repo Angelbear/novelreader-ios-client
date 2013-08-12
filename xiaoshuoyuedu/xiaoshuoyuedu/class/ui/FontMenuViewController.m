@@ -20,23 +20,15 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"font-size"] != nil) {
-            _fontSize = [[NSUserDefaults standardUserDefaults] floatForKey:@"font-size"];
-        } else {
-            [[NSUserDefaults standardUserDefaults] setFloat:DEFAULT_FONT_SIZE forKey:@"font-size"];
-            _fontSize = DEFAULT_FONT_SIZE;
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-        _fontName = [[NSUserDefaults standardUserDefaults] stringForKey:@"font-name"];
+        self.userDefaults = [GVUserDefaults standardUserDefaults];
         self.fonts = [NSArray arrayWithObjects:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE], [UIFont boldSystemFontOfSize:DEFAULT_FONT_SIZE], [UIFont fontWithName:@"FZLTHJW--GB1-0" size:DEFAULT_FONT_SIZE], nil];
         _selectedIndex = 0;
         for( UIFont* font in self.fonts) {
-            if ([font.fontName compare:_fontName] == NSOrderedSame) {
+            if ([font.fontName compare:self.userDefaults.fontName] == NSOrderedSame) {
                 _selectedIndex = [self.fonts indexOfObject:font];
                 break;
             }
         }
-        _themeSelectedIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"theme"];
     }
     return self;
 }
@@ -71,9 +63,8 @@
 }
 
 - (IBAction) increaseFontSize:(id)sender {
-    if (_fontSize < MAX_FONT_SIZE) {
-        _fontSize += 0.5f;
-        [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
+    if (self.userDefaults.fontSize < MAX_FONT_SIZE) {
+        self.userDefaults.fontSize += 0.5f;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate increaseFontSize];
@@ -81,9 +72,8 @@
     
 }
 - (IBAction) decreaseFontSize:(id)sender {
-    if (_fontSize > MIN_FONT_SIZE) {
-        _fontSize -= 0.5f;
-        [[NSUserDefaults standardUserDefaults] setFloat:_fontSize forKey:@"font-size"];
+    if (self.userDefaults.fontSize > MIN_FONT_SIZE) {
+        self.userDefaults.fontSize -= 0.5f;
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate decreaseFontSize];
@@ -119,9 +109,7 @@
 
 - (IBAction)clickThemeButton:(id)sender {
     UIButton* imageButton = (UIButton*) sender;
-    [[NSUserDefaults standardUserDefaults] setObject:@(imageButton.tag) forKey:@"theme"];
-    _themeSelectedIndex = imageButton.tag;
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.userDefaults.themeIndex = imageButton.tag;
     [UIView transitionWithView:self.view
                       duration:1.25
                        options:UIViewAnimationOptionCurveEaseOut
@@ -133,7 +121,7 @@
      }
                     completion:^(BOOL finished)
      {
-         [self.delegate changeTheme:_themeSelectedIndex];
+         [self.delegate changeTheme:self.userDefaults.themeIndex];
      }];
 }
 
@@ -197,9 +185,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIFont* font = [self.fonts objectAtIndex:indexPath.row];
-    if ([font.fontName compare:_fontName] != NSOrderedSame) {
-        [[NSUserDefaults standardUserDefaults] setObject:font.fontName forKey:@"font-name"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    if ([font.fontName compare:self.userDefaults.fontName] != NSOrderedSame) {
         [[ReaderCacheManager init_instance] clearAllSplitInfos];
         [self.delegate changeFont:font.fontName];
         _selectedIndex = indexPath.row;

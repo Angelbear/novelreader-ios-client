@@ -346,6 +346,14 @@
 					<int key="connectionID">46</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">deviceOrientationItem</string>
+						<reference key="source" ref="577162775"/>
+						<reference key="destination" ref="465216417"/>
+					</object>
+					<int key="connectionID">59</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">tapOnRefreshButton:</string>
 						<reference key="source" ref="827211397"/>
@@ -1080,7 +1088,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">58</int>
+			<int key="maxID">59</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1095,7 +1103,42 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SectionPageView</string>
 					<string key="superclassName">UIView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="changeOrientation:">id</string>
+						<string key="tapOnDownloadLaterButton:">id</string>
+						<string key="tapOnFontSelectButton:">id</string>
+						<string key="tapOnNextButton:">id</string>
+						<string key="tapOnPrevButton:">id</string>
+						<string key="tapOnRefreshButton:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="changeOrientation:">
+							<string key="name">changeOrientation:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnDownloadLaterButton:">
+							<string key="name">tapOnDownloadLaterButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnFontSelectButton:">
+							<string key="name">tapOnFontSelectButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnNextButton:">
+							<string key="name">tapOnNextButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnPrevButton:">
+							<string key="name">tapOnPrevButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="tapOnRefreshButton:">
+							<string key="name">tapOnRefreshButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="deviceOrientationItem">UIBarButtonItem</string>
 						<string key="downloadButton">UIButton</string>
 						<string key="downloadLaterButton">UIButton</string>
 						<string key="downloadPanel">UIView</string>
@@ -1105,6 +1148,10 @@
 						<string key="timeView">UILabel</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="deviceOrientationItem">
+							<string key="name">deviceOrientationItem</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="downloadButton">
 							<string key="name">downloadButton</string>
 							<string key="candidateClassName">UIButton</string>

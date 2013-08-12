@@ -66,6 +66,7 @@
 #define TEST_CHINISE_CHARACTER @"永"
 
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font {
+    NSLog(@"%@ %@", NSStringFromCGSize(size), font.fontName);
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
     NSUInteger prediect_columns = (int)(size.width / test_size.width);
