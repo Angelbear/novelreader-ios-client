@@ -39,6 +39,8 @@
 
 #define READER_DECK_ANIMATION_TIME 0.25f
 
+#define ROTATION_ANIMATION_TIME 0.25f
+
 #define MAKE_COLOR(r, g, b, a) [UIColor colorWithRed: (CGFloat)r / 256.0f green:(CGFloat)g /256.0f blue:(CGFloat)b /256.0f alpha:(CGFloat)a] 
 
 #define THEME_COLOR_0 MAKE_COLOR(244,236,209, 1 )

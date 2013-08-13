@@ -242,7 +242,7 @@
 					<object class="IBUIBarButtonItem" id="465216417">
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">orientation</string>
+							<string key="NSResourceName">lock.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUIToolbar" ref="353688265"/>
@@ -409,7 +409,7 @@
 						<reference key="source" ref="465216417"/>
 						<reference key="destination" ref="577162775"/>
 					</object>
-					<int key="connectionID">58</int>
+					<int key="connectionID">61</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1088,7 +1088,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">59</int>
+			<int key="maxID">61</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1213,7 +1213,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="AAglyp.png">{29, 18}</string>
-			<string key="orientation">{16, 16}</string>
+			<string key="lock.png">{32, 32}</string>
 			<string key="popoverArrowLeft.png">{14, 18}</string>
 			<string key="popoverArrowRight.png">{14, 18}</string>
 			<string key="sync_btn.png">{16, 16}</string>

@@ -63,10 +63,12 @@
         self.tapRecognizer.delegate = self;
         
         GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
-        if (ud.orientationLocked) {
-            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"lock"]];
+        if (ud.fixedOrientation == UIInterfaceOrientationPortrait) {
+            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"rotation"]];
         } else {
-            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"orientation"]];
+            [self.deviceOrientationItem setImage:[[UIImage alloc] initWithCGImage: [UIImage imageNamed:@"rotation"].CGImage
+                                                                            scale: 1.0
+                                                                      orientation: UIImageOrientationRight]];
         }
         
         [self addGestureRecognizer:self.tapRecognizer];
@@ -152,20 +154,21 @@
 }
 
 
-
 - (IBAction)changeOrientation:(id)sender {
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     UIBarButtonItem* item = (UIBarButtonItem*)sender;
     GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
-    if (ud.orientationLocked == YES) {
-        ud.orientationLocked = NO;
-        [item setImage:[UIImage imageNamed:@"orientation"]];
+    if (ud.fixedOrientation == UIInterfaceOrientationPortrait) {
+        ud.fixedOrientation = UIInterfaceOrientationLandscapeLeft;
+        [item setImage:[[UIImage alloc] initWithCGImage: [UIImage imageNamed:@"rotation"].CGImage
+                                                  scale: 1.0
+                                            orientation: UIImageOrientationRight]];
     } else {
-        ud.orientationLocked = YES;
-        ud.fixedOrientation = delegate.orientation;
-        [item setImage:[UIImage imageNamed:@"lock"]];
+        ud.fixedOrientation = UIInterfaceOrientationPortrait;
+        [item setImage:[UIImage imageNamed:@"rotation"]];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [delegate forceLayout:ud.fixedOrientation];
 }
 
 - (void)tapOnInfoButton:(id)sender {

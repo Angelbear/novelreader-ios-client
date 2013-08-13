@@ -106,8 +106,8 @@
 		B47F119217B21E4300E94A2E /* SectionPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B47F119117B21E4300E94A2E /* SectionPageView.xib */; };
 		B47F119517B21EAE00E94A2E /* SectionPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F119417B21EAE00E94A2E /* SectionPageView.m */; };
 		B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */; };
-		B48C56CB17B3856A00F3F8FF /* orientation~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* orientation~iPad.png */; };
-		B48C56CC17B3856A00F3F8FF /* orientation~iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */; };
+		B48C56CB17B3856A00F3F8FF /* rotation~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* rotation~ipad.png */; };
+		B48C56CC17B3856A00F3F8FF /* rotation~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */; };
 		B4A0D723177C261B00157BB0 /* RankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D721177C261B00157BB0 /* RankViewController.m */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
@@ -296,8 +296,8 @@
 		B47F119417B21EAE00E94A2E /* SectionPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionPageView.m; sourceTree = "<group>"; };
 		B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ATPagingViewController+JSONRequest.h"; sourceTree = "<group>"; };
 		B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ATPagingViewController+JSONRequest.m"; sourceTree = "<group>"; };
-		B48C56C917B3856A00F3F8FF /* orientation~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation~iPad.png"; sourceTree = "<group>"; };
-		B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orientation~iPhone.png"; sourceTree = "<group>"; };
+		B48C56C917B3856A00F3F8FF /* rotation~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~ipad.png"; sourceTree = "<group>"; };
+		B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~iphone.png"; sourceTree = "<group>"; };
 		B4A0D720177C261B00157BB0 /* RankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RankViewController.h; sourceTree = "<group>"; };
 		B4A0D721177C261B00157BB0 /* RankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RankViewController.m; sourceTree = "<group>"; };
 		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
@@ -732,8 +732,8 @@
 				B43CC716178026E1009BFA2E /* iBooks */,
 				B454F020178176EF0026C113 /* Default-568h@2x~iphone.png */,
 				B4D5C893178FCF8300568415 /* sync_btn.png */,
-				B48C56C917B3856A00F3F8FF /* orientation~iPad.png */,
-				B48C56CA17B3856A00F3F8FF /* orientation~iPhone.png */,
+				B48C56C917B3856A00F3F8FF /* rotation~ipad.png */,
+				B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */,
 				B4D5C894178FCF8300568415 /* sync_btn@2x.png */,
 				B4738D3617B8BE2C008AAC8B /* lock.png */,
 				B454F021178176EF0026C113 /* Default-Landscape.png */,
@@ -950,8 +950,8 @@
 				B46213BC17AB4A2600B8A9DF /* InfoPlist.strings in Resources */,
 				B46213BD17AB4A2600B8A9DF /* Localizable.strings in Resources */,
 				B47F119217B21E4300E94A2E /* SectionPageView.xib in Resources */,
-				B48C56CB17B3856A00F3F8FF /* orientation~iPad.png in Resources */,
-				B48C56CC17B3856A00F3F8FF /* orientation~iPhone.png in Resources */,
+				B48C56CB17B3856A00F3F8FF /* rotation~ipad.png in Resources */,
+				B48C56CC17B3856A00F3F8FF /* rotation~iphone.png in Resources */,
 				B4738D3717B8BE2C008AAC8B /* lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

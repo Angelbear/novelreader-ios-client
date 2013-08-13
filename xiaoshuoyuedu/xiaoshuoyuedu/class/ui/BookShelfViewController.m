@@ -35,7 +35,6 @@
     self.isRefreshing = NO;
     self._completedDownloadBooks = 0;
     self._activeDownloadClients = [NSMutableArray arrayWithCapacity:0];
-    self.books = [[DataBase get_database_instance] getAllBooks];
     return self;
 }
 
@@ -243,6 +242,7 @@ BOOL animating;
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.books = [[DataBase get_database_instance] getAllBooks];
     [_bookShelfView reloadData];
 }
 

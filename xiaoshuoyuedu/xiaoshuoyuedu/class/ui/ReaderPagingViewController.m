@@ -140,14 +140,14 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [NSString stringWithFormat:@"    %@", [self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]]];
             NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
-            if (cachedInfo) {
-                self.splitInfo = cachedInfo;
-            } else {
-                self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize]];
-                [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
-            }
-            _initialized = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
+                if (cachedInfo) {
+                    self.splitInfo = cachedInfo;
+                } else {
+                    self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize]];
+                    [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
+                }
+                _initialized = NO;
                 [self.pagingView reloadData];
             });
         });

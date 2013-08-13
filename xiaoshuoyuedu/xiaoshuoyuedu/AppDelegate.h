@@ -36,4 +36,5 @@
 - (BOOL) isReaderRightPanelOpen;
 - (BOOL) openReaderRightPanel;
 - (void) switchToWindow:(UIWindow*) window;
+- (void)forceLayout:(UIInterfaceOrientation)orientation;
 @end

@@ -123,6 +123,43 @@
     return readerDeckController;    
 }
 
+- (void) rotateEnd {
+    if (_orientation == UIInterfaceOrientationPortrait) {
+        [self.readerDeckController didRotateFromInterfaceOrientation:UIInterfaceOrientationLandscapeLeft];
+    } else {
+        [self.readerDeckController didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
+    }
+}
+
+- (void)forceLayout:(UIInterfaceOrientation)orientation
+{
+    CGRect deviceFrame = self.currentWindow.screen.bounds;
+    if (_orientation != orientation) {
+        if (orientation == UIInterfaceOrientationPortrait) {
+            [self.readerDeckController willAnimateRotationToInterfaceOrientation:UIInterfaceOrientationPortrait duration:ROTATION_ANIMATION_TIME];
+            [UIView beginAnimations:@"orientation" context:NULL];
+            [UIView setAnimationDuration:ROTATION_ANIMATION_TIME];
+            [UIView setAnimationDidStopSelector:@selector(rotateEnd)];
+            [UIView setAnimationDelegate:self];
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait  animated:NO];
+            [self.readerDeckController.view setTransform: CGAffineTransformMakeRotation(0.0f)];
+            [self.readerDeckController.view setFrame:deviceFrame];
+            [UIView commitAnimations];
+        } else if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            [self.readerDeckController willAnimateRotationToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft duration:ROTATION_ANIMATION_TIME];
+            [UIView beginAnimations:@"orientation" context:NULL];
+            [UIView setAnimationDuration:ROTATION_ANIMATION_TIME];
+            [UIView setAnimationDidStopSelector:@selector(rotateEnd)];
+            [UIView setAnimationDelegate:self];
+            [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft  animated:NO];
+            [self.readerDeckController.view setTransform: CGAffineTransformMakeRotation(- M_PI / 2)];
+            [self.readerDeckController.view setFrame:deviceFrame];
+            [UIView commitAnimations];
+        }
+        _orientation = orientation;
+    }
+}
+
 - (void) animationToReader:(BookView*)bookView {
     _isReading = YES;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
