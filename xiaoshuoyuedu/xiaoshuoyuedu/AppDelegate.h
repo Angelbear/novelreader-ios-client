@@ -24,7 +24,6 @@
 @property (strong, nonatomic) UIWindow *currentWindow;
 @property (strong, nonatomic) UIWindow *mainWindow;
 @property (strong, nonatomic) MSMainPaneViewController *navigationPaneViewController;
-@property (strong, nonatomic) NSMutableArray* readerDeckControllers;
 @property (strong, nonatomic) MSViewDeckController* readerDeckController;
 @property (strong, nonatomic) RemoteControlViewController* remoteControllViewController;
 @property (strong, nonatomic) BookView* currentBookView;
@@ -36,5 +35,4 @@
 - (BOOL) isReaderRightPanelOpen;
 - (BOOL) openReaderRightPanel;
 - (void) switchToWindow:(UIWindow*) window;
-- (void)forceLayout:(UIInterfaceOrientation)orientation;
 @end

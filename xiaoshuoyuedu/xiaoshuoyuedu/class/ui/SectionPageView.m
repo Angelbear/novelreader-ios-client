@@ -22,6 +22,7 @@
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
     self.contentView.frame = deviceFrame;
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
+    self.contentView.textLabelView.frame = CGRectMake(0,  20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -36,19 +37,15 @@
     SectionPageViewController* controller = [[SectionPageViewController alloc] initWithNibName:@"SectionPageView" bundle:nil];
     self = (SectionPageView*)controller.view;
     if (self) {
+        CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
-
-        CGFloat Width = isLandscape ? deviceFrame.size.height : deviceFrame.size.width;
-        CGFloat Height = isLandscape ? deviceFrame.size.width : deviceFrame.size.height;
-        
-        self.textLabelView = [[YLLabel alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y + 20.0f, Width, Height - 35.0f)];
         self.textLabelView.userInteractionEnabled = NO;
         
-        [self addSubview:self.textLabelView];
+        self.rotateBackgroundViewLeft.frame = CGRectMake(0, 0, deviceFrame.size.height, deviceFrame.size.width);
+        self.rotateBackgroundViewLeft.frame = CGRectMake(deviceFrame.size.width - deviceFrame.size.height, 0, deviceFrame.size.height, deviceFrame.size.width);
         
-        self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, Width, 44.0f);
+        
+        self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
         [self addSubview:self.dropDownMenuToolbar];
@@ -63,14 +60,12 @@
         self.tapRecognizer.delegate = self;
         
         GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
-        if (ud.fixedOrientation == UIInterfaceOrientationPortrait) {
-            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"rotation"]];
+        if (ud.orientationLocked) {
+            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"lock"]];
         } else {
-            [self.deviceOrientationItem setImage:[[UIImage alloc] initWithCGImage: [UIImage imageNamed:@"rotation"].CGImage
-                                                                            scale: 1.0
-                                                                      orientation: UIImageOrientationRight]];
+            [self.deviceOrientationItem setImage:[UIImage imageNamed:@"rotation"]];
         }
-        
+
         [self addGestureRecognizer:self.tapRecognizer];
         
         [self bringSubviewToFront:self.downloadPanel];
@@ -121,6 +116,10 @@
     [self.textLabelView setText:text];
 }
 
+- (void) setBeginParagraph:(BOOL)beginParagraph {
+    [self. textLabelView setBeginParagraph:beginParagraph];
+}
+
 - (void) layoutSubviews {
     [super layoutSubviews];
     NSCalendar *gregorianCal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -128,7 +127,7 @@
                                                   fromDate: [NSDate date]];
     
     self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
-    
+
     [self showMenu:_menuMode];
 }
 
@@ -157,18 +156,15 @@
 - (IBAction)changeOrientation:(id)sender {
     UIBarButtonItem* item = (UIBarButtonItem*)sender;
     GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
-    if (ud.fixedOrientation == UIInterfaceOrientationPortrait) {
-        ud.fixedOrientation = UIInterfaceOrientationLandscapeLeft;
-        [item setImage:[[UIImage alloc] initWithCGImage: [UIImage imageNamed:@"rotation"].CGImage
-                                                  scale: 1.0
-                                            orientation: UIImageOrientationRight]];
-    } else {
-        ud.fixedOrientation = UIInterfaceOrientationPortrait;
+    if (ud.orientationLocked) {
+        ud.orientationLocked = NO;
         [item setImage:[UIImage imageNamed:@"rotation"]];
+    } else {
+        ud.orientationLocked = YES;
+        [item setImage:[UIImage imageNamed:@"lock"]];
+        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
-    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [delegate forceLayout:ud.fixedOrientation];
 }
 
 - (void)tapOnInfoButton:(id)sender {
@@ -188,24 +184,17 @@
 
 - (void) showMenu:(BOOL)state {
     _menuMode = state;
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGFloat Width =  self.frame.size.width;
     if (_menuMode) {
-        if (delegate.isReading) {
-            [[UIApplication sharedApplication] setStatusBarHidden:NO];
-        }
         self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
     } else {
-        if (delegate.isReading) {
-            [[UIApplication sharedApplication] setStatusBarHidden:YES];
-        }
         self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = YES;
     }
 }
 
-- (void) toggleShowMenu:(id) sender {
+- (void) toggleShowMenu:(id)sender {
     _menuMode = !_menuMode;
     [self.delegate toggleMenuState:_menuMode];
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];

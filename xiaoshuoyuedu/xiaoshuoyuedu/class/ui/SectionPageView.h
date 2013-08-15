@@ -29,7 +29,9 @@
     BOOL _menuMode;
 }
 @property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
-@property(nonatomic, strong) YLLabel* textLabelView;
+@property(nonatomic, strong) IBOutlet YLLabel* textLabelView;
+@property(nonatomic, strong) IBOutlet UIView* rotateBackgroundViewLeft;
+@property(nonatomic, strong) IBOutlet UIView* rotateBackgroundViewRight;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;
@@ -41,8 +43,10 @@
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (void) setNovelText:(NSString*)text;
+- (void) setBeginParagraph:(BOOL)beginParagraph;
 - (void) showMenu:(BOOL)state;
 - (void) setMenuState:(BOOL)state;
+- (void) toggleShowMenu:(id) sender;
 @end
 
 @interface SectionPageViewController : UIViewController

@@ -9,7 +9,7 @@
 #import "FontUtils.h"
 #import <CoreText/CoreText.h>
 #import "Common.h"
-
+#import "YLLabel.h"
 @implementation FontUtils
 
 #define kFudgeFactor 16.0
@@ -63,10 +63,55 @@
     return fitSize.height;
 }
 
+
++ (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font vertical:(BOOL)vertical{
+    YLLabel* label = [[YLLabel alloc] init];
+    [label setFont:font];
+    [label setText:string];
+    [label setTextColor:[UIColor blackColor]];
+    [label formatString];
+    
+    CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)label.string);
+    
+    CGRect bounds = CGRectMake(0, 0, size.width - kFudgeFactor, size.height);
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, NULL, bounds);
+    
+    NSMutableArray *clusterRanges = [NSMutableArray array];
+    
+	CFIndex location = 0;
+	CFIndex length   = [string length];
+	while (location < length) {
+		CFRange stringRange = CFRangeMake(location, length-location);
+		CFRange fitRange;
+		CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, stringRange, NULL, CGSizeMake(size.width - kFudgeFactor, CGFLOAT_MAX), &fitRange);
+        
+		CFDictionaryRef attr = vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], @"CTFrameProgression", nil] : NULL;
+		CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, fitRange, path, attr);
+        
+		CFRange factRange = CTFrameGetVisibleStringRange(frame);
+        if (location > 0 && [string characterAtIndex:location - 1] == '\n') {
+            [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:NO],nil]];
+        } else {
+            [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:YES],nil]];
+        }
+        
+        
+		location += factRange.length;
+        
+		CFRelease(frame);
+	}
+    
+	CGPathRelease(path);
+	CFRelease(frameSetter);
+    
+	return clusterRanges;
+}
+
 #define TEST_CHINISE_CHARACTER @"永"
 
-+ (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font {
-    NSLog(@"%@ %@", NSStringFromCGSize(size), font.fontName);
++ (NSArray*) findPageSplits2:(NSString*)string size:(CGSize)size font:(UIFont*)font {
     NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
     CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
     NSUInteger prediect_columns = (int)(size.width / test_size.width);

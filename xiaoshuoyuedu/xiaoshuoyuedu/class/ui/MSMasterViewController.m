@@ -32,6 +32,7 @@
 #import "RankViewController.h"
 #import "CategoryViewController.h"
 #import "BookShelfViewController.h"
+#import "GVUserDefaults+Properties.h"
 
 NSString * const MSMasterViewControllerCellReuseIdentifier = @"MSMasterViewControllerCellReuseIdentifier";
 
@@ -168,9 +169,6 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 }
 
 #pragma orientation - OrientationChange 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
-}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     BookShelfViewController* controller = [self.navigationControllers objectForKey:[@(MSPaneViewControllerTypeRank) stringValue]];
@@ -231,9 +229,6 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
 {
     MSPaneViewControllerType paneViewControllerType = [self paneViewControllerTypeForIndexPath:indexPath];
     [self transitionToViewController:paneViewControllerType];
-    //[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    //cell.accessoryType = UITableViewCellAccessoryCheckmark;
 }
 
 #pragma mark - MSNavigationPaneViewControllerDelegate

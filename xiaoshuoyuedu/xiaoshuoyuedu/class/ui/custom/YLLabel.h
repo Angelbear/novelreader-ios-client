@@ -7,18 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GVUserDefaults+Properties.h"
 @interface YLLabel : UIView
 {
+    NSString* _text;
     NSMutableAttributedString* _string;
     UIFont* _font;
     UIColor* _textColor;
+    BOOL _vertical;
+    GVUserDefaults* _userDefaults;
+    BOOL _beginParagraph;
 }
 
 @property (nonatomic, strong)NSMutableAttributedString* string;
 @property (nonatomic, strong)UIFont* font;
 @property (nonatomic, strong)UIColor* textColor;
+@property (nonatomic, assign)BOOL beginParagraph;
 
 - (void)setText:(NSString*)text;
-
+- (void)formatString;
 @end

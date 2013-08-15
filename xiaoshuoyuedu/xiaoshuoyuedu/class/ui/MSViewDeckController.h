@@ -15,5 +15,4 @@
 @property (nonatomic, strong) IISideController *constrainedRightController;
 @property (nonatomic, strong) ReaderPagingViewController* readerViewController;
 @property (nonatomic, strong) GVUserDefaults* userDefaults;
-- (void) forceOrientation:(UIInterfaceOrientation)orientation;
 @end

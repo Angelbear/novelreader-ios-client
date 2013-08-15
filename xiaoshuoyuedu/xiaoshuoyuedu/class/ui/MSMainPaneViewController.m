@@ -23,16 +23,10 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    if (self.userDefaults.orientationLocked && toInterfaceOrientation != self.userDefaults.fixedOrientation) {
-        return NO;
-    }
-    return YES;
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (BOOL)shouldAutorotate {
-    if (self.userDefaults.orientationLocked && self.interfaceOrientation == self.userDefaults.fixedOrientation) {
-        return NO;
-    }
     return YES;
 }
 

@@ -9,6 +9,8 @@
 #import "MSViewDeckController.h"
 #import "Common.h"
 #import "ForceOrientationViewController.h"
+#import "AppDelegate.h"
+
 @interface MSViewDeckController ()
 
 @end
@@ -18,46 +20,58 @@
 - (id) init {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
+        AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
+        CGFloat Width = UIInterfaceOrientationIsLandscape(delegate.orientation) ? deviceFrame.size.height : deviceFrame.size.width;
         self.readerMasterViewController = [[MSReaderViewController alloc] init];
-        CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
+        CGFloat openSize = (isiPad || UIInterfaceOrientationIsLandscape(delegate.orientation)) ? (Width / 2) : Width - 50;
         self.userDefaults = [GVUserDefaults standardUserDefaults];
         self.constrainedRightController = [[IISideController alloc] initWithViewController:self.readerMasterViewController constrained:openSize];
         
-        self.readerViewController = [[ReaderPagingViewController alloc] init];
-        
-        self.centerController =  self.readerViewController;
         self.rightController = self.constrainedRightController;
         
         self.openSlideAnimationDuration = 0.15f;
         self.closeSlideAnimationDuration = 0.15f;
-        self.rightSize = deviceFrame.size.width  - openSize;
+        self.rightSize = Width  - openSize;
         self.elastic = NO;
         self.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractive;
         
         self.readerMasterViewController.deckViewController = self;
-        self.readerMasterViewController.currentReaderViewController = self.readerViewController;
-        
-        self.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-        
     }
     return self;
+}
+
+- (void) viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+}
+
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGFloat Width = UIInterfaceOrientationIsLandscape(delegate.orientation) ? deviceFrame.size.height : deviceFrame.size.width;
+    CGFloat openSize = (isiPad || UIInterfaceOrientationIsLandscape(delegate.orientation)) ? (Width / 2) : Width - 50;
+    [self.constrainedRightController setConstrainedSize:openSize];
+    self.rightSize = Width  - openSize;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.readerViewController = [[ReaderPagingViewController alloc] init];
+    self.centerController =  self.readerViewController;
+    self.readerMasterViewController.currentReaderViewController = self.readerViewController;
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return (toInterfaceOrientation == self.userDefaults.fixedOrientation);
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -65,31 +79,25 @@
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.readerViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
-        self.rightSize = deviceFrame.size.height  - openSize;
-    } else {
-        CGFloat openSize = isiPad ? (deviceFrame.size.width / 2) : deviceFrame.size.width - 50;
-        self.rightSize = deviceFrame.size.width  - openSize;
-    }
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.readerViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self closeRightView];
+    [self closeRightViewAnimated:YES duration:duration completion:nil];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [self.readerViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-}
-
-- (void) forceOrientation:(UIInterfaceOrientation)orientation {
-    ForceOrientationViewController* controller = [[ForceOrientationViewController alloc] initWithOrientation:orientation];
-    [self presentViewController:controller animated:NO completion:^{
-        [controller dismissViewControllerAnimated:NO completion:nil];
-    }];
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGFloat Width = UIInterfaceOrientationIsLandscape(delegate.orientation) ? deviceFrame.size.height : deviceFrame.size.width;
+    CGFloat openSize = (isiPad || UIInterfaceOrientationIsLandscape(delegate.orientation)) ? (Width / 2) : Width - 50;
+    [self.constrainedRightController setConstrainedSize:openSize];
+    self.rightSize = Width  - openSize;
 }
 
 - (void)didReceiveMemoryWarning

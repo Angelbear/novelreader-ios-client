@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface FontUtils : NSObject
-+ (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font;
++ (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font vertical:(BOOL)vertical;
 @end
