@@ -42,6 +42,7 @@
     _isReading = NO;
     
     _userDefaults = [GVUserDefaults standardUserDefaults];
+    _userDefaults.orientationLocked = NO;
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
 
@@ -131,12 +132,13 @@
     _isReading = YES;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
-    [self.currentWindow insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
+    [self.currentWindow insertSubview:self.readerDeckController.view belowSubview:self.navigationPaneViewController.view];
     self.currentWindow.rootViewController = self.readerDeckController;
     [self.navigationPaneViewController removeFromParentViewController];
-    [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
+    [self.currentWindow insertSubview:self.navigationPaneViewController.view aboveSubview:self.readerDeckController.view];
     
     void (^completionBlock)(BOOL) = ^(BOOL finished) {
+        self.navigationPaneViewController.view.hidden = YES;
         [self.navigationPaneViewController removeFromParentViewController];
     };
     
@@ -196,13 +198,12 @@
     _isReading = NO;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
+    self.navigationPaneViewController.view.hidden = NO;
     [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
     self.currentWindow.rootViewController = self.navigationPaneViewController;
     [self.readerDeckController removeFromParentViewController];
     [self.currentWindow insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
     
-    
-    [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.navigationPaneViewController.view];
     
     void (^completionBlock)(BOOL) = ^(BOOL finished) {
         [self.readerDeckController removeFromParentViewController];

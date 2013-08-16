@@ -7,6 +7,7 @@
 //
 
 #import "MSMainPaneViewController.h"
+#import <QuartzCore/QuartzCore.h>
 @interface MSMainPaneViewController ()
 
 @end

@@ -23,7 +23,6 @@
     [label setTextColor:[UIColor blackColor]];
     [label formatString];
 
-    NSLog(@"findPageSplits %@", NSStringFromCGSize(size));
     CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)label.string);
     
     CGRect bounds;

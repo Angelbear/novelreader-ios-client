@@ -41,12 +41,18 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    [self adjustPagingViewFrame];
+    //[self adjustPagingViewFrame];
     self.pagingView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.pagingView.horizontal = NO;
     self.pagingView.gapBetweenPages = 0.0f;
     self.pagingView.recyclingEnabled = NO;
     self.pagingView.pagesToPreload = 0;
+    
+    FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
+    fontMenuViewController.delegate = self;
+    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
+    self.wePopupController.delegate = self;
+    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
     
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
     
@@ -309,14 +315,9 @@
 }
 
 - (void) clickFontMenuButton:(id) sender {
-    FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
-    fontMenuViewController.delegate = self;
     SectionPageView *cell = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
-    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
-    self.wePopupController.delegate = self;
-    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
     UIBarButtonItem* source = (UIBarButtonItem*) sender;
-    [self.wePopupController presentPopoverFromRect:[self rectForBarItem:source inToolbar:cell.dropDownMenuToolbar toView:cell] inView:cell permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [self.wePopupController presentPopoverFromRect:[self rectForBarItem:source inToolbar:cell.dropDownMenuToolbar toView:self.view] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 - (void) clickBacktoBookShelfButton:(id) sender {
@@ -368,18 +369,9 @@
      return [self.splitInfo count];
 }
 
-- (void) adjustPagingViewFrame {
-    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(delegate.orientation)) {
-        self.pagingView.frame = CGRectMake(0, 0, deviceFrame.size.height, deviceFrame.size.width);
-    } else {
-        self.pagingView.frame = CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height);
-    }
-}
 
 - (UIView *)viewForPageInPagingView:(ATPagingView *)pagingView atIndex:(NSInteger)index {
-    [self adjustPagingViewFrame];
+    //[self adjustPagingViewFrame];
     SectionPageView *view = (SectionPageView*)[pagingView dequeueReusablePage];
     if (view == nil) {
         view = [[SectionPageView alloc] init];
