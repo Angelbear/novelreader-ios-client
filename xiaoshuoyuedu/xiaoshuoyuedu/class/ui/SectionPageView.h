@@ -30,8 +30,6 @@
 }
 @property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
 @property(nonatomic, strong) IBOutlet YLLabel* textLabelView;
-@property(nonatomic, strong) IBOutlet UIView* rotateBackgroundViewLeft;
-@property(nonatomic, strong) IBOutlet UIView* rotateBackgroundViewRight;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;
 @property(nonatomic, strong) IBOutlet UILabel* timeView;

@@ -13,6 +13,7 @@
 - (void) decreaseFontSize;
 - (void) changeFont:(NSString*) fontName;
 - (void) changeTheme:(NSUInteger) themeIndex;
+- (void) changeTextOrientation:(NSInteger) textOrientation;
 @end
 
 @interface FontMenuViewController : UIViewController<UITableViewDelegate, UITableViewDelegate>
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) IBOutlet UIButton* themeButton;
 @property (nonatomic, strong) IBOutlet UIButton* decButton;
 @property (nonatomic, strong) IBOutlet UIButton* incButton;
+@property (nonatomic, strong) IBOutlet UISegmentedControl* orientationButton;
 @property (nonatomic, strong) IBOutlet UISlider* brightSlider;
 @property (nonatomic, weak) id<FontMenuDelegate> delegate;
 @property (nonatomic, strong) IBOutlet UITableView* fontSelectView;

@@ -16,64 +16,22 @@
 #define kGapFactor 8.0
 #define kMaxFieldHeight 9999.0
 
-+ (CGFloat)stringSize:(NSString*)text font:(UIFont*)_font atWidth:(CGFloat)width
-{
-    NSMutableAttributedString* _string = [[NSMutableAttributedString alloc] initWithString:text];
-    CTTextAlignment alignment = kCTJustifiedTextAlignment;
-    
-    CGFloat paragraphSpacing = 0.0;
-    CGFloat paragraphSpacingBefore = 0.0;
-    CGFloat firstLineHeadIndent = 0.0;
-    CGFloat headIndent = 0.0;
-    
-    CTParagraphStyleSetting settings[] =
-    {
-        {kCTParagraphStyleSpecifierAlignment, sizeof(CTTextAlignment), &alignment},
-        {kCTParagraphStyleSpecifierFirstLineHeadIndent, sizeof(CGFloat), &firstLineHeadIndent},
-        {kCTParagraphStyleSpecifierHeadIndent, sizeof(CGFloat), &headIndent},
-        {kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpacing},
-        {kCTParagraphStyleSpecifierParagraphSpacingBefore, sizeof(CGFloat), &paragraphSpacingBefore},
-    };
-    
-    CTParagraphStyleRef style;
-    style = CTParagraphStyleCreate(settings, sizeof(settings)/sizeof(CTParagraphStyleSetting));
-    
-    if (NULL == style) {
-        // error...
-        return 0.0;
-    }
-    
-    [_string addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:(__bridge NSObject*)style, (NSString*)kCTParagraphStyleAttributeName, nil]
-                     range:NSMakeRange(0, [_string length])];
-    
-    CFRelease(style);
-    
-    if (nil == _font) {
-        _font = [UIFont systemFontOfSize:DEFAULT_FONT_SIZE];
-    }
-    
-    CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)_font.fontName, _font.pointSize, NULL);
-    [_string addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:(__bridge NSObject*)fontRef, (NSString*)kCTFontAttributeName, nil]
-                     range:NSMakeRange(0, [_string length])];
-
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)_string);
-    CGSize targetSize = CGSizeMake(width - 16.0f, CGFLOAT_MAX);
-    CGSize fitSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRangeMake(0, [_string length]), NULL, targetSize, NULL);
-    CFRelease(framesetter);
-    return fitSize.height;
-}
-
-
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font vertical:(BOOL)vertical{
     YLLabel* label = [[YLLabel alloc] init];
     [label setFont:font];
     [label setText:string];
     [label setTextColor:[UIColor blackColor]];
     [label formatString];
-    
+
+    NSLog(@"findPageSplits %@", NSStringFromCGSize(size));
     CTFramesetterRef frameSetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)label.string);
     
-    CGRect bounds = CGRectMake(0, 0, size.width - kFudgeFactor, size.height);
+    CGRect bounds;
+    if (vertical) {
+        bounds = CGRectMake(0, 0, size.width - kFudgeFactor, size.height);
+    } else {
+        bounds = CGRectMake(0, 0, size.width - kFudgeFactor, size.height);
+    }
     
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, bounds);
@@ -84,21 +42,24 @@
 	CFIndex length   = [string length];
 	while (location < length) {
 		CFRange stringRange = CFRangeMake(location, length-location);
-		CFRange fitRange;
-		CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, stringRange, NULL, CGSizeMake(size.width - kFudgeFactor, CGFLOAT_MAX), &fitRange);
+		CFRange fitRange = CFRangeMake(0, 0);
         
-		CFDictionaryRef attr = vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], @"CTFrameProgression", nil] : NULL;
-		CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, fitRange, path, attr);
-        
-		CFRange factRange = CTFrameGetVisibleStringRange(frame);
-        if (location > 0 && [string characterAtIndex:location - 1] == '\n') {
-            [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:NO],nil]];
+        if (vertical) {
+            CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, stringRange, NULL, CGSizeMake(CGFLOAT_MAX, size.height), &fitRange);
         } else {
-            [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:YES],nil]];
+            CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, stringRange, NULL, CGSizeMake(size.width - kFudgeFactor, CGFLOAT_MAX), &fitRange);
         }
         
+        CFDictionaryRef attr = vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], @"CTFrameProgression", nil] : NULL;
         
-		location += factRange.length;
+		CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, fitRange, path, attr);
+
+		CFRange factRange = CTFrameGetVisibleStringRange(frame);
+        
+        BOOL beginParagraph = (location == 0 || [string characterAtIndex:location - 1] == '\n');
+
+        [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:beginParagraph],nil]];
+        location += factRange.length;
         
 		CFRelease(frame);
 	}
@@ -107,61 +68,6 @@
 	CFRelease(frameSetter);
     
 	return clusterRanges;
-}
-
-#define TEST_CHINISE_CHARACTER @"永"
-
-+ (NSArray*) findPageSplits2:(NSString*)string size:(CGSize)size font:(UIFont*)font {
-    NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:32];
-    CGSize test_size = [TEST_CHINISE_CHARACTER sizeWithFont:font];
-    NSUInteger prediect_columns = (int)(size.width / test_size.width);
-    NSUInteger prediect_rows = (int)(size.height / test_size.height);
-    CGFloat height = size.height;
-    CFRange r = {0, 0};
-    NSInteger str_len = [string length];
-    NSUInteger round = 0;
-    NSUInteger calcAPICallNum = 0;
-    do {
-        CGFloat calcHeight;
-        NSUInteger count = 0;
-        while (r.location < str_len && [string characterAtIndex:r.location] == '\n') {
-            r.location ++;
-        }
-        do {
-            count+= MAX(prediect_columns, (int)(prediect_columns* prediect_rows / pow(2, round + 1) ));
-            //count+=prediect_columns;
-            if (r.location + count > str_len) {
-                break;
-            }
-            calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-            //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-            calcAPICallNum ++;
-        } while ( calcHeight < height );
-        
-        if (r.location + count > str_len) {
-            count = str_len - r.location;
-        }
-        
-        calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-        //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-        calcAPICallNum ++;
-        
-        if (calcHeight > height) {            
-            do {
-                count--;
-                calcHeight = [FontUtils stringSize:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-                //[UITextView heightWithText:[string substringWithRange:NSMakeRange(r.location, count)] font:font atWidth:size.width];
-                calcAPICallNum ++;
-            } while (calcHeight > height);
-        }
-        
-        [result addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:r.location], [NSNumber numberWithInt:count], nil]];
-        r.location += count;
-        count = 0;
-        round ++;
-    } while (r.location < str_len);
-    NSLog(@"calcAPICallNum %d", calcAPICallNum);
-    return result;
 }
 
 @end

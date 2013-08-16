@@ -23,11 +23,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    return self.userDefaults.fixedOrientation;
 }
 
 - (BOOL)shouldAutorotate {
-    return YES;
+    return (self.userDefaults.orientationLocked == NO) || (self.interfaceOrientation != self.userDefaults.fixedOrientation);
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

@@ -132,7 +132,15 @@
     CGRect deviceFrame = self.currentWindow.screen.bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     [self.currentWindow insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
-    switch (_orientation) {
+    self.currentWindow.rootViewController = self.readerDeckController;
+    [self.navigationPaneViewController removeFromParentViewController];
+    [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
+    
+    void (^completionBlock)(BOOL) = ^(BOOL finished) {
+        [self.navigationPaneViewController removeFromParentViewController];
+    };
+    
+    switch(_orientation) {
         case UIInterfaceOrientationPortrait: {
             self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
             [UIView transitionWithView:self.currentWindow
@@ -145,10 +153,7 @@
                  self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
                  
              }
-            completion:^(BOOL finished){
-                [self.navigationPaneViewController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.readerDeckController;
-            }];
+                            completion:completionBlock];
         }
             break;
         case UIInterfaceOrientationLandscapeRight: {
@@ -163,10 +168,7 @@
                  self.navigationPaneViewController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height );
                  
              }
-            completion:^(BOOL finished){
-                [self.navigationPaneViewController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.readerDeckController;
-            }];
+                            completion:completionBlock];
         }
             break;
         case UIInterfaceOrientationLandscapeLeft:{
@@ -181,10 +183,7 @@
                  self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height );
                  
              }
-            completion:^(BOOL finished){
-                [self.navigationPaneViewController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.readerDeckController;
-            }];
+                            completion:completionBlock];
         }
             break;
         default:
@@ -197,7 +196,19 @@
     _isReading = NO;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
     CGRect deviceFrame = self.currentWindow.screen.bounds;
+    [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
+    self.currentWindow.rootViewController = self.navigationPaneViewController;
+    [self.readerDeckController removeFromParentViewController];
+    [self.currentWindow insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
+    
+    
     [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.navigationPaneViewController.view];
+    
+    void (^completionBlock)(BOOL) = ^(BOOL finished) {
+        [self.readerDeckController removeFromParentViewController];
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    };
+    
     switch (_orientation) {
         case UIInterfaceOrientationPortrait:{
             self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
@@ -210,14 +221,7 @@
                  self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
                  
              }
-            completion:^(BOOL finished){
-                [self.readerDeckController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.navigationPaneViewController;
-                self.navigationPaneViewController.view.frame = CGRectMake(0, statusHeight, deviceFrame.size.width,  deviceFrame.size.height - statusHeight);
-                [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-                [UIViewController attemptRotationToDeviceOrientation];
-            }];
-
+                            completion:completionBlock];
         }
             break;
         case UIInterfaceOrientationLandscapeRight: {
@@ -231,13 +235,7 @@
                  self.readerDeckController.view.frame = CGRectMake(0, deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
                  
              }
-            completion:^(BOOL finished){
-                [self.readerDeckController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.navigationPaneViewController;
-                self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
-                [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-                [UIViewController attemptRotationToDeviceOrientation];
-            }];
+                            completion:completionBlock];
         }
             break;
         case UIInterfaceOrientationLandscapeLeft: {
@@ -251,14 +249,7 @@
                  self.readerDeckController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
                  
              }
-            completion:^(BOOL finished){
-                [self.readerDeckController removeFromParentViewController];
-                self.currentWindow.rootViewController = self.navigationPaneViewController;
-                self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
-                [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-                [UIViewController attemptRotationToDeviceOrientation];
-            }];
-
+                            completion:completionBlock];
         }
             break;
         default:
@@ -332,7 +323,12 @@
     if (newOrientation == UIInterfaceOrientationPortrait ||
         newOrientation == UIInterfaceOrientationLandscapeLeft ||
         newOrientation == UIInterfaceOrientationLandscapeRight) {
+        if (!_userDefaults.orientationLocked) {
             _orientation = newOrientation;
+        } else {
+            _orientation = _userDefaults.fixedOrientation;
+        }
+            
     }
 }
 

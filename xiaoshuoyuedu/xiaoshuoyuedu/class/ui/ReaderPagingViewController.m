@@ -25,7 +25,6 @@
 @interface ReaderPagingViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
-@property (nonatomic, assign) CGSize contentSize;
 @end
 
 @implementation ReaderPagingViewController
@@ -33,24 +32,12 @@
 - (id) init {
     self = [super init];
     if (self) {
-        CGRect deviceRect = [UIScreen mainScreen].bounds;
         _initialized = NO;
-        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
         self.userDefaults = [GVUserDefaults standardUserDefaults];
-        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], nil]];
     }
     return self;
 };
-
-- (void) viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
 
 - (void) viewDidLoad {
     [super viewDidLoad];
@@ -72,8 +59,17 @@
     }
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return self.userDefaults.fixedOrientation;
+}
+
+- (BOOL)shouldAutorotate {
+    return (self.userDefaults.orientationLocked == NO);
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscape);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -97,14 +93,9 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-    CGRect deviceRect = [UIScreen mainScreen].bounds;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-        self.contentSize = CGSizeMake(deviceRect.size.height , deviceRect.size.width - 35.0f);
-    } else {
-        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f); 
-    }
     [self.pagingView reloadData];
-    //[self prepareForRead];
+    [[ReaderCacheManager init_instance] clearAllSplitInfos];
+    [self prepareForRead];
 }
 
 
@@ -156,9 +147,6 @@
 
 - (void) prepareForRead {
     if (self.section != nil && self.section.text != nil && self.section.text.length != 0) {
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        CGRect deviceRect = delegate.currentWindow.screen.bounds;
-        self.contentSize = CGSizeMake(deviceRect.size.width , deviceRect.size.height - 35.0f);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [[self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByReplacingOccurrencesOfString:@" " withString:@""];
             NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
@@ -166,7 +154,7 @@
                 if (cachedInfo) {
                     self.splitInfo = cachedInfo;
                 } else {
-                    self.splitInfo = [FontUtils findPageSplits:self.section.text size:self.contentSize font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize] vertical:NO];
+                    self.splitInfo = [FontUtils findPageSplits:self.section.text size:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 35.0f) font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize] vertical:(self.userDefaults.textOrientation == 1)];
                     [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
                 }
                 _initialized = NO;
@@ -176,7 +164,7 @@
         });
     } else {
         _initialized = NO;
-        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+        self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], [NSNumber numberWithBool:NO],nil]];
         [self.pagingView reloadData];
     }
 }
@@ -215,7 +203,7 @@
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && [delegate isReaderRightPanelOpen] == NO) {
             return YES;
-        }
+        } 
     }
     return NO;
 }
@@ -223,16 +211,15 @@
 - (void)pagingViewWillBeginMoving:(ATPagingView *)pagingView {
     if (_menuMode) {
         SectionPageView* page = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
-        [page toggleShowMenu:NO];
+        [page toggleShowMenu:nil];
     }
 }
 
 - (void) jumpToBookmark {
     if (self.section != nil && self.section.text!=nil && [self.section.text length] > 0) {
-        NSUInteger indexForJump = 0;
-        for (indexForJump = 0; indexForJump < [self.splitInfo count]; indexForJump++) {
-            if (self.bookmark.offset < [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
-                indexForJump --;
+        NSUInteger indexForJump = [self.splitInfo count] - 1;
+        for (; indexForJump > 0; indexForJump--) {
+            if (self.bookmark.offset >= [[[self.splitInfo objectAtIndex:indexForJump] objectAtIndex:0] intValue]) {
                 break;
             }
         }
@@ -261,6 +248,10 @@
     if (self.pagingView.horizontal == NO && recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
         if ([delegate isReaderRightPanelOpen] == NO) {
+            if (_menuMode) {
+                SectionPageView* page = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
+                [page toggleShowMenu:nil];
+            }
             [delegate switchToNavitation];
         }
     }
@@ -363,6 +354,13 @@
 }
 
 
+- (void) changeTextOrientation:(NSInteger)textOrientation {
+    self.userDefaults.textOrientation = textOrientation;
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[ReaderCacheManager init_instance] clearAllSplitInfos];
+    [self prepareForRead];
+}
+
 #pragma mark -
 #pragma mark ATPagingViewDelegate methods
 
@@ -389,6 +387,7 @@
     view.backgroundColor = [THEME_COLORS objectAtIndex:self.userDefaults.themeIndex];
     view.textLabelView.textColor = [FONT_COLORS objectAtIndex:self.userDefaults.themeIndex];
     view.textLabelView.font = [UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize];
+    view.textLabelView.vertical = (self.userDefaults.textOrientation == 1);
     NSArray* split = [self.splitInfo objectAtIndex:index];
 
     [view setBeginParagraph:[[split objectAtIndex:2] boolValue]];

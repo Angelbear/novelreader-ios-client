@@ -54,6 +54,7 @@
     self.brightSlider.value = [UIScreen mainScreen].brightness;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     self.fontSelectView.backgroundView = nil;
+    self.orientationButton.selectedSegmentIndex = self.userDefaults.textOrientation;
     self.fontSelectView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
 }
 
@@ -110,6 +111,7 @@
 - (IBAction)clickThemeButton:(id)sender {
     UIButton* imageButton = (UIButton*) sender;
     self.userDefaults.themeIndex = imageButton.tag;
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [UIView transitionWithView:self.view
                       duration:1.25
                        options:UIViewAnimationOptionCurveEaseOut
@@ -123,6 +125,10 @@
      {
          [self.delegate changeTheme:self.userDefaults.themeIndex];
      }];
+}
+
+- (IBAction)selectTextOrientation:(id*)sender {
+    [self.delegate changeTextOrientation:self.orientationButton.selectedSegmentIndex];
 }
 
 

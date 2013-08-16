@@ -40,11 +40,7 @@
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
         self.textLabelView.userInteractionEnabled = NO;
-        
-        self.rotateBackgroundViewLeft.frame = CGRectMake(0, 0, deviceFrame.size.height, deviceFrame.size.width);
-        self.rotateBackgroundViewLeft.frame = CGRectMake(deviceFrame.size.width - deviceFrame.size.height, 0, deviceFrame.size.height, deviceFrame.size.width);
-        
-        
+ 
         self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
@@ -156,13 +152,14 @@
 - (IBAction)changeOrientation:(id)sender {
     UIBarButtonItem* item = (UIBarButtonItem*)sender;
     GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     if (ud.orientationLocked) {
         ud.orientationLocked = NO;
         [item setImage:[UIImage imageNamed:@"rotation"]];
     } else {
         ud.orientationLocked = YES;
+        ud.fixedOrientation = delegate.orientation;
         [item setImage:[UIImage imageNamed:@"lock"]];
-        [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

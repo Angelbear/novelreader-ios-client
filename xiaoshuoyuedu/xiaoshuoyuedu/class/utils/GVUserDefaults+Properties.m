@@ -22,6 +22,7 @@
              @"NSUserDefaultFontSize": @(DEFAULT_FONT_SIZE),
              @"NSUserDefaultFontName" : @"Helvetica",
              @"NSUserDefaultThemeIndex": @0,
+             @"NSUserDefaultTextOrientation": @0,
              };
 }
 

@@ -14,4 +14,5 @@
 @property (nonatomic) CGFloat fontSize;
 @property (nonatomic, weak) NSString* fontName;
 @property (nonatomic) NSInteger themeIndex;
+@property (nonatomic) NSInteger textOrientation;
 @end

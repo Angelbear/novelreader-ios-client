@@ -20,6 +20,7 @@
 @synthesize font = _font;
 @synthesize textColor = _textColor;
 @synthesize beginParagraph = _beginParagraph;
+@synthesize vertical = _vertical;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -88,9 +89,10 @@
     
     CGFloat paragraphSpacing = 0.0;
     CGFloat paragraphSpacingBefore = 0.0;
-    CGFloat firstLineHeadIndent = _font.pointSize * 2;
+    CGFloat firstLineHeadIndent = _vertical ? 0.0 : _font.pointSize * 2;
     CGFloat headIndent = 0.0;
     CGFloat lineSpaceing = 0.0;
+    CGFloat leading = _font.lineHeight - _font.ascender + _font.descender;
     
     CTParagraphStyleSetting settings[] =
     {
@@ -102,6 +104,7 @@
         {kCTParagraphStyleSpecifierMinimumLineSpacing, sizeof(CGFloat), &lineSpaceing},
         {kCTParagraphStyleSpecifierMaximumLineSpacing, sizeof(CGFloat), &lineSpaceing},
         {kCTParagraphStyleSpecifierLineSpacing, sizeof(CGFloat), &lineSpaceing},
+        {kCTParagraphStyleSpecifierLineSpacingAdjustment, sizeof(CGFloat), &leading}
     };
     
     CTParagraphStyleRef style;
@@ -115,7 +118,7 @@
     if (_beginParagraph) {
         [_string addAttribute:(NSString*)kCTParagraphStyleAttributeName value:(__bridge id)style range:NSMakeRange(0, [_string length])];
     } else if ([_string length] > 0 ){
-        [_string addAttribute:(NSString*)kCTParagraphStyleAttributeName value:(__bridge id)style range:NSMakeRange(0, [_string length] - 1)];
+        [_string addAttribute:(NSString*)kCTParagraphStyleAttributeName value:(__bridge id)style range:NSMakeRange(1, [_string length] - 1)];
     }
     CFRelease(style);
 
@@ -139,7 +142,7 @@
     [_string addAttribute:(NSString*)kCTRunDelegateAttributeName value:(__bridge id)delegate range:NSMakeRange(0, [_string length])];
     CFRelease(delegate);
     
-    CTGlyphInfoRef glyphInfo = CTGlyphInfoCreateWithCharacterIdentifier(kCGFontIndexMax, kCTAdobeGB1CharacterCollection, (__bridge CFStringRef)(_text));
+    CTGlyphInfoRef glyphInfo = CTGlyphInfoCreateWithCharacterIdentifier(kCGFontIndexMax, kCTCharacterCollectionAdobeCNS1, (__bridge CFStringRef)(_text));
     [_string addAttribute:(NSString *)kCTGlyphInfoAttributeName value:(__bridge id)glyphInfo range:NSMakeRange(0, [_string length])];
     CFRelease(glyphInfo);
     

@@ -23,6 +23,7 @@
 @property (nonatomic, strong)UIFont* font;
 @property (nonatomic, strong)UIColor* textColor;
 @property (nonatomic, assign)BOOL beginParagraph;
+@property (nonatomic, assign)BOOL vertical;
 
 - (void)setText:(NSString*)text;
 - (void)formatString;
