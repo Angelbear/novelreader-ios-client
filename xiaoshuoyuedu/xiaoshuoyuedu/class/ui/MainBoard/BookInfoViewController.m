@@ -72,7 +72,7 @@
             if ([[JSON objectForKey:@"description"] isKindOfClass:[NSString class]]) {
                 weakReferenceSelf.descriptionView.text = [JSON objectForKey:@"description"];
             } else {
-                weakReferenceSelf.descriptionView.text = @"无";
+                weakReferenceSelf.descriptionView.text = NSLocalizedString(@"none", @"");
             }
             if ([[JSON objectForKey:@"img"] isKindOfClass:[NSString class]]) {
                 [weakReferenceSelf.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFillIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:self.placeHolderImage diskCacheTimeoutInterval:30];

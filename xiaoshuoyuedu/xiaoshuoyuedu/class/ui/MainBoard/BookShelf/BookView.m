@@ -189,7 +189,7 @@
 - (void)deleteButtonClicked:(id)sender {
     if (!_deleteMode) {
         _deleteMode = YES;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"删除书籍" message:@"确认删除？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"delete book", @"") message:NSLocalizedString(@"confirm delete book", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"cancel", @"") otherButtonTitles:NSLocalizedString(@"ok", @""), nil];
         [alert show];
     }
 }

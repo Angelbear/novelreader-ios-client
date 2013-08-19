@@ -55,7 +55,7 @@
 }
 
 - (void) checkUpdateForAllBooks {
-    [self showHUDWithCancel:@"正在更新书籍"];
+    [self showHUDWithCancel:NSLocalizedString(@"Updating books", @"")];
     self._completedDownloadBooks = 0;
     [self._activeDownloadClients removeAllObjects];
     __weak BookShelfViewController* weakReferenceSelf = self;
@@ -95,7 +95,7 @@
         [client enqueueBatchOfHTTPRequestOperations:operations
                                       progressBlock:^(NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations) {
                                           if (weakReferenceSelf) {
-                                              [weakReferenceSelf.HUD setLabelText:[NSString stringWithFormat:@"正在更新书籍 %d/%d", numberOfCompletedOperations, totalNumberOfOperations]];
+                                              [weakReferenceSelf.HUD setLabelText:[NSString stringWithFormat:NSLocalizedString(@"Updating books %d/%d", @""), numberOfCompletedOperations, totalNumberOfOperations]];
                                           }
                                       } completionBlock:^(NSArray *operations) {
                                               [weakReferenceSelf.HUD hide:YES];
@@ -106,7 +106,7 @@
 }
 
 - (void) downloadAllSectionsOfAllBooks {
-    [self showHUDWithCancel:@"正在更新章节"];
+    [self showHUDWithCancel:NSLocalizedString(@"Updating passages", @"")];
     self._completedDownloadBooks = 0;
     [self._activeDownloadClients removeAllObjects];
     __weak BookShelfViewController* weakReferenceSelf = self;
