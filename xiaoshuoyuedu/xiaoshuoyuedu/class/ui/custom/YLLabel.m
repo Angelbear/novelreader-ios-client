@@ -58,7 +58,7 @@
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, bounds);
     
-    CFDictionaryRef attr = _vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], @"CTFrameProgression", nil] : NULL;
+    CFDictionaryRef attr = _vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], (NSString*)kCTFrameProgressionAttributeName, nil] : NULL;
     CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, CFRangeMake(0, [_string length]), path, attr);
     CFRelease(path);
     
@@ -79,6 +79,16 @@
     _textColor = textColor;
 }
 
+- (CTGlyphInfoRef)getGlyphInfoRef {
+    NSString* language =  (__bridge NSString *)CFStringTokenizerCopyBestStringLanguage((CFStringRef)_text, CFRangeMake(0, _text.length));
+    if ([language isEqualToString:@"ja"]) {
+        return CTGlyphInfoCreateWithCharacterIdentifier(kCGFontIndexMax, kCTCharacterCollectionAdobeJapan1, (__bridge CFStringRef)(_text));
+    } else if ([language isEqualToString:@"zh-Hans"]) {
+        return CTGlyphInfoCreateWithCharacterIdentifier(kCGFontIndexMax, kCTCharacterCollectionAdobeCNS1, (__bridge CFStringRef)(_text));
+    }
+    return NULL;
+}
+
 - (void)formatString
 {
     if (nil == _font) {
@@ -91,7 +101,7 @@
     CGFloat paragraphSpacingBefore = 0.0;
     CGFloat firstLineHeadIndent = _vertical ? 0.0 : _font.pointSize * 2;
     CGFloat headIndent = 0.0;
-    CGFloat lineSpaceing = 0.0;
+    CGFloat lineSpaceing = 2.0;
     CGFloat leading = _font.lineHeight - _font.ascender + _font.descender;
     
     CTParagraphStyleSetting settings[] =
@@ -125,27 +135,19 @@
     CTFontRef fontRef = CTFontCreateWithName((__bridge CFStringRef)_font.fontName, _font.pointSize, NULL);
     [_string addAttribute:(NSString*)kCTFontAttributeName value:(__bridge id)fontRef range:NSMakeRange(0, [_string length])];
 
+    CGFloat wordSpacing = 2.0f;
+    [_string addAttribute:(NSString*)kCTKernAttributeName value:@(wordSpacing) range:NSMakeRange(0, [_string length])];
     
     CGColorRef colorRef = _textColor.CGColor;
     [_string addAttribute:(NSString*)kCTForegroundColorAttributeName value:(__bridge id)colorRef range:NSMakeRange(0, [_string length])];
-
     
-    CTRunDelegateCallbacks callbacks;
-    callbacks.version = kCTRunDelegateCurrentVersion;
-    callbacks.dealloc = deallocationCallback;
-    callbacks.getAscent = getAscentCallback;
-    callbacks.getDescent = getDescentCallback;
-    callbacks.getWidth = getWidthCallback;
     
-    NSDictionary* attribs = [NSDictionary dictionaryWithObjectsAndKeys:@(_font.lineHeight),@"height",@(_font.pointSize),@"width", nil];
-    CTRunDelegateRef delegate = CTRunDelegateCreate(&callbacks, (void *)CFBridgingRetain(attribs));
-    [_string addAttribute:(NSString*)kCTRunDelegateAttributeName value:(__bridge id)delegate range:NSMakeRange(0, [_string length])];
-    CFRelease(delegate);
-    
-    CTGlyphInfoRef glyphInfo = CTGlyphInfoCreateWithCharacterIdentifier(kCGFontIndexMax, kCTCharacterCollectionAdobeCNS1, (__bridge CFStringRef)(_text));
-    [_string addAttribute:(NSString *)kCTGlyphInfoAttributeName value:(__bridge id)glyphInfo range:NSMakeRange(0, [_string length])];
-    CFRelease(glyphInfo);
-    
+    CTGlyphInfoRef glyphInfo = [self getGlyphInfoRef];
+    if (glyphInfo) {
+        [_string addAttribute:(NSString *)kCTGlyphInfoAttributeName value:(__bridge id)glyphInfo range:NSMakeRange(0, [_string length])];
+        CFRelease(glyphInfo);
+    }
+        
     [_string addAttribute:(NSString*)kCTLigatureAttributeName value:@(YES) range:NSMakeRange(0, [_string length])];
     
     if (_vertical) {
@@ -154,30 +156,5 @@
                          range:NSMakeRange(0, [_string length])];
     }
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void deallocationCallback( void* ref )
-{
-    CFBridgingRelease(ref);
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//height of object
-CGFloat getAscentCallback( void *ref )
-{
-    return [(NSNumber*)[(__bridge NSDictionary*)ref objectForKey:@"height"] floatValue];
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-CGFloat getDescentCallback( void *ref)
-{
-    return 0.0f;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//width of object
-CGFloat getWidthCallback( void* ref )
-{
-    return [(NSNumber*)[(__bridge NSDictionary*)ref objectForKey:@"width"] floatValue];
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 @end

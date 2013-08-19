@@ -23,7 +23,10 @@
              @"NSUserDefaultFontName" : @"Helvetica",
              @"NSUserDefaultThemeIndex": @0,
              @"NSUserDefaultTextOrientation": @0,
+             @"NSUserDefaultLocaleSettings": @1,
+             @"NSUserDefaultBrightness": @(1.0f),
              };
 }
+
 
 @end

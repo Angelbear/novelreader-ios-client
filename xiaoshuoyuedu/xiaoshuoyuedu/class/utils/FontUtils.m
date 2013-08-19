@@ -49,7 +49,7 @@
             CTFramesetterSuggestFrameSizeWithConstraints(frameSetter, stringRange, NULL, CGSizeMake(size.width - kFudgeFactor, CGFLOAT_MAX), &fitRange);
         }
         
-        CFDictionaryRef attr = vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], @"CTFrameProgression", nil] : NULL;
+        CFDictionaryRef attr = vertical ? (__bridge  CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithUnsignedInt:kCTFrameProgressionRightToLeft], (NSString*)kCTFrameProgressionAttributeName, nil] : NULL;
         
 		CTFrameRef frame = CTFramesetterCreateFrame(frameSetter, fitRange, path, attr);
 

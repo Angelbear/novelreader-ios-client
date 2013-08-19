@@ -12,7 +12,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <WEPopover/WEPopoverTableViewController.h>
 #import <CoreText/CoreText.h>
-#import "WindowSelectViewController.h"
 #import "Common.h"
 #import "GVUserDefaults+Properties.h"
 @implementation SectionPageViewController
@@ -44,10 +43,6 @@
         self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
-        [self addSubview:self.dropDownMenuToolbar];
-        
-        WindowSelectViewController* select = [[WindowSelectViewController alloc] initWithStyle:UITableViewStylePlain];
-        self.popup = [[WEPopoverController alloc] initWithContentViewController:select];
         
         self.downloadPanel.hidden = YES;
         
@@ -62,9 +57,13 @@
             [self.deviceOrientationItem setImage:[UIImage imageNamed:@"rotation"]];
         }
 
+        self.blackView.alpha = (0.5 - 0.5f*ud.brightness);
+        
         [self addGestureRecognizer:self.tapRecognizer];
         
         [self bringSubviewToFront:self.downloadPanel];
+        [self bringSubviewToFront:self.blackView];
+        [self addSubview:self.dropDownMenuToolbar];
         _menuMode = NO;
     }
     return self;
@@ -169,10 +168,7 @@
 }
 
 - (void)tapOnAirMirrorButton:(id)sender {
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    self.popup.popoverContentSize = CGSizeMake(200, [delegate.windows count] * 44.0f);
-    UIView* view = (UIView*)sender;
-    [self.popup presentPopoverFromRect:view.frame inView:self permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+
 }
 
 - (void) setMenuState:(BOOL)state {

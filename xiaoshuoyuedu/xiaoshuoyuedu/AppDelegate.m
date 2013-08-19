@@ -21,10 +21,6 @@
 #import "GVUserDefaults+Properties.h"
 
 @interface AppDelegate ()
-- (UIWindow *)  createWindowForScreen:(UIScreen *)screen;
-- (void)        addViewController:(UIViewController *)controller toWindow:(UIWindow *)window;
-- (void)        screenDidConnect:(NSNotification *) notification;
-- (void)        screenDidDisconnect:(NSNotification *) notification;
 @end
 
 
@@ -37,56 +33,34 @@
 {
     [Crashlytics startWithAPIKey:@"8946d07e106863f557b755bb244b513a82a3f788"];
     
-    UIWindow    *_window    = nil;
-    NSArray     *_screens   = nil;
     _isReading = NO;
-    
     _userDefaults = [GVUserDefaults standardUserDefaults];
     _userDefaults.orientationLocked = NO;
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-
-    self.windows = [[NSMutableArray alloc] init];
+            
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+ 
+    [[DataBase get_database_instance] initialize_database];
     
-    self.remoteControllViewController = [[RemoteControlViewController alloc] initWithNibName:@"RemoteControlViewController" bundle:nil];
-    _screens = [UIScreen screens];
-    for (UIScreen *_screen in _screens){
-        if (_screen == [UIScreen mainScreen]){
-            _window = [self createWindowForScreen:_screen];
-            
-            self.currentWindow = _window;
-            self.mainWindow = _window;
-         
-            [[DataBase get_database_instance] initialize_database];
-            if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
-                [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
-            }
-            
-            self.navigationPaneViewController = [[MSMainPaneViewController alloc] init];
-            MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
-            masterViewController.navigationPaneViewController = self.navigationPaneViewController;
-            self.navigationPaneViewController.masterViewController = masterViewController;
-            
-            self.readerDeckController =  [[MSViewDeckController alloc] init];
-            
-            _window.rootViewController = self.navigationPaneViewController;
-            
-            [_window makeKeyAndVisible];
-        }
+    if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(screenDidConnect:)
-												 name:UIScreenDidConnectNotification
-											   object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(screenDidDisconnect:)
-												 name:UIScreenDidDisconnectNotification
-											   object:nil];
+    self.navigationPaneViewController = [[MSMainPaneViewController alloc] init];
+    MSMasterViewController *masterViewController = [[MSMasterViewController alloc] init];
+    masterViewController.navigationPaneViewController = self.navigationPaneViewController;
+    self.navigationPaneViewController.masterViewController = masterViewController;
+    
+    self.readerDeckController =  [[MSViewDeckController alloc] init];
+    
+    self.window.rootViewController = self.navigationPaneViewController;
+    
+    [self.window makeKeyAndVisible];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationChanged:)
-                                                 name:@"UIDeviceOrientationDidChangeNotification"
-                                               object: nil];
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                            object: nil];
 
     return YES;
 }
@@ -101,7 +75,7 @@
 
 - (void)forceLayout:(UIInterfaceOrientation)orientation
 {
-    CGRect deviceFrame = self.currentWindow.screen.bounds;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
     if (_orientation != orientation) {
         if (orientation == UIInterfaceOrientationPortrait) {
             [self.readerDeckController willAnimateRotationToInterfaceOrientation:UIInterfaceOrientationPortrait duration:ROTATION_ANIMATION_TIME];
@@ -130,12 +104,12 @@
 
 - (void) animationToReader:(BookView*)bookView {
     _isReading = YES;
-    CGRect deviceFrame = self.currentWindow.screen.bounds;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
-    [self.currentWindow insertSubview:self.readerDeckController.view belowSubview:self.navigationPaneViewController.view];
-    self.currentWindow.rootViewController = self.readerDeckController;
+    [self.window insertSubview:self.readerDeckController.view belowSubview:self.navigationPaneViewController.view];
+    self.window.rootViewController = self.readerDeckController;
     [self.navigationPaneViewController removeFromParentViewController];
-    [self.currentWindow insertSubview:self.navigationPaneViewController.view aboveSubview:self.readerDeckController.view];
+    [self.window insertSubview:self.navigationPaneViewController.view aboveSubview:self.readerDeckController.view];
     
     void (^completionBlock)(BOOL) = ^(BOOL finished) {
         self.navigationPaneViewController.view.hidden = YES;
@@ -145,7 +119,7 @@
     switch(_orientation) {
         case UIInterfaceOrientationPortrait: {
             self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -160,7 +134,7 @@
             break;
         case UIInterfaceOrientationLandscapeRight: {
             self.readerDeckController.view.frame = CGRectMake( 0, deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -175,7 +149,7 @@
             break;
         case UIInterfaceOrientationLandscapeLeft:{
             self.readerDeckController.view.frame = CGRectMake( 0, - deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -197,12 +171,12 @@
 - (void) animationBack {
     _isReading = NO;
     CGFloat statusHeight = isiOS7 ? 0 : 20;
-    CGRect deviceFrame = self.currentWindow.screen.bounds;
+    CGRect deviceFrame = self.window.screen.bounds;
     self.navigationPaneViewController.view.hidden = NO;
-    [self.currentWindow insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
-    self.currentWindow.rootViewController = self.navigationPaneViewController;
+    [self.window insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
+    self.window.rootViewController = self.navigationPaneViewController;
     [self.readerDeckController removeFromParentViewController];
-    [self.currentWindow insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
+    [self.window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
     
     
     void (^completionBlock)(BOOL) = ^(BOOL finished) {
@@ -213,7 +187,7 @@
     switch (_orientation) {
         case UIInterfaceOrientationPortrait:{
             self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -227,7 +201,7 @@
             break;
         case UIInterfaceOrientationLandscapeRight: {
             self.navigationPaneViewController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -241,7 +215,7 @@
             break;
         case UIInterfaceOrientationLandscapeLeft: {
             self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height);
-            [UIView transitionWithView:self.currentWindow
+            [UIView transitionWithView:self.window
                               duration:READER_DECK_ANIMATION_TIME
                                options:UIViewAnimationOptionTransitionNone
                             animations:^
@@ -311,8 +285,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIScreenDidConnectNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIScreenDidDisconnectNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 #pragma mark -
@@ -333,86 +306,5 @@
     }
 }
 
-
-- (UIWindow *) createWindowForScreen:(UIScreen *)screen {
-    UIWindow    *_window    = nil;
-    CGRect deviceFrame = screen.bounds;
-    // Do we already have a window for this screen?
-    for (UIWindow *window in self.windows){
-        if (window.screen == screen){
-            _window = window;
-        }
-    }
-    // Still nil? Create a new one.
-    if (_window == nil){
-        _window = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.width * 2, deviceFrame.size.height)];
-        [_window setScreen:screen];
-        [self.windows addObject:_window];
-    }
-    
-    return _window;
-}
-
-- (void) addViewController:(UIViewController *)controller toWindow:(UIWindow *)window {
-    [window setRootViewController:controller];
-    [window setHidden:NO];
-}
-
-- (void) switchToWindow:(UIWindow*) window {
-    if (window == self.mainWindow) {
-        [self.remoteControllViewController removeFromParentViewController];
-    } else {
-        self.mainWindow.rootViewController = self.remoteControllViewController;
-        [self.mainWindow makeKeyAndVisible];
-    }
-    [self.navigationPaneViewController removeFromParentViewController];
-    [self.readerDeckController removeFromParentViewController];
-    
-    CGRect deviceFrame = window.screen.bounds;
-    self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width -40 , 0, deviceFrame.size.width, deviceFrame.size.height);
-    
-    self.readerDeckController.view.frame =  CGRectMake(0, 0, deviceFrame.size.width, deviceFrame.size.height);
-    
-    
-    window.rootViewController = self.navigationPaneViewController;
-    [window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
-    
-    self.currentWindow = window;
-    [window makeKeyAndVisible];
-    
-    [[ReaderCacheManager init_instance] clearAllSplitInfos];
-    [self switchToReader:self.currentBookView.book];
-    ReaderPagingViewController* sectionReader = (ReaderPagingViewController*)self.readerDeckController.centerController;
-    [sectionReader prepareForRead];
-}
-
-- (void) screenDidConnect:(NSNotification *) notification {
-    UIScreen                    *_screen            = nil;
-    UIWindow                    *_window            = nil;
-    
-    NSLog(@"Screen connected");
-    _screen = [notification object];
-    _window = [self createWindowForScreen:_screen];
-    [self.windows addObject:_window];
-
-    return;
-}
-
-- (void) screenDidDisconnect:(NSNotification *) notification {
-    UIScreen    *_screen    = nil;
-    
-    NSLog(@"Screen disconnected");
-    int windowIndex = -1;
-    _screen = [notification object];
-    for (UIWindow *_window in self.windows){
-        if (_window.screen == _screen){
-            windowIndex = [self.windows indexOfObject:_window];
-        }
-    }
-    if (windowIndex >= 0) {
-        [self.windows removeObjectAtIndex:windowIndex];
-    }
-    return;
-}
 
 @end

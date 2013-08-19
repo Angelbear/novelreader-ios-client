@@ -141,7 +141,7 @@
 - (void) reloadSection {
     if (self.section != nil) {
         if (self.section.text == nil || self.section.text.length == 0) {
-            self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], nil]];
+            self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], nil]];
         }
         [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
         [self.pagingView reloadData];
@@ -360,6 +360,12 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [[ReaderCacheManager init_instance] clearAllSplitInfos];
     [self prepareForRead];
+}
+
+- (void) changeBrightness:(CGFloat)brightness {
+    self.userDefaults.brightness = brightness;
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.pagingView reloadData];
 }
 
 #pragma mark -

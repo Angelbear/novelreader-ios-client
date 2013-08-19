@@ -249,9 +249,8 @@ BOOL animating;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
     
     CGFloat width =  isLandscape ? deviceFrame.size.height : deviceFrame.size.width;
     CGFloat height =  isLandscape ? deviceFrame.size.width : deviceFrame.size.height;

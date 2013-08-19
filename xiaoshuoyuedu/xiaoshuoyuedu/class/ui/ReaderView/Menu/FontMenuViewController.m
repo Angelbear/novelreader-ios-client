@@ -21,7 +21,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.userDefaults = [GVUserDefaults standardUserDefaults];
-        self.fonts = [NSArray arrayWithObjects:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE], [UIFont boldSystemFontOfSize:DEFAULT_FONT_SIZE], [UIFont fontWithName:@"FZLTHJW--GB1-0" size:DEFAULT_FONT_SIZE], nil];
+        self.fonts = [NSArray arrayWithObjects:[UIFont systemFontOfSize:DEFAULT_FONT_SIZE], [UIFont boldSystemFontOfSize:DEFAULT_FONT_SIZE], [UIFont fontWithName:@"FZLTHJW--GB1-0" size:DEFAULT_FONT_SIZE], [UIFont fontWithName:@"HiraKakuProN-W3" size:DEFAULT_FONT_SIZE], nil];
         _selectedIndex = 0;
         for( UIFont* font in self.fonts) {
             if ([font.fontName compare:self.userDefaults.fontName] == NSOrderedSame) {
@@ -51,7 +51,7 @@
     [self setupButton:self.brightButton];
     [self setupButton:self.fontButton];
     [self setupButton:self.themeButton];
-    self.brightSlider.value = [UIScreen mainScreen].brightness;
+    self.brightSlider.value = self.userDefaults.brightness;
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"font_selection_background"]];
     self.fontSelectView.backgroundView = nil;
     self.orientationButton.selectedSegmentIndex = self.userDefaults.textOrientation;
@@ -59,8 +59,7 @@
 }
 
 - (IBAction)sliderValueChanged:(UISlider *)slider {
-    UIScreen *mainScreen = [UIScreen mainScreen];
-    mainScreen.brightness = self.brightSlider.value;
+    [self.delegate changeBrightness:self.brightSlider.value];
 }
 
 - (IBAction) increaseFontSize:(id)sender {

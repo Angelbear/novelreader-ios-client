@@ -14,6 +14,7 @@
 - (void) changeFont:(NSString*) fontName;
 - (void) changeTheme:(NSUInteger) themeIndex;
 - (void) changeTextOrientation:(NSInteger) textOrientation;
+- (void) changeBrightness:(CGFloat)brightness;
 @end
 
 @interface FontMenuViewController : UIViewController<UITableViewDelegate, UITableViewDelegate>

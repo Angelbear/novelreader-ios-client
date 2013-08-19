@@ -50,8 +50,7 @@ static UIImage *shelfImageLandscape = nil;
     if (shadingImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
         
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+        CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
         UIGraphicsBeginImageContext(CGSizeMake( (isLandscape ?  deviceFrame.size.height : deviceFrame.size.width )* scale, CELL_HEIGHT * scale));
         UIImage *shadingImageToDraw = isiPad ? [UIImage imageNamed:@"Side Shading-iPad"] : [UIImage imageNamed:@"Side Shading-iPhone"];
@@ -71,8 +70,7 @@ static UIImage *shelfImageLandscape = nil;
 + (UIImage *)woodImagePortrait {
     if (woodImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+        CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
         UIGraphicsBeginImageContext(CGSizeMake( deviceFrame.size.width * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
@@ -88,8 +86,7 @@ static UIImage *shelfImageLandscape = nil;
 + (UIImage *)woodImageLandscape {
     if (woodImage == nil) {
         CGFloat scale = isRetina ? 2.0f : 1.0f;
-        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-        CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         
         UIGraphicsBeginImageContext(CGSizeMake(  deviceFrame.size.height * scale, CELL_HEIGHT * scale));
         UIImage *woodImageToDraw = [UIImage imageNamed:@"WoodTile"];
@@ -156,8 +153,7 @@ static UIImage *shelfImageLandscape = nil;
     [super layoutSubviews];
     
     [_shadingImageView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    CGRect deviceFrame = delegate.currentWindow.screen.bounds;
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
     
     if (self.frame.size.width <= deviceFrame.size.width) {
         [_woodImageView setHidden:NO];
