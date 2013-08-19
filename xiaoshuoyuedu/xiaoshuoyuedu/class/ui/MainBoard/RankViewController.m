@@ -56,7 +56,7 @@
                                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     [self retrieveRankInfo:1];
-    self.title = @"排行榜";
+    self.title = NSLocalizedString(@"rank",@"");
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,7 +118,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"RefreshTableCell"];
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"RefreshTableCell"];
-            cell.textLabel.text = @"加载更多";
+            cell.textLabel.text = NSLocalizedString(@"loadmore",@"");
             cell.accessoryView = self.spinner;
         }
     } else {
