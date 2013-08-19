@@ -6,16 +6,16 @@
 //  Copyright (c) 2012年 YuanLi. All rights reserved.
 //
 
-#import "YLLabel.h"
+#import "ReaderTextLabel.h"
 #import <CoreText/CoreText.h>
 #import "Common.h"
 #import <QuartzCore/QuartzCore.h>
 #import "GVUserDefaults+Properties.h"
 
-@interface YLLabel(Private)
+@interface ReaderTextLabel(Private)
 @end
 
-@implementation YLLabel
+@implementation ReaderTextLabel
 
 @synthesize font = _font;
 @synthesize textColor = _textColor;

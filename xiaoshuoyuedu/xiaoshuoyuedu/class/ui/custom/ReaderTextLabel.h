@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GVUserDefaults+Properties.h"
-@interface YLLabel : UIView
+@interface ReaderTextLabel : UIView
 {
     NSString* _text;
     NSMutableAttributedString* _string;

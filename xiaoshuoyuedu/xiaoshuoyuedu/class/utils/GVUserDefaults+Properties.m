@@ -17,14 +17,14 @@
 
 - (NSDictionary *)setupDefaults {
     return @{
-             @"NSUserDefaultOrientationLocked": @YES,
-             @"NSUserDefaultFixedOrientation" : @(1),
-             @"NSUserDefaultFontSize": @(DEFAULT_FONT_SIZE),
-             @"NSUserDefaultFontName" : @"Helvetica",
-             @"NSUserDefaultThemeIndex": @0,
-             @"NSUserDefaultTextOrientation": @0,
-             @"NSUserDefaultLocaleSettings": @1,
-             @"NSUserDefaultBrightness": @(1.0f),
+             @"orientationLocked": @YES,
+             @"fixedOrientation" : @(1),
+             @"fontSize": @(DEFAULT_FONT_SIZE),
+             @"fontName" : @"Helvetica",
+             @"themeIndex": @0,
+             @"textOrientation": @0,
+             @"localeSettings": @1,
+             @"brightness": @(1.0f),
              };
 }
 

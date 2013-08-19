@@ -41,7 +41,6 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    //[self adjustPagingViewFrame];
     self.pagingView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.pagingView.horizontal = NO;
     self.pagingView.gapBetweenPages = 0.0f;
@@ -88,13 +87,14 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    /*
     CGFloat width = (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) ?  [UIScreen mainScreen].bounds.size.height : [UIScreen mainScreen].bounds.size.width;
     SectionPageView* page = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
     [UIView beginAnimations:@"orientation" context:NULL];
     [UIView setAnimationDuration:duration];
     [UIView setAnimationDelegate:self];
     page.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, width, 44.0f);
-    [UIView commitAnimations];
+    [UIView commitAnimations];*/
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {

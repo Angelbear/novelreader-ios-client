@@ -9,7 +9,7 @@
 #import "FontUtils.h"
 #import <CoreText/CoreText.h>
 #import "Common.h"
-#import "YLLabel.h"
+#import "ReaderTextLabel.h"
 @implementation FontUtils
 
 #define kFudgeFactor 16.0
@@ -17,7 +17,7 @@
 #define kMaxFieldHeight 9999.0
 
 + (NSArray*) findPageSplits:(NSString*)string size:(CGSize)size font:(UIFont*)font vertical:(BOOL)vertical{
-    YLLabel* label = [[YLLabel alloc] init];
+    ReaderTextLabel* label = [[ReaderTextLabel alloc] init];
     [label setFont:font];
     [label setText:string];
     [label setTextColor:[UIColor blackColor]];

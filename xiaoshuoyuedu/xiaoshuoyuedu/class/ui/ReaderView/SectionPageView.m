@@ -60,10 +60,9 @@
         self.blackView.alpha = (0.5 - 0.5f*ud.brightness);
         
         [self addGestureRecognizer:self.tapRecognizer];
-        
-        [self bringSubviewToFront:self.downloadPanel];
         [self bringSubviewToFront:self.blackView];
         [self addSubview:self.dropDownMenuToolbar];
+        [self bringSubviewToFront:self.downloadPanel];
         _menuMode = NO;
     }
     return self;

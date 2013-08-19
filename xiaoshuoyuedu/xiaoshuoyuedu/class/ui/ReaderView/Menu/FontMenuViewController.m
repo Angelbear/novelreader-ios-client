@@ -154,8 +154,8 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"字体选择";
-}   
+    return NSLocalizedString(@"Select font", @"");
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -173,7 +173,8 @@
         UIFont* font = [self.fonts objectAtIndex:indexPath.row];
         label.font = font;
         label.textAlignment = NSTextAlignmentCenter;
-        label.text = @"小说阅读";
+        label.text = [[[NSBundle mainBundle] localizedInfoDictionary]
+                      objectForKey:@"CFBundleDisplayName"];
         [cell.contentView addSubview:label];
     }
     

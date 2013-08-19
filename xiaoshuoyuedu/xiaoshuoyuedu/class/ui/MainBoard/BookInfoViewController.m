@@ -56,8 +56,8 @@
     [self.readButton removeFromSuperview];
     self.bookNameLabel.text = self.bookName;
     self.descriptionView.font = isiPad ? [UIFont systemFontOfSize:20.0f] : [UIFont systemFontOfSize:14.0f];
-    self.authorNameLabel.text = [NSString stringWithFormat:@"作者：%@", self.authorName];
-    self.siteNameLabel.text = [NSString stringWithFormat:@"来源：%@", self.fromSite];
+    self.authorNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"authorplaceholder", @""), self.authorName];
+    self.siteNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"fromplaceholder", @""), self.fromSite];
     self.title = self.bookName;
 
     __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;

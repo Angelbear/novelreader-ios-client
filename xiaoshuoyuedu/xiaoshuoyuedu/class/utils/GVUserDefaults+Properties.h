@@ -22,4 +22,5 @@ enum {
 @property (nonatomic) NSInteger themeIndex;
 @property (nonatomic) NSInteger textOrientation;
 @property (nonatomic) CGFloat brightness;
+- (NSDictionary *)setupDefaults;
 @end
