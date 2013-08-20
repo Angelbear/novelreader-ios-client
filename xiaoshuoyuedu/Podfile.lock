@@ -1,5 +1,6 @@
 PODS:
   - AFNetworking (1.3.2)
+  - AsyncImageView (1.4)
   - BookShelf (1.0.0)
   - CKRefreshControl (1.1.0)
   - CustomBadge (2.0)
@@ -8,7 +9,6 @@ PODS:
   - FMDB/common (2.1)
   - FMDB/standard (2.1):
     - FMDB/common
-  - GVCache (1.0.1)
   - GVUserDefaults (0.9.0)
   - MBProgressHUD (0.7)
   - MSNavigationPaneViewController (0.2.0):
@@ -16,14 +16,10 @@ PODS:
   - PRTween (0.0.1)
   - ViewDeck (2.2.11)
   - WEPopover (0.0.1)
-  - WTExtension/UIImage+WTExtension (1.2.1)
-  - WTURLImageView (1.1.0):
-    - AFNetworking (>= 1.0)
-    - GVCache (>= 1.0)
-    - WTExtension/UIImage+WTExtension (>= 1.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 1.3.0)
+  - AsyncImageView (~> 1.4)
   - BookShelf (from `https://github.com/ultragtx/GSBookShelf.git`)
   - CKRefreshControl (~> 1.1.0)
   - CustomBadge (~> 2.0)
@@ -33,7 +29,6 @@ DEPENDENCIES:
   - MSNavigationPaneViewController (~> 0.2.0)
   - ViewDeck (~> 2.2.11)
   - WEPopover (~> 0.0.1)
-  - WTURLImageView (~> 1.1.0)
 
 EXTERNAL SOURCES:
   BookShelf:
@@ -41,18 +36,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
+  AsyncImageView: 34ac0e1c1d251087c6643b175a25c5d7a18512fa
   BookShelf: 61b907d7708f386dcd253082753b0446cc83b830
   CKRefreshControl: d90d7fe773e2cb0f54d9f917bc78e3a23e6cdc1b
   CustomBadge: 07ca87331a9644bc355963ff47c9d1b1f2516acf
   FMDB: 2769004a271eae0bbd8bd4f45a3f2acfd0d3df0e
-  GVCache: dcf482c12f3fdbc6848e4f7b1b7a48dd6af0a1d9
   GVUserDefaults: 7cbb1b5c05d565160b366b2d0a6d6a9f9c3753ce
   MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
   MSNavigationPaneViewController: 179285558ba1a61a9de68e84d91e77efccb3f3d6
   PRTween: d0439e7917031328f81de4910c5b02e202389939
   ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
   WEPopover: 119fe521e9c35069c5ec63dfc14334ca321275b8
-  WTExtension: 636071786394da7c57e130e7d9274d3c082a1b06
-  WTURLImageView: 07fbaad72a1c3ba39e2246fe6a5dbbc93c84a59d
 
 COCOAPODS: 0.22.3

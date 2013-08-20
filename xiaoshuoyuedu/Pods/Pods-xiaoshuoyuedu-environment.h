@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking 2
 
+// AsyncImageView
+#define COCOAPODS_POD_AVAILABLE_AsyncImageView
+#define COCOAPODS_VERSION_MAJOR_AsyncImageView 1
+#define COCOAPODS_VERSION_MINOR_AsyncImageView 4
+#define COCOAPODS_VERSION_PATCH_AsyncImageView 0
+
 // BookShelf
 #define COCOAPODS_POD_AVAILABLE_BookShelf
 #define COCOAPODS_VERSION_MAJOR_BookShelf 1
@@ -48,12 +54,6 @@
 #define COCOAPODS_VERSION_MINOR_FMDB_standard 1
 #define COCOAPODS_VERSION_PATCH_FMDB_standard 0
 
-// GVCache
-#define COCOAPODS_POD_AVAILABLE_GVCache
-#define COCOAPODS_VERSION_MAJOR_GVCache 1
-#define COCOAPODS_VERSION_MINOR_GVCache 0
-#define COCOAPODS_VERSION_PATCH_GVCache 1
-
 // GVUserDefaults
 #define COCOAPODS_POD_AVAILABLE_GVUserDefaults
 #define COCOAPODS_VERSION_MAJOR_GVUserDefaults 0
@@ -89,16 +89,4 @@
 #define COCOAPODS_VERSION_MAJOR_WEPopover 0
 #define COCOAPODS_VERSION_MINOR_WEPopover 0
 #define COCOAPODS_VERSION_PATCH_WEPopover 1
-
-// WTExtension/UIImage+WTExtension
-#define COCOAPODS_POD_AVAILABLE_WTExtension_UIImage_WTExtension
-#define COCOAPODS_VERSION_MAJOR_WTExtension_UIImage_WTExtension 1
-#define COCOAPODS_VERSION_MINOR_WTExtension_UIImage_WTExtension 2
-#define COCOAPODS_VERSION_PATCH_WTExtension_UIImage_WTExtension 1
-
-// WTURLImageView
-#define COCOAPODS_POD_AVAILABLE_WTURLImageView
-#define COCOAPODS_VERSION_MAJOR_WTURLImageView 1
-#define COCOAPODS_VERSION_MINOR_WTURLImageView 1
-#define COCOAPODS_VERSION_PATCH_WTURLImageView 0
 

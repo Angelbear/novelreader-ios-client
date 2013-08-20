@@ -8,12 +8,13 @@
 
 #import "BookInfoViewController.h"
 #import "Common.h"
-#import <AFNetworking/AFNetworking.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "DataBase.h"
 #import "Section.h"
 #import "AppDelegate.h"
 #import "DownloadManager.h"
+#import <AsyncImageView/AsyncImageView.h>
+
 @interface BookInfoViewController ()
 
 @property (nonatomic, strong) NSString* bookName;
@@ -32,7 +33,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -51,24 +52,28 @@
 
 - (void) adjustView {
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
-    //self.view.frame = deviceFrame;
-    self.coverImageView.layer.borderWidth = 1;
-    if (isiPad) {
-        self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 200.0f, 300.0f);
-    } else {
-        self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 100.0f, 150.0f);
-    }
-    self.bookNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, 20.0f, self.bookNameLabel.frame);
-    self.authorNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.bookNameLabel.frame.origin.y + self.bookNameLabel.frame.size.height + 10.0f, self.authorNameLabel.frame);
-    self.siteNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.authorNameLabel.frame.origin.y + self.authorNameLabel.frame.size.height + 10.0f, self.siteNameLabel.frame);
-    self.downloadButton.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.siteNameLabel.frame.origin.y + self.siteNameLabel.frame.size.height + 10.0f, self.authorNameLabel.frame);
+    CGRect deviceFrame = isiPad ? CGRectMake(0, 0, 540, 620) : ((delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds));
+    
+    self.coverImageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.coverImageView.activityIndicatorStyle = UIActivityIndicatorViewStyleGray;
+    self.authorNameLabel.frame = CGRectMake(20.0f + self.coverImageView.frame.size.width + 20.0f, 20.0f,deviceFrame.size.width - self.coverImageView.frame.size.width - 40.0f , self.authorNameLabel.frame.size.height);
+    self.siteNameLabel.frame = CGRectMake(20.0f + self.coverImageView.frame.size.width + 20.0f, self.authorNameLabel.frame.origin.y + self.authorNameLabel.frame.size.height + 10.0f,deviceFrame.size.width - self.coverImageView.frame.size.width - 40.0f , self.siteNameLabel.frame.size.height);
+    self.downloadButton.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height - self.downloadButton.frame.size.height, self.downloadButton.frame);
     self.readButton.frame = self.downloadButton.frame;
-    if (isiPad) {
-        self.descriptionView.frame = CGRectMake(20.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height + 20.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - self.coverImageView.frame.size.height - 40.0f);
-    } else {
-        self.descriptionView.frame = CGRectMake(20.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height + 20.0f, deviceFrame.size.width - 40.0f, deviceFrame.size.height - self.coverImageView.frame.size.height - 40.0f);
-    }
+
+    self.descriptionView.frame = CGRectMake(10.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height + 10.0f, deviceFrame.size.width - 20.0f, deviceFrame.size.height - self.coverImageView.frame.size.height - 40.0f - [[self.navigationController navigationBar] frame].size.height - 20.0f);
+
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self adjustView];
 }
 
 - (void) onDismiss {
@@ -79,14 +84,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.coverImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(20.0f, 20.0f, 100.0f, 140.0f)];
+    [self.view addSubview:self.coverImageView];
+    
     [self adjustView];
     [self.downloadButton setHidden:YES];
     [self.readButton removeFromSuperview];
-    self.bookNameLabel.text = self.bookName;
-    self.descriptionView.font = isiPad ? [UIFont systemFontOfSize:20.0f] : [UIFont systemFontOfSize:14.0f];
+    self.title = self.bookName;
+    self.descriptionView.font = isiPad ? [UIFont systemFontOfSize:20.0f] : [UIFont systemFontOfSize:16.0f];
     self.authorNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"authorplaceholder", @""), self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"fromplaceholder", @""), self.fromSite];
-    self.title = self.bookName;
     
     if (isiPad) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
@@ -97,7 +104,7 @@
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_book_info?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookUrl]];
     __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
     [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (JSON != nil) {
+        if (JSON != nil && weakReferenceSelf != nil) {
             weakReferenceSelf.bookInfo = JSON;
             if ([[JSON objectForKey:@"description"] isKindOfClass:[NSString class]]) {
                 weakReferenceSelf.descriptionView.text = [JSON objectForKey:@"description"];
@@ -105,7 +112,9 @@
                 weakReferenceSelf.descriptionView.text = NSLocalizedString(@"none", @"");
             }
             if ([[JSON objectForKey:@"img"] isKindOfClass:[NSString class]]) {
-                [weakReferenceSelf.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFitIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:weakReferenceSelf.placeHolderImage diskCacheTimeoutInterval:30];
+                [weakReferenceSelf.coverImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[JSON objectForKey:@"img"]]] placeholderImage:self.placeHolderImage  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                }];
             } else {
                 [weakReferenceSelf.coverImageView setImage:weakReferenceSelf.placeHolderImage];
             }

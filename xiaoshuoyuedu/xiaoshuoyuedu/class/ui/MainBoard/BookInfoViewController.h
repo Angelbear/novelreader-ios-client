@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <WTURLImageView/WTURLImageView.h>
+#import <AsyncImageView/AsyncImageView.h>
 #import "Book.h"
 
 @interface BookInfoViewController : UIViewController
@@ -16,10 +16,9 @@
 - (IBAction) clickDownloadBook:(id)sender;
 - (IBAction) clickReadBook:(id)sender;
 
-@property(nonatomic, strong) IBOutlet UILabel* bookNameLabel;
 @property(nonatomic, strong) IBOutlet UILabel* authorNameLabel;
 @property(nonatomic, strong) IBOutlet UILabel* siteNameLabel;
-@property(nonatomic, strong) IBOutlet WTURLImageView* coverImageView;
+@property(nonatomic, strong) AsyncImageView* coverImageView;
 @property(nonatomic, strong) IBOutlet UITextView* descriptionView;
 @property(nonatomic, strong) IBOutlet UIButton* downloadButton;
 @property(nonatomic, strong) IBOutlet UIButton* readButton;
