@@ -52,17 +52,27 @@
 - (void) adjustView {
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
-    self.view.frame = deviceFrame;
-    self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 100.0f, 300.0f);
+    //self.view.frame = deviceFrame;
     self.coverImageView.layer.borderWidth = 1;
+    if (isiPad) {
+        self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 200.0f, 300.0f);
+    } else {
+        self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 100.0f, 150.0f);
+    }
     self.bookNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, 20.0f, self.bookNameLabel.frame);
     self.authorNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.bookNameLabel.frame.origin.y + self.bookNameLabel.frame.size.height + 10.0f, self.authorNameLabel.frame);
-    self.siteNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.authorNameLabel.frame.origin.y + self.authorNameLabel.frame.size.height + 10.0f, self.siteNameLabel.frame);;
-
+    self.siteNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.authorNameLabel.frame.origin.y + self.authorNameLabel.frame.size.height + 10.0f, self.siteNameLabel.frame);
+    self.downloadButton.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.siteNameLabel.frame.origin.y + self.siteNameLabel.frame.size.height + 10.0f, self.authorNameLabel.frame);
+    self.readButton.frame = self.downloadButton.frame;
+    if (isiPad) {
+        self.descriptionView.frame = CGRectMake(20.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height + 20.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - self.coverImageView.frame.size.height - 40.0f);
+    } else {
+        self.descriptionView.frame = CGRectMake(20.0f, self.coverImageView.frame.origin.y + self.coverImageView.frame.size.height + 20.0f, deviceFrame.size.width - 40.0f, deviceFrame.size.height - self.coverImageView.frame.size.height - 40.0f);
+    }
 }
 
 - (void) onDismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.parentViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 
@@ -78,8 +88,8 @@
     self.siteNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"fromplaceholder", @""), self.fromSite];
     self.title = self.bookName;
     
-    if (self.navigationController!=nil) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+    if (isiPad) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                                               target:self
                                                                                                               action:@selector(onDismiss)];
     }
@@ -182,6 +192,7 @@
 }
 
 - (IBAction) clickReadBook:(id)sender {
+    [self onDismiss];
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     [delegate switchToReader:self.bookModel];
 }

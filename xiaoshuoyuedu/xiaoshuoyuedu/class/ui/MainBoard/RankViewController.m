@@ -177,6 +177,7 @@
     if (self.currentPage == MAX_LOAD_PAGE_NO || indexPath.row != [self.searchResult count]) {
         id book = [self.searchResult objectAtIndex:indexPath.row];
         BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES]; 
         if (isiPad) {
             [infoViewController setModalPresentationStyle:UIModalPresentationFormSheet];
             UINavigationController *modalViewController = [[UINavigationController alloc] initWithRootViewController:infoViewController];
