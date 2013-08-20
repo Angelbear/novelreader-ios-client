@@ -511,7 +511,7 @@
 #pragma mark -
 
 @implementation ATPagingViewController
-__weak ATPagingViewController* _weakReferenceSelf;
+__unsafe_unretained ATPagingViewController* _weakReferenceSelf;
 
 @synthesize pagingView=_pagingView;
 @synthesize currentOperation=_currentOperation;

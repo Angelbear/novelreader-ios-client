@@ -12,7 +12,7 @@
 #import "DownloadManager.h"
 
 @interface JSONRequestTableViewController : UITableViewController {
-    __weak JSONRequestTableViewController* _weakReferenceSelf;
+    __unsafe_unretained JSONRequestTableViewController* _weakReferenceSelf;
 }
 @property(nonatomic, strong) AFJSONRequestOperation *currentOperation;
 @property(nonatomic, strong) MBProgressHUD* HUD;

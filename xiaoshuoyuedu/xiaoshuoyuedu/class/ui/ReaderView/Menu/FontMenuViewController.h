@@ -29,7 +29,7 @@
 @property (nonatomic, strong) IBOutlet UIButton* incButton;
 @property (nonatomic, strong) IBOutlet UISegmentedControl* orientationButton;
 @property (nonatomic, strong) IBOutlet UISlider* brightSlider;
-@property (nonatomic, weak) id<FontMenuDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<FontMenuDelegate> delegate;
 @property (nonatomic, strong) IBOutlet UITableView* fontSelectView;
 @property (nonatomic, strong) IBOutlet UIView* themeSelectView;
 @end

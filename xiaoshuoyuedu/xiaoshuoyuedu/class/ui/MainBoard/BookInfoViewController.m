@@ -165,7 +165,7 @@
     }
     
     // Step 2: Download section info
-    __weak BookInfoViewController* weakReferenceSelf = self;
+    __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookModel.url]];
     [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {

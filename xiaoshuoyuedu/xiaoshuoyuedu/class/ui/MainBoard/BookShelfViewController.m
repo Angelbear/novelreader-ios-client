@@ -58,7 +58,7 @@
     [self showHUDWithCancel:NSLocalizedString(@"Updating books", @"")];
     self._completedDownloadBooks = 0;
     [self._activeDownloadClients removeAllObjects];
-    __weak BookShelfViewController* weakReferenceSelf = self;
+    __unsafe_unretained BookShelfViewController* weakReferenceSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         NSString* baseURL = [NSString stringWithFormat:@"http://%@/", SERVER_HOST];
         AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:baseURL]];
@@ -109,7 +109,7 @@
     [self showHUDWithCancel:NSLocalizedString(@"Updating passages", @"")];
     self._completedDownloadBooks = 0;
     [self._activeDownloadClients removeAllObjects];
-    __weak BookShelfViewController* weakReferenceSelf = self;
+    __unsafe_unretained BookShelfViewController* weakReferenceSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         NSString* baseURL = [NSString stringWithFormat:@"http://%@/", SERVER_HOST];
         for (Book* book in self.books) {

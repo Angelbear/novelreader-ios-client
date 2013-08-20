@@ -28,7 +28,7 @@
 {
     BOOL _menuMode;
 }
-@property(nonatomic, weak) id<SectionReaderMenuDelegate> delegate;
+@property(nonatomic, unsafe_unretained) id<SectionReaderMenuDelegate> delegate;
 @property(nonatomic, strong) IBOutlet ReaderTextLabel* textLabelView;
 @property(nonatomic, strong) IBOutlet UILabel* labelView;
 @property(nonatomic, strong) IBOutlet UILabel* indexView;

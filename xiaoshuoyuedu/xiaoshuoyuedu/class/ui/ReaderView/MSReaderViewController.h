@@ -12,7 +12,7 @@
 @class Book, Bookmark, IIViewDeckController, SectionReaderTableViewController;
 @interface MSReaderViewController : UITableViewController<IIViewDeckControllerDelegate, ChangeSectionDelegate,UISearchBarDelegate, UISearchDisplayDelegate>
 
-@property (nonatomic, weak) IIViewDeckController *deckViewController;
+@property (nonatomic, unsafe_unretained) IIViewDeckController *deckViewController;
 @property (nonatomic, strong) ReaderPagingViewController* currentReaderViewController;
 @property (nonatomic, strong) Book* book;
 @property (nonatomic, strong) Bookmark* bookmark;

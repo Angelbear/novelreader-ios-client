@@ -51,7 +51,7 @@
     CustomBadge *_badge;
     BOOL _deleteMode;
     UIView* _content;
-    __weak id<DeleteBookDelegate> _delegate;
+    __unsafe_unretained id<DeleteBookDelegate> _delegate;
 }
 
 @property (nonatomic, strong) UIImage *image;
