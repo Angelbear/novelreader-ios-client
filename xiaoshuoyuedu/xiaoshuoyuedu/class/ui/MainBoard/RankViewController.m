@@ -170,7 +170,6 @@
     return YES;
 }
 */
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,7 +177,14 @@
     if (self.currentPage == MAX_LOAD_PAGE_NO || indexPath.row != [self.searchResult count]) {
         id book = [self.searchResult objectAtIndex:indexPath.row];
         BookInfoViewController* infoViewController = [[BookInfoViewController alloc] initWithBookName:[book objectForKey:@"name"] author:[book objectForKey:@"author"] source:[book objectForKey:@"from"] url:[book objectForKey:@"url"]];
-        [self.navigationController pushViewController:infoViewController animated:YES];
+        if (isiPad) {
+            [infoViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+            UINavigationController *modalViewController = [[UINavigationController alloc] initWithRootViewController:infoViewController];
+            [modalViewController setModalPresentationStyle:UIModalPresentationFormSheet];
+            [self presentViewController:modalViewController animated:YES completion:nil];
+        } else {
+            [self.navigationController pushViewController:infoViewController animated:YES];
+        }
     } else {
         [self.spinner startAnimating];
         [self retrieveRankInfo:self.currentPage+1];

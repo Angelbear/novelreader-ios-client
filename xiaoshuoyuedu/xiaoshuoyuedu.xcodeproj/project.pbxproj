@@ -71,7 +71,6 @@
 		B46EC53D178006AA00C6873B /* bookshelf_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC539178006AA00C6873B /* bookshelf_edit@2x.png */; };
 		B46EC53E178006AA00C6873B /* bookshelf_ok.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53A178006AA00C6873B /* bookshelf_ok.png */; };
 		B46EC53F178006AA00C6873B /* bookshelf_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */; };
-		B4738D3117B8A1EF008AAC8B /* ForceOrientationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */; };
 		B4738D3717B8BE2C008AAC8B /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = B4738D3617B8BE2C008AAC8B /* lock.png */; };
 		B4738D3A17B8C9A8008AAC8B /* GVUserDefaults+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = B4738D3917B8C9A8008AAC8B /* GVUserDefaults+Properties.m */; };
 		B47E103E1781B6D5009DF30B /* checkmark-current.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E103D1781B6D5009DF30B /* checkmark-current.png */; };
@@ -86,9 +85,9 @@
 		B47E105F17880091009DF30B /* btn_style5.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105317880091009DF30B /* btn_style5.png */; };
 		B47E106117880091009DF30B /* btn_style6.png in Resources */ = {isa = PBXBuildFile; fileRef = B47E105517880091009DF30B /* btn_style6.png */; };
 		B47F118D17B2198900E94A2E /* ATPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F118C17B2198900E94A2E /* ATPagingView.m */; };
-		B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */; };
 		B48C56CB17B3856A00F3F8FF /* rotation~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* rotation~ipad.png */; };
 		B48C56CC17B3856A00F3F8FF /* rotation~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */; };
+		B497126C17C302C3005C2EE4 /* ForceOrientationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
 		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
@@ -235,8 +234,6 @@
 		B46EC539178006AA00C6873B /* bookshelf_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookshelf_edit@2x.png"; sourceTree = "<group>"; };
 		B46EC53A178006AA00C6873B /* bookshelf_ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookshelf_ok.png; sourceTree = "<group>"; };
 		B46EC53B178006AA00C6873B /* bookshelf_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookshelf_ok@2x.png"; sourceTree = "<group>"; };
-		B4738D2F17B8A1EF008AAC8B /* ForceOrientationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceOrientationViewController.h; sourceTree = "<group>"; };
-		B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceOrientationViewController.m; sourceTree = "<group>"; };
 		B4738D3617B8BE2C008AAC8B /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
 		B4738D3817B8C9A7008AAC8B /* GVUserDefaults+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GVUserDefaults+Properties.h"; sourceTree = "<group>"; };
 		B4738D3917B8C9A8008AAC8B /* GVUserDefaults+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GVUserDefaults+Properties.m"; sourceTree = "<group>"; };
@@ -253,10 +250,10 @@
 		B47E105517880091009DF30B /* btn_style6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_style6.png; sourceTree = "<group>"; };
 		B47F118B17B2198900E94A2E /* ATPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATPagingView.h; sourceTree = "<group>"; };
 		B47F118C17B2198900E94A2E /* ATPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATPagingView.m; sourceTree = "<group>"; };
-		B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ATPagingViewController+JSONRequest.h"; sourceTree = "<group>"; };
-		B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ATPagingViewController+JSONRequest.m"; sourceTree = "<group>"; };
 		B48C56C917B3856A00F3F8FF /* rotation~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~ipad.png"; sourceTree = "<group>"; };
 		B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~iphone.png"; sourceTree = "<group>"; };
+		B497126A17C302C3005C2EE4 /* ForceOrientationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceOrientationViewController.h; sourceTree = "<group>"; };
+		B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceOrientationViewController.m; sourceTree = "<group>"; };
 		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		B4A0D83A177D477700157BB0 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		B4A0D83D177D4C6300157BB0 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
@@ -474,10 +471,6 @@
 			children = (
 				B458944F178AA730004A5495 /* JSONRequestTableViewController.h */,
 				B4589450178AA730004A5495 /* JSONRequestTableViewController.m */,
-				B47F119A17B230E100E94A2E /* ATPagingViewController+JSONRequest.h */,
-				B47F119B17B230E100E94A2E /* ATPagingViewController+JSONRequest.m */,
-				B4738D2F17B8A1EF008AAC8B /* ForceOrientationViewController.h */,
-				B4738D3017B8A1EF008AAC8B /* ForceOrientationViewController.m */,
 			);
 			path = base;
 			sourceTree = "<group>";
@@ -497,6 +490,8 @@
 		B4589463178BFF05004A5495 /* custom */ = {
 			isa = PBXGroup;
 			children = (
+				B497126A17C302C3005C2EE4 /* ForceOrientationViewController.h */,
+				B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */,
 				B47F118B17B2198900E94A2E /* ATPagingView.h */,
 				B47F118C17B2198900E94A2E /* ATPagingView.m */,
 				B46213A017A8F3D800B8A9DF /* ReaderTextLabel.h */,
@@ -1016,8 +1011,6 @@
 				B431887617953759007E84DF /* DownloadManager.m in Sources */,
 				B46213A217A8F3D800B8A9DF /* ReaderTextLabel.m in Sources */,
 				B47F118D17B2198900E94A2E /* ATPagingView.m in Sources */,
-				B47F119C17B230E100E94A2E /* ATPagingViewController+JSONRequest.m in Sources */,
-				B4738D3117B8A1EF008AAC8B /* ForceOrientationViewController.m in Sources */,
 				B4738D3A17B8C9A8008AAC8B /* GVUserDefaults+Properties.m in Sources */,
 				B4FC032717C1CFF200E9E2C3 /* AboutViewController.m in Sources */,
 				B4FC032817C1CFF200E9E2C3 /* BookInfoViewController.m in Sources */,
@@ -1036,6 +1029,7 @@
 				B4FC033517C1CFF200E9E2C3 /* MSViewDeckController.m in Sources */,
 				B4FC033617C1CFF200E9E2C3 /* ReaderPagingViewController.m in Sources */,
 				B4FC033717C1CFF200E9E2C3 /* SectionPageView.m in Sources */,
+				B497126C17C302C3005C2EE4 /* ForceOrientationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

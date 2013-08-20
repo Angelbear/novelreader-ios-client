@@ -511,9 +511,11 @@
 #pragma mark -
 
 @implementation ATPagingViewController
+__weak ATPagingViewController* _weakReferenceSelf;
 
 @synthesize pagingView=_pagingView;
-
+@synthesize currentOperation=_currentOperation;
+@synthesize HUD=_HUD;
 
 #pragma mark -
 #pragma mark init/dealloc
@@ -545,6 +547,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     if (self.pagingView.pageCount == 0)
         [self.pagingView reloadData];
+    _weakReferenceSelf = self;
 }
 
 
@@ -575,4 +578,42 @@
     return nil;
 }
 
+
+#pragma mark - 
+#pragma mark
+
+- (void) loadJSONRequest:(NSString *)searchUrl type:(NOVEL_DOWNLOAD_TASK_TYPE)type {
+    self.currentOperation = [[DownloadManager init_instance] addDownloadTask:type url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
+        [self success:request withReponse:response data:data];
+    } failure:^void(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        [self failure:request withReponse:response error:error data:data];
+    }];
+    [self showHUDWithCancel];
+}
+
+- (void) cancelOperation:(id)sender {
+    [self.currentOperation cancel];
+    [self.HUD setHidden:YES];
+}
+
+- (void)showHUDWithCancel {
+    if (self.HUD == nil) {
+        if (self.navigationController != nil) {
+            self.HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        } else {
+            self.HUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        }
+        [self.HUD addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelOperation:)]];
+    } else {
+        [self.HUD setHidden:NO];
+    }
+}
+
+
+- (void)success:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response data:(id)JSON {
+    [self.HUD setHidden:YES];
+}
+- (void)failure:(NSURLRequest *)request withReponse:(NSHTTPURLResponse*)response error:(NSError*)error data:(id)JSON {
+    [self.HUD setHidden:YES];
+}
 @end

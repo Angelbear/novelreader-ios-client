@@ -13,7 +13,7 @@
 #import "DataBase.h"
 #import "Section.h"
 #import "AppDelegate.h"
-
+#import "DownloadManager.h"
 @interface BookInfoViewController ()
 
 @property (nonatomic, strong) NSString* bookName;
@@ -49,9 +49,27 @@
     return self;
 }
 
+- (void) adjustView {
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
+    self.view.frame = deviceFrame;
+    self.coverImageView.frame = CGRectMake(20.0f, 20.0f, 100.0f, 300.0f);
+    self.coverImageView.layer.borderWidth = 1;
+    self.bookNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, 20.0f, self.bookNameLabel.frame);
+    self.authorNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.bookNameLabel.frame.origin.y + self.bookNameLabel.frame.size.height + 10.0f, self.authorNameLabel.frame);
+    self.siteNameLabel.frame = CGRectSetXY(20.0f + self.coverImageView.frame.size.width + 20.0f, self.authorNameLabel.frame.origin.y + self.authorNameLabel.frame.size.height + 10.0f, self.siteNameLabel.frame);;
+
+}
+
+- (void) onDismiss {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self adjustView];
     [self.downloadButton setHidden:YES];
     [self.readButton removeFromSuperview];
     self.bookNameLabel.text = self.bookName;
@@ -59,15 +77,17 @@
     self.authorNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"authorplaceholder", @""), self.authorName];
     self.siteNameLabel.text = [NSString stringWithFormat:NSLocalizedString(@"fromplaceholder", @""), self.fromSite];
     self.title = self.bookName;
+    
+    if (self.navigationController!=nil) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+                                                                                                              target:self
+                                                                                                              action:@selector(onDismiss)];
+    }
 
-    __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_book_info?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookUrl]];
-
-    NSURL *url = [NSURL URLWithString:searchUrl];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (JSON != nil && weakReferenceSelf !=nil) {
+    __unsafe_unretained BookInfoViewController* weakReferenceSelf = self;
+    [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        if (JSON != nil) {
             weakReferenceSelf.bookInfo = JSON;
             if ([[JSON objectForKey:@"description"] isKindOfClass:[NSString class]]) {
                 weakReferenceSelf.descriptionView.text = [JSON objectForKey:@"description"];
@@ -75,9 +95,9 @@
                 weakReferenceSelf.descriptionView.text = NSLocalizedString(@"none", @"");
             }
             if ([[JSON objectForKey:@"img"] isKindOfClass:[NSString class]]) {
-                [weakReferenceSelf.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFillIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:self.placeHolderImage diskCacheTimeoutInterval:30];
+                [weakReferenceSelf.coverImageView setURL:[NSURL URLWithString:[JSON objectForKey:@"img"]] fillType:UIImageResizeFillTypeFitIn options:WTURLImageViewOptionShowActivityIndicator | WTURLImageViewOptionsLoadDiskCacheInBackground placeholderImage:self.placeHolderImage failedImage:weakReferenceSelf.placeHolderImage diskCacheTimeoutInterval:30];
             } else {
-                [weakReferenceSelf.coverImageView setImage:self.placeHolderImage];
+                [weakReferenceSelf.coverImageView setImage:weakReferenceSelf.placeHolderImage];
             }
             
             NSString* url = [JSON objectForKey:@"url"];
@@ -90,21 +110,17 @@
                 [weakReferenceSelf.downloadButton setHidden:NO];
             }
         }
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON)
-                                         {
-                                             NSLog(@"failure %@", [error localizedDescription]);
-                                             [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-                                         }];
-    [self.currentOperation start];
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
+    }];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
     if ([self.currentOperation isExecuting]) {
         [self.currentOperation cancel];
-        [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
 }
 
@@ -115,7 +131,7 @@
         return;
     }
     
-    [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     
     // Step 1: Insert book info into db
@@ -132,16 +148,11 @@
     // Step 2: Download section info
     __weak BookInfoViewController* weakReferenceSelf = self;
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookModel.url]];
-    NSLog(@"%@", searchUrl);
-    NSURL *url = [NSURL URLWithString:searchUrl];
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1C28 Safari/419.3" forHTTPHeaderField:@"User-Agent"];
-    
-    self.currentOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
             NSUInteger book_id = [[DataBase get_database_instance] insertBook:weakReferenceSelf.bookModel];
             weakReferenceSelf.bookModel.book_id = book_id;
-           
+            
             NSMutableArray* sections = [[NSMutableArray alloc] init];
             for (int i = 0; i < [JSON count]; i++) {
                 id sec = [JSON objectAtIndex:i];
@@ -164,12 +175,10 @@
                 [[DataBase get_database_instance] deleteBook:weakReferenceSelf.bookModel];
             }
         }
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        [MBProgressHUD hideHUDForView:weakReferenceSelf.navigationController.view animated:YES];
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
     }];
-    [self.currentOperation start];
-
 }
 
 - (IBAction) clickReadBook:(id)sender {

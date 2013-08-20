@@ -63,3 +63,7 @@
 #define FONT_COLORS ( [NSArray arrayWithObjects:FONT_COLOR_0, FONT_COLOR_1, FONT_COLOR_2, FONT_COLOR_3, FONT_COLOR_4, FONT_COLOR_5, FONT_COLOR_6, nil] )
 
 #define isiOS7 ( [[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 )
+
+#define CGRectRotate(rect) (CGRectMake((rect).origin.x, (rect).origin.y, (rect).size.height, (rect).size.width))
+
+#define CGRectSetXY(x, y, rect) (CGRectMake(x, y, (rect).size.width, (rect).size.height))

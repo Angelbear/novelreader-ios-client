@@ -18,10 +18,15 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
     self.contentView.frame = deviceFrame;
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
     self.contentView.textLabelView.frame = CGRectMake(0,  20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
+    self.contentView.blackView.frame = deviceFrame;
+    self.contentView.labelView.frame = CGRectMake(deviceFrame.size.width/2 - self.contentView.labelView.frame.size.width/2, 0, self.contentView.labelView.frame.size.width, self.contentView.labelView.frame.size.height);
+    self.contentView.timeView.frame = CGRectMake(10, deviceFrame.size.height - self.contentView.timeView.frame.size.height, self.contentView.timeView.frame.size.width, self.contentView.timeView.frame.size.height);
+    self.contentView.indexView.frame = CGRectSetXY(deviceFrame.size.width - self.contentView.indexView.frame.size.width - 10, deviceFrame.size.height - self.contentView.indexView.frame.size.height, self.contentView.timeView.frame);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

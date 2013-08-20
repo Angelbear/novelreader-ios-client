@@ -21,7 +21,8 @@
 #import "ReaderCacheManager.h"
 #import "DownloadManager.h"
 #import <QuartzCore/QuartzCore.h>
-#import "ATPagingViewController+JSONRequest.h"
+#import "ATPagingView.h"
+
 @interface ReaderPagingViewController ()
 
 @property (nonatomic, strong) NSArray* splitInfo;
