@@ -22,9 +22,14 @@
     return self;
 }
 
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    self.wantsFullScreenLayout = NO;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return self.userDefaults.fixedOrientation;
+    return (toInterfaceOrientation == UIInterfaceOrientationPortrait) || (UIInterfaceOrientationIsLandscape(toInterfaceOrientation));
 }
 
 - (BOOL)shouldAutorotate {
@@ -34,5 +39,6 @@
 - (NSUInteger)supportedInterfaceOrientations {
     return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscape);
 }
+
 
 @end

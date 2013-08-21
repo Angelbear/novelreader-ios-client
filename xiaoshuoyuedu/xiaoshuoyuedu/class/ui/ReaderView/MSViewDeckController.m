@@ -59,6 +59,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.wantsFullScreenLayout = YES;
     self.readerViewController = [[ReaderPagingViewController alloc] init];
     self.centerController =  self.readerViewController;
     self.readerMasterViewController.currentReaderViewController = self.readerViewController;
