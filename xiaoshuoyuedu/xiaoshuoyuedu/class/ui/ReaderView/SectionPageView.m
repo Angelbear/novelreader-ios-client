@@ -39,7 +39,7 @@
 @implementation SectionPageView
 
 - (id)init {
-    SectionPageViewController* controller = [[SectionPageViewController alloc] initWithNibName:@"SectionPageView" bundle:nil];
+    SectionPageViewController* controller = [[SectionPageViewController alloc] initWithNibName: isiPad ? @"SectionPageView~iPad" : @"SectionPageView~iPhone" bundle:nil];
     self = (SectionPageView*)controller.view;
     if (self) {
         CGRect deviceFrame = [UIScreen mainScreen].bounds;

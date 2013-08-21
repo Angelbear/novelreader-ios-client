@@ -88,6 +88,7 @@
 		B48C56CB17B3856A00F3F8FF /* rotation~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* rotation~ipad.png */; };
 		B48C56CC17B3856A00F3F8FF /* rotation~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */; };
 		B497126C17C302C3005C2EE4 /* ForceOrientationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */; };
+		B497127D17C4A89B005C2EE4 /* SectionPageView~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B497127F17C4A89B005C2EE4 /* SectionPageView~iPad.xib */; };
 		B4A0D83B177D477700157BB0 /* DataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83A177D477700157BB0 /* DataBase.m */; };
 		B4A0D83F177D4C6300157BB0 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D83E177D4C6300157BB0 /* Book.m */; };
 		B4A0D842177D4C6F00157BB0 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A0D841177D4C6F00157BB0 /* Section.m */; };
@@ -146,7 +147,7 @@
 		B4FC033517C1CFF200E9E2C3 /* MSViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC032217C1CFF200E9E2C3 /* MSViewDeckController.m */; };
 		B4FC033617C1CFF200E9E2C3 /* ReaderPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC032417C1CFF200E9E2C3 /* ReaderPagingViewController.m */; };
 		B4FC033717C1CFF200E9E2C3 /* SectionPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FC032617C1CFF200E9E2C3 /* SectionPageView.m */; };
-		B4FC034B17C1F47800E9E2C3 /* SectionPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FC034D17C1F47800E9E2C3 /* SectionPageView.xib */; };
+		B4FC034B17C1F47800E9E2C3 /* SectionPageView~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FC034D17C1F47800E9E2C3 /* SectionPageView~iPhone.xib */; };
 		B4FC035017C1F53100E9E2C3 /* FontMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FC035217C1F53100E9E2C3 /* FontMenuViewController.xib */; };
 		B4FC035517C1F7DD00E9E2C3 /* BookInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4FC035717C1F7DD00E9E2C3 /* BookInfoViewController.xib */; };
 /* End PBXBuildFile section */
@@ -254,6 +255,9 @@
 		B48C56CA17B3856A00F3F8FF /* rotation~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~iphone.png"; sourceTree = "<group>"; };
 		B497126A17C302C3005C2EE4 /* ForceOrientationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceOrientationViewController.h; sourceTree = "<group>"; };
 		B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForceOrientationViewController.m; sourceTree = "<group>"; };
+		B497127E17C4A89B005C2EE4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = "en.lproj/SectionPageView~iPad.xib"; sourceTree = "<group>"; };
+		B497128017C4A8A2005C2EE4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zh-Hans"; path = "zh-Hans.lproj/SectionPageView~iPad.xib"; sourceTree = "<group>"; };
+		B497128117C4A8A3005C2EE4 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file; name = ja; path = "ja.lproj/SectionPageView~iPad.xib"; sourceTree = "<group>"; };
 		B4A0D839177D477700157BB0 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		B4A0D83A177D477700157BB0 /* DataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataBase.m; sourceTree = "<group>"; };
 		B4A0D83D177D4C6300157BB0 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
@@ -344,9 +348,9 @@
 		B4FC034817C1EF9000E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B4FC034917C1EF9000E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B4FC034A17C1EF9000E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B4FC034C17C1F47800E9E2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SectionPageView.xib; sourceTree = "<group>"; };
-		B4FC034E17C1F48000E9E2C3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SectionPageView.xib"; sourceTree = "<group>"; };
-		B4FC034F17C1F48100E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/SectionPageView.xib; sourceTree = "<group>"; };
+		B4FC034C17C1F47800E9E2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/SectionPageView~iPhone.xib"; sourceTree = "<group>"; };
+		B4FC034E17C1F48000E9E2C3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SectionPageView~iPhone.xib"; sourceTree = "<group>"; };
+		B4FC034F17C1F48100E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = "ja.lproj/SectionPageView~iPhone.xib"; sourceTree = "<group>"; };
 		B4FC035117C1F53100E9E2C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FontMenuViewController.xib; sourceTree = "<group>"; };
 		B4FC035317C1F53500E9E2C3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/FontMenuViewController.xib"; sourceTree = "<group>"; };
 		B4FC035417C1F53B00E9E2C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/FontMenuViewController.xib; sourceTree = "<group>"; };
@@ -482,7 +486,8 @@
 				B4FC035717C1F7DD00E9E2C3 /* BookInfoViewController.xib */,
 				B4FC035217C1F53100E9E2C3 /* FontMenuViewController.xib */,
 				B458945C178BFE73004A5495 /* SearchBookViewController.xib */,
-				B4FC034D17C1F47800E9E2C3 /* SectionPageView.xib */,
+				B4FC034D17C1F47800E9E2C3 /* SectionPageView~iPhone.xib */,
+				B497127F17C4A89B005C2EE4 /* SectionPageView~iPad.xib */,
 			);
 			path = nib;
 			sourceTree = "<group>";
@@ -919,10 +924,11 @@
 				B4D5C895178FCF8300568415 /* sync_btn.png in Resources */,
 				B4D5C896178FCF8300568415 /* sync_btn@2x.png in Resources */,
 				B46213AE17AB45AE00B8A9DF /* Localizable.strings in Resources */,
-				B4FC034B17C1F47800E9E2C3 /* SectionPageView.xib in Resources */,
+				B4FC034B17C1F47800E9E2C3 /* SectionPageView~iPhone.xib in Resources */,
 				B48C56CB17B3856A00F3F8FF /* rotation~ipad.png in Resources */,
 				B48C56CC17B3856A00F3F8FF /* rotation~iphone.png in Resources */,
 				B4738D3717B8BE2C008AAC8B /* lock.png in Resources */,
+				B497127D17C4A89B005C2EE4 /* SectionPageView~iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1068,16 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		B497127F17C4A89B005C2EE4 /* SectionPageView~iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B497127E17C4A89B005C2EE4 /* en */,
+				B497128017C4A8A2005C2EE4 /* zh-Hans */,
+				B497128117C4A8A3005C2EE4 /* ja */,
+			);
+			name = "SectionPageView~iPad.xib";
+			sourceTree = "<group>";
+		};
 		B4EF67371774406400F54681 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1082,14 +1098,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		B4FC034D17C1F47800E9E2C3 /* SectionPageView.xib */ = {
+		B4FC034D17C1F47800E9E2C3 /* SectionPageView~iPhone.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B4FC034C17C1F47800E9E2C3 /* en */,
 				B4FC034E17C1F48000E9E2C3 /* zh-Hans */,
 				B4FC034F17C1F48100E9E2C3 /* ja */,
 			);
-			name = SectionPageView.xib;
+			name = "SectionPageView~iPhone.xib";
 			sourceTree = "<group>";
 		};
 		B4FC035217C1F53100E9E2C3 /* FontMenuViewController.xib */ = {
