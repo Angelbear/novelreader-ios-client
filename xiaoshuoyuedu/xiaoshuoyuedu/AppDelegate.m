@@ -106,7 +106,7 @@
 - (void) animationToReader:(BookView*)bookView {
     _isReading = YES;
     CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    CGFloat statusHeight = isiOS7 ? 20 : 0;
+    CGFloat statusHeight = isiOS7 ? 0 : 0;
     void (^completionBlock)(BOOL) =  ^(BOOL finished) {
         [self.navigationPaneViewController removeFromParentViewController];
     };

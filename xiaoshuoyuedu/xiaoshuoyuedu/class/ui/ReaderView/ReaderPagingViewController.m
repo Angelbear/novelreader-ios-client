@@ -90,7 +90,9 @@
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     SectionPageView* page = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
     _menuMode = NO;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    if (!isiOS7) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    }
     [page showMenu:NO];
 }
 

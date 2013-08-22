@@ -21,10 +21,13 @@
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
     if (isiOS7) {
-        deviceFrame = CGRectMake(0, 0.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
+        deviceFrame = CGRectMake(0, 20.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
     }
     self.view.frame = deviceFrame;
     self.contentView.frame = deviceFrame;
+    if (isiOS7) {
+        self.contentView.statusbarBackgroundForiOS7.frame = CGRectMake(0, 20.0f, deviceFrame.size.height, 20.0f);
+    }
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
     self.contentView.textLabelView.frame = CGRectMake(0, deviceFrame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
     self.contentView.blackView.frame = CGRectMake(0, deviceFrame.origin.y, deviceFrame.size.width * 2.0f, deviceFrame.size.height * 2.0f);
@@ -32,6 +35,14 @@
     self.contentView.timeView.frame = CGRectMake(10, deviceFrame.origin.y + deviceFrame.size.height - self.contentView.timeView.frame.size.height, self.contentView.timeView.frame.size.width, self.contentView.timeView.frame.size.height);
     self.contentView.indexView.frame = CGRectSetXY(deviceFrame.size.width - self.contentView.indexView.frame.size.width - 10, deviceFrame.origin.y + deviceFrame.size.height - self.contentView.indexView.frame.size.height, self.contentView.timeView.frame);
     self.contentView.downloadPanel.frame = CGRectSetXY(deviceFrame.size.width/2.0f - self.contentView.downloadPanel.frame.size.width/2.0f, deviceFrame.origin.y + deviceFrame.size.height/2.0f - self.contentView.downloadPanel.frame.size.height/2.0f, self.contentView.downloadPanel.frame);
+    if (isiOS7) {
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+}
+
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -48,6 +59,9 @@
     if (self) {
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
         if (isiOS7) {
+            self.statusbarBackgroundForiOS7 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.height, 20.0f)];
+            self.statusbarBackgroundForiOS7.backgroundColor = [UIColor blackColor];
+            //[self addSubview:self.statusbarBackgroundForiOS7];
             deviceFrame = CGRectSetY(20.0f, CGRectSetHeight(CGRectGetHeight(deviceFrame) - 20.0f, deviceFrame));
         }
 
@@ -214,7 +228,7 @@
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
-                             if (delegate.isReading) {
+                             if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
                              }
                              self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
@@ -226,7 +240,7 @@
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseOut
                          animations:^{
-                             if (delegate.isReading) {
+                             if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                              }
                              self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);

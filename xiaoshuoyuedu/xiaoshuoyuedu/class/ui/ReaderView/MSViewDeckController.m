@@ -74,7 +74,7 @@
 
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleBlackTranslucent;
+    return UIStatusBarStyleDefault;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {

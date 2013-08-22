@@ -40,6 +40,7 @@
 @property(nonatomic, strong) IBOutlet UIBarButtonItem* deviceOrientationItem;
 @property(nonatomic, strong) UITapGestureRecognizer* tapRecognizer;
 @property(nonatomic, strong) IBOutlet UIView* blackView;
+@property(nonatomic, strong) UIView* statusbarBackgroundForiOS7;
 @property(nonatomic, strong) WEPopoverController* popup;
 - (void) setNovelText:(NSString*)text;
 - (void) setBeginParagraph:(BOOL)beginParagraph;
