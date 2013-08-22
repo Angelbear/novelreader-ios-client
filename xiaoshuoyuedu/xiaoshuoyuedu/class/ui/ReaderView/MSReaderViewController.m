@@ -74,7 +74,7 @@ CGFloat _cellHeight;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.searchBar sizeToFit];
+    //[self.searchBar sizeToFit];
     if (self.strongSearchDisplayController.isActive) {
         NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
         [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
@@ -82,6 +82,11 @@ CGFloat _cellHeight;
         NSUInteger index = [self.sections indexOfObject:self.currentSection];
         [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
     }
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)viewDidLoad
@@ -92,9 +97,9 @@ CGFloat _cellHeight;
     self.tableView.bounces = NO;
 
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-    self.searchBar.placeholder = @"搜索";
+    self.searchBar.placeholder = NSLocalizedString(@"search", @"");
     self.searchBar.delegate = self;
-    [self.searchBar sizeToFit];
+    
         
     self.strongSearchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     
@@ -102,17 +107,26 @@ CGFloat _cellHeight;
     self.strongSearchDisplayController.searchResultsDataSource = self;
     self.strongSearchDisplayController.searchResultsDelegate = self;
     
-    [self.tableView addSubview:self.searchBar];
     
+    if (isiOS7) {
+        self.tableView.tableHeaderView = self.searchBar;
+        if ([self.tableView respondsToSelector:@selector(_setPinsTableHeaderView:)]) {
+            [self.tableView performSelector:@selector(_setPinsTableHeaderView:) withObject:@YES];
+        }
+    } else {
+        [self.tableView addSubview:self.searchBar];
+        self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+        self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+    }
 
-    self.tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
-    self.tableView.scrollIndicatorInsets = UIEdgeInsetsMake(CGRectGetHeight(self.searchBar.bounds), 0, 0, 0);
+    
+    [self.searchBar sizeToFit];
 
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView == self.tableView) { // Don't do anything if the search table view get's scrolled
+    if (scrollView == self.tableView && !isiOS7) { // Don't do anything if the search table view get's scrolled
         if (scrollView.contentOffset.y < -CGRectGetHeight(self.searchBar.bounds)) {
             self.searchBar.layer.zPosition = 0; // Make sure the search bar is below the section index titles control when scrolling up
         } else {
@@ -121,8 +135,8 @@ CGFloat _cellHeight;
         
         CGRect searchBarFrame = self.searchBar.frame;
         searchBarFrame.origin.y = MAX(scrollView.contentOffset.y, -CGRectGetHeight(searchBarFrame));
-        
         self.searchBar.frame = searchBarFrame;
+        [self.searchBar sizeToFit];
     }
 }
 
@@ -349,8 +363,15 @@ CGFloat _cellHeight;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar {
-    NSUInteger index = [self.sections indexOfObject:self.currentSection];
-    [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+    if (self.strongSearchDisplayController.isActive) {
+        NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
+        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+    } else {
+        NSUInteger index = [self.sections indexOfObject:self.currentSection];
+        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+    }
+    //NSUInteger index = [self.sections indexOfObject:self.currentSection];
+    //[self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
 }
 
 @end

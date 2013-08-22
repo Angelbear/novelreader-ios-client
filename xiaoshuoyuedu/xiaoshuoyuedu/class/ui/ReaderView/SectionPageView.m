@@ -21,13 +21,10 @@
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
     if (isiOS7) {
-        deviceFrame = CGRectMake(0, 20.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
+        //deviceFrame = CGRectMake(0, 20.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
     }
     self.view.frame = deviceFrame;
     self.contentView.frame = deviceFrame;
-    if (isiOS7) {
-        self.contentView.statusbarBackgroundForiOS7.frame = CGRectMake(0, 20.0f, deviceFrame.size.height, 20.0f);
-    }
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
     self.contentView.textLabelView.frame = CGRectMake(0, deviceFrame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
     self.contentView.blackView.frame = CGRectMake(0, deviceFrame.origin.y, deviceFrame.size.width * 2.0f, deviceFrame.size.height * 2.0f);
@@ -58,12 +55,6 @@
     self = (SectionPageView*)controller.view;
     if (self) {
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
-        if (isiOS7) {
-            self.statusbarBackgroundForiOS7 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.height, 20.0f)];
-            self.statusbarBackgroundForiOS7.backgroundColor = [UIColor blackColor];
-            //[self addSubview:self.statusbarBackgroundForiOS7];
-            deviceFrame = CGRectSetY(20.0f, CGRectSetHeight(CGRectGetHeight(deviceFrame) - 20.0f, deviceFrame));
-        }
 
         self.textLabelView.userInteractionEnabled = NO;
  
@@ -207,11 +198,12 @@
 - (void) showMenu:(BOOL)state {
     _menuMode = state;
     CGFloat Width =  self.frame.size.width;
+    CGFloat Origin = isiOS7 ? 0 : 20.0f;
     if (_menuMode) {
-        self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0, Origin, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
     } else {
-        self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0, Origin - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = YES;
     }
 }
@@ -221,8 +213,9 @@
     [self.delegate toggleMenuState:_menuMode];
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGFloat Width = self.frame.size.width;
+    CGFloat Origin = isiOS7 ? 0 : 20.0f;
     if (_menuMode) {
-        self.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, Width, 44.0f);
+        self.dropDownMenuToolbar.frame = CGRectMake(0,  Origin - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
         [UIView animateWithDuration:0.3f
                               delay:0.0f
@@ -231,7 +224,7 @@
                              if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
                              }
-                             self.dropDownMenuToolbar.frame = CGRectMake(0, 20.0f, Width, 44.0f);
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, Origin, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              
                          }];
@@ -243,7 +236,7 @@
                              if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
                              }
-                             self.dropDownMenuToolbar.frame = CGRectMake(0, - 44.0f, Width, 44.0f);
+                             self.dropDownMenuToolbar.frame = CGRectMake(0, Origin - 44.0f, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              self.dropDownMenuToolbar.hidden = YES;
                          }];

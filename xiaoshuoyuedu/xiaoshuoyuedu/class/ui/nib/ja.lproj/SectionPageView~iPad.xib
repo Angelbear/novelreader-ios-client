@@ -218,7 +218,7 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<int key="IBUIButtonType">1</int>
-								<string key="IBUINormalTitle">Download from current</string>
+								<string key="IBUINormalTitle">この章と後の章を読み込む</string>
 								<reference key="IBUIHighlightedTitleColor" ref="826046843"/>
 								<reference key="IBUINormalTitleColor" ref="8637697"/>
 								<reference key="IBUINormalTitleShadowColor" ref="834930081"/>
@@ -263,7 +263,6 @@
 							<string key="NSResourceName">popoverArrowLeft.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="23559364"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="596111138">
@@ -279,7 +278,6 @@
 							<string key="NSResourceName">popoverArrowRight.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="23559364"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="164047795">

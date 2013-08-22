@@ -263,7 +263,6 @@
 							<string key="NSResourceName">popoverArrowLeft.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="353688265"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="827201729">
@@ -279,7 +278,6 @@
 							<string key="NSResourceName">popoverArrowRight.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="353688265"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="722913081">
@@ -673,6 +671,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">SectionPageView</string>
 					<string key="superclassName">UIView</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">tapOnRefreshButton:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">tapOnRefreshButton:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">tapOnRefreshButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="blackView">UIView</string>
 						<string key="deviceOrientationItem">UIBarButtonItem</string>

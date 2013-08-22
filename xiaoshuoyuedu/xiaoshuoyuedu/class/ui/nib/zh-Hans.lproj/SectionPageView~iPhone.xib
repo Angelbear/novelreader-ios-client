@@ -263,7 +263,6 @@
 							<string key="NSResourceName">popoverArrowLeft.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="353688265"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="961285387">
@@ -279,7 +278,6 @@
 							<string key="NSResourceName">popoverArrowRight.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="353688265"/>
 					</object>
 					<object class="IBUIBarButtonItem" id="722913081">
