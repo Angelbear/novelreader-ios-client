@@ -105,15 +105,33 @@
 
 - (void) animationToReader:(BookView*)bookView {
     _isReading = YES;
-    void (^completionBlock)(BOOL) = ^(BOOL finished) {
+    CGRect deviceFrame = [UIScreen mainScreen].bounds;
+    CGFloat statusHeight = isiOS7 ? 20 : 0;
+    void (^completionBlock)(BOOL) =  ^(BOOL finished) {
         [self.navigationPaneViewController removeFromParentViewController];
     };
+
     [UIView transitionWithView:self.window
                       duration:READER_DECK_ANIMATION_TIME
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         self.window.rootViewController = self.readerDeckController;
-                        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+                        if (!isiOS7) {
+                            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+                        }
+                        switch (_orientation) {
+                            case UIInterfaceOrientationPortrait:
+                                self.readerDeckController.view.frame = CGRectMake(0, statusHeight, deviceFrame.size.width,  deviceFrame.size.height - statusHeight);
+                                break;
+                            case UIInterfaceOrientationLandscapeRight:
+                                self.readerDeckController.view.frame = CGRectMake(0, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
+                                break;
+                            case UIInterfaceOrientationLandscapeLeft:
+                                self.readerDeckController.view.frame = CGRectMake(statusHeight, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                     completion:completionBlock];
 }
@@ -143,147 +161,15 @@
                       duration:READER_DECK_ANIMATION_TIME
                        options: UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
-                        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+                        if (!isiOS7) {
+                            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+                        }
                         self.window.rootViewController = self.navigationPaneViewController;
                     }
                     completion:completionBlock];
 }
 
-- (void) animationToReader2:(BookView*)bookView {
-    _isReading = YES;
-    CGRect deviceFrame = [UIScreen mainScreen].bounds;
-    CGFloat statusHeight = isiOS7 ? 0 : 20;
-    [self.readerDeckController.view setHidden:NO];
-    //[self.window insertSubview:self.readerDeckController.view belowSubview:self.navigationPaneViewController.view];
-    [self.navigationPaneViewController removeFromParentViewController];
-    self.window.rootViewController = self.readerDeckController;
-    
-    [self.window insertSubview:self.navigationPaneViewController.view aboveSubview:self.readerDeckController.view];
-    
-    void (^completionBlock)(BOOL) = ^(BOOL finished) {
-        [self.navigationPaneViewController.view setHidden:YES];
-        [self.navigationPaneViewController removeFromParentViewController];
-    };
-    
-    switch(_orientation) {
-        case UIInterfaceOrientationPortrait: {
-            self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-                 self.readerDeckController.view.frame = deviceFrame;
-                 self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        case UIInterfaceOrientationLandscapeRight: {
-            self.readerDeckController.view.frame = CGRectMake( 0, deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-                 self.readerDeckController.view.frame = deviceFrame;
-                 self.navigationPaneViewController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height );
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        case UIInterfaceOrientationLandscapeLeft:{
-            self.readerDeckController.view.frame = CGRectMake( 0, - deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
-                 self.readerDeckController.view.frame = deviceFrame;
-                 self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height );
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        default:
-            break;
-    }
- 
-}
 
-
-
-- (void) animationBack2 {
-    _isReading = NO;
-    CGFloat statusHeight = isiOS7 ? 0 : 20;
-    CGRect deviceFrame = self.window.screen.bounds;
-    self.navigationPaneViewController.view.hidden = NO;
-    //[self.navigationPaneViewController removeFromParentViewController];
-    [self.readerDeckController removeFromParentViewController];
-    //[self.window insertSubview:self.navigationPaneViewController.view belowSubview:self.readerDeckController.view];
-    self.window.rootViewController = self.navigationPaneViewController;
-    [self.window insertSubview:self.readerDeckController.view aboveSubview:self.navigationPaneViewController.view];
-    
-    
-    void (^completionBlock)(BOOL) = ^(BOOL finished) {
-        [self.readerDeckController removeFromParentViewController];
-        [self.readerDeckController.view setHidden:YES];
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-    };
-    
-    switch (_orientation) {
-        case UIInterfaceOrientationPortrait:{
-            self.navigationPaneViewController.view.frame = CGRectMake(-deviceFrame.size.width, statusHeight, deviceFrame.size.width, deviceFrame.size.height - statusHeight);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 self.navigationPaneViewController.view.frame = CGRectMake(0, statusHeight, deviceFrame.size.width,  deviceFrame.size.height - statusHeight);
-                 self.readerDeckController.view.frame = CGRectMake(deviceFrame.size.width, 0, deviceFrame.size.width, deviceFrame.size.height);
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        case UIInterfaceOrientationLandscapeRight: {
-            self.navigationPaneViewController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 self.navigationPaneViewController.view.frame = CGRectMake(0, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
-                 self.readerDeckController.view.frame = CGRectMake(0, deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        case UIInterfaceOrientationLandscapeLeft: {
-            self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, deviceFrame.size.height, deviceFrame.size.width - statusHeight, deviceFrame.size.height);
-            [UIView transitionWithView:self.window
-                              duration:READER_DECK_ANIMATION_TIME
-                               options:UIViewAnimationOptionTransitionNone
-                            animations:^
-             {
-                 self.navigationPaneViewController.view.frame = CGRectMake(statusHeight, 0, deviceFrame.size.width - statusHeight,  deviceFrame.size.height);
-                 self.readerDeckController.view.frame = CGRectMake(0, -deviceFrame.size.height, deviceFrame.size.width, deviceFrame.size.height);
-                 
-             }
-                            completion:completionBlock];
-        }
-            break;
-        default:
-            break;
-    }
-}
 
 - (void) switchToReader:(Book*) book {
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
@@ -352,7 +238,6 @@
         newOrientation == UIInterfaceOrientationLandscapeRight) {
         if (!_userDefaults.orientationLocked) {
             _orientation = newOrientation;
-            [UIViewController attemptRotationToDeviceOrientation];
         } else {
             _orientation = _userDefaults.fixedOrientation;
         }

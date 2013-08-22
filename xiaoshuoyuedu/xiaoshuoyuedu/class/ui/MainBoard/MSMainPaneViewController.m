@@ -8,6 +8,7 @@
 
 #import "MSMainPaneViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Common.h"
 @interface MSMainPaneViewController ()
 
 @end
@@ -25,6 +26,13 @@
 - (void) viewDidLoad {
     [super viewDidLoad];
     self.wantsFullScreenLayout = NO;
+    if (isiOS7) {
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleBlackTranslucent;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

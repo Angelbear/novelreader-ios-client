@@ -123,7 +123,6 @@
 						<string key="NSFrame">{{668, 1004}, {80, 20}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -247,9 +246,11 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIToolbar" id="23559364">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">266</int>
 				<string key="NSFrameSize">{768, 44}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -264,6 +265,13 @@
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIStyle">1</int>
 						<reference key="IBUIToolbar" ref="23559364"/>
+					</object>
+					<object class="IBUIBarButtonItem" id="688182038">
+						<int key="IBUITag">-1</int>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<float key="IBUIWidth">12</float>
+						<reference key="IBUIToolbar" ref="23559364"/>
+						<int key="IBUISystemItemIdentifier">6</int>
 					</object>
 					<object class="IBUIBarButtonItem" id="932784705">
 						<object class="NSCustomResource" key="IBUIImage">
@@ -521,6 +529,7 @@
 							<reference ref="164047795"/>
 							<reference ref="932784705"/>
 							<reference ref="385991524"/>
+							<reference ref="688182038"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -612,6 +621,11 @@
 						<reference key="object" ref="321258498"/>
 						<reference key="parent" ref="23430487"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">221</int>
+						<reference key="object" ref="688182038"/>
+						<reference key="parent" ref="23559364"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -624,6 +638,7 @@
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="221.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="41.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="42.CustomClassName">ReaderTextLabel</string>
@@ -644,7 +659,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">219</int>
+			<int key="maxID">221</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

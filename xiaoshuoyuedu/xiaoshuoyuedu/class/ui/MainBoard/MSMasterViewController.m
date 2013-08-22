@@ -33,6 +33,7 @@
 #import "CategoryViewController.h"
 #import "BookShelfViewController.h"
 #import "GVUserDefaults+Properties.h"
+#import "Common.h"
 
 NSString * const MSMasterViewControllerCellReuseIdentifier = @"MSMasterViewControllerCellReuseIdentifier";
 
@@ -82,6 +83,9 @@ typedef NS_ENUM(NSUInteger, MSMasterViewControllerTableViewSectionType) {
     self.tableView.bounces = NO;
     // Default to the "None" appearance type
     [self transitionToViewController:MSPaneViewControllerTypeBookShelf];
+    if (isiOS7) {
+        [self.tableView setContentInset:UIEdgeInsetsMake(20, self.tableView.contentInset.left, self.tableView.contentInset.bottom, self.tableView.contentInset.right)];
+    }
 }
 
 - (void)didReceiveMemoryWarning

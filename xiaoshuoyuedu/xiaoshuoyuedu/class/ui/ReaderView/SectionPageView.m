@@ -20,14 +20,18 @@
     [super viewDidLoad];
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
+    if (isiOS7) {
+        deviceFrame = CGRectMake(0, 0.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
+    }
+    self.view.frame = deviceFrame;
     self.contentView.frame = deviceFrame;
-    self.contentView.dropDownMenuToolbar.frame = CGRectMake(0,  - 44.0f, deviceFrame.size.width, 44.0f);
-    self.contentView.textLabelView.frame = CGRectMake(0,  20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
-    self.contentView.blackView.frame = CGRectMake(0, 0, deviceFrame.size.width * 2.0f, deviceFrame.size.height * 2.0f);
-    self.contentView.labelView.frame = CGRectMake(deviceFrame.size.width/2 - self.contentView.labelView.frame.size.width/2, 0, self.contentView.labelView.frame.size.width, self.contentView.labelView.frame.size.height);
-    self.contentView.timeView.frame = CGRectMake(10, deviceFrame.size.height - self.contentView.timeView.frame.size.height, self.contentView.timeView.frame.size.width, self.contentView.timeView.frame.size.height);
-    self.contentView.indexView.frame = CGRectSetXY(deviceFrame.size.width - self.contentView.indexView.frame.size.width - 10, deviceFrame.size.height - self.contentView.indexView.frame.size.height, self.contentView.timeView.frame);
-    self.contentView.downloadPanel.frame = CGRectSetXY(deviceFrame.size.width/2.0f - self.contentView.downloadPanel.frame.size.width/2.0f, deviceFrame.size.height/2.0f - self.contentView.downloadPanel.frame.size.height/2.0f, self.contentView.downloadPanel.frame);
+    self.contentView.dropDownMenuToolbar.frame = CGRectMake(0, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
+    self.contentView.textLabelView.frame = CGRectMake(0, deviceFrame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
+    self.contentView.blackView.frame = CGRectMake(0, deviceFrame.origin.y, deviceFrame.size.width * 2.0f, deviceFrame.size.height * 2.0f);
+    self.contentView.labelView.frame = CGRectMake(deviceFrame.size.width/2 - self.contentView.labelView.frame.size.width/2, deviceFrame.origin.y, self.contentView.labelView.frame.size.width, self.contentView.labelView.frame.size.height);
+    self.contentView.timeView.frame = CGRectMake(10, deviceFrame.origin.y + deviceFrame.size.height - self.contentView.timeView.frame.size.height, self.contentView.timeView.frame.size.width, self.contentView.timeView.frame.size.height);
+    self.contentView.indexView.frame = CGRectSetXY(deviceFrame.size.width - self.contentView.indexView.frame.size.width - 10, deviceFrame.origin.y + deviceFrame.size.height - self.contentView.indexView.frame.size.height, self.contentView.timeView.frame);
+    self.contentView.downloadPanel.frame = CGRectSetXY(deviceFrame.size.width/2.0f - self.contentView.downloadPanel.frame.size.width/2.0f, deviceFrame.origin.y + deviceFrame.size.height/2.0f - self.contentView.downloadPanel.frame.size.height/2.0f, self.contentView.downloadPanel.frame);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -43,12 +47,18 @@
     self = (SectionPageView*)controller.view;
     if (self) {
         CGRect deviceFrame = [UIScreen mainScreen].bounds;
-        
+        if (isiOS7) {
+            deviceFrame = CGRectSetY(20.0f, CGRectSetHeight(CGRectGetHeight(deviceFrame) - 20.0f, deviceFrame));
+        }
+
         self.textLabelView.userInteractionEnabled = NO;
  
         self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
+        if (isiOS7) {
+            self.dropDownMenuToolbar.barStyle = UIBarStyleDefault;
+        }
         
         self.downloadPanel.hidden = YES;
         

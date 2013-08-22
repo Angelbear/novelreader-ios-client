@@ -59,12 +59,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.wantsFullScreenLayout = YES;
+    if (!isiOS7) {
+        self.wantsFullScreenLayout = YES;
+    } else {
+        self.wantsFullScreenLayout = NO;
+    }
     self.readerViewController = [[ReaderPagingViewController alloc] init];
     self.centerController =  self.readerViewController;
     self.readerMasterViewController.currentReaderViewController = self.readerViewController;
+    if (isiOS7) {
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    }
 }
 
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleBlackTranslucent;
+}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
