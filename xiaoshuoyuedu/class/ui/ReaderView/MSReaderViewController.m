@@ -74,13 +74,12 @@ CGFloat _cellHeight;
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //[self.searchBar sizeToFit];
     if (self.strongSearchDisplayController.isActive) {
         NSUInteger index = [self.filteredSections indexOfObject:self.currentSection];
-        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+        [self.tableView setContentOffset:CGPointMake(0.0 , MAX(0, _cellHeight * index - CGRectGetHeight(self.searchBar.bounds)))];
     } else {
         NSUInteger index = [self.sections indexOfObject:self.currentSection];
-        [self.tableView setContentOffset:CGPointMake(0.0 , _cellHeight * index - CGRectGetHeight(self.searchBar.bounds))];
+        [self.tableView setContentOffset:CGPointMake(0.0 , MAX(0, _cellHeight * index - CGRectGetHeight(self.searchBar.bounds)))];
     }
 }
 
