@@ -9,6 +9,14 @@
 #import "GVUserDefaults+Properties.h"
 #import "Common.h"
 @implementation GVUserDefaults (Properties)
+@dynamic orientationLocked;
+@dynamic fixedOrientation;
+@dynamic fontSize;
+@dynamic fontName;
+@dynamic themeIndex;
+@dynamic textOrientation;
+@dynamic brightness;
+
 - (NSString *)transformKey:(NSString *)key {
     key = [key stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[key substringToIndex:1] uppercaseString]];
     return [NSString stringWithFormat:@"NSUserDefault%@", key];

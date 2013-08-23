@@ -1176,8 +1176,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Tomoya Ohde";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Tomoya Ohde";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1187,13 +1187,11 @@
 				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/xiaoshuoyuedu/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "01C8838B-49DB-42C9-A939-2A896CC981AD";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "01C8838B-49DB-42C9-A939-2A896CC981AD";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad-Hoc";
@@ -1288,10 +1286,7 @@
 				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/xiaoshuoyuedu/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1303,8 +1298,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1314,13 +1309,11 @@
 				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/xiaoshuoyuedu/lib\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				STRIP_INSTALLED_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
