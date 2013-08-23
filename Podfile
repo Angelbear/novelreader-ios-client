@@ -14,3 +14,11 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'ViewDeck', '~> 2.2.11'
   pod 'GVUserDefaults', '~> 0.9.0'
 end
+
+post_install do |installer|
+    installer.project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = 'YES'
+        end
+    end
+end
