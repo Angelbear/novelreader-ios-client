@@ -29,6 +29,7 @@
 @end
 
 @implementation ReaderPagingViewController
+@synthesize menuMode = _menuMode;
 
 - (id) init {
     self = [super init];

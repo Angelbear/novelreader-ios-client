@@ -20,11 +20,9 @@
     [super viewDidLoad];
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     CGRect deviceFrame = (delegate.orientation == UIInterfaceOrientationPortrait) ? [UIScreen mainScreen].bounds : CGRectRotate([UIScreen mainScreen].bounds);
-    if (isiOS7) {
-        //deviceFrame = CGRectMake(0, 20.0f, deviceFrame.size.width, deviceFrame.size.height - 20.0f);
-    }
     self.view.frame = deviceFrame;
     self.contentView.frame = deviceFrame;
+    self.contentView.statusBackgroundView.frame = CGRectMake(0, 0, deviceFrame.size.height, 20.0f);
     self.contentView.dropDownMenuToolbar.frame = CGRectMake(0, deviceFrame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
     self.contentView.textLabelView.frame = CGRectMake(0, deviceFrame.origin.y + 20.0f, deviceFrame.size.width, deviceFrame.size.height - 35.0f);
     self.contentView.blackView.frame = CGRectMake(0, deviceFrame.origin.y, deviceFrame.size.width * 2.0f, deviceFrame.size.height * 2.0f);
@@ -58,6 +56,11 @@
 
         self.textLabelView.userInteractionEnabled = NO;
  
+        self.statusBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.height, 20.0f)];
+        self.statusBackgroundView.backgroundColor = [UIColor blackColor];
+        self.statusBackgroundView.alpha = 0.8f;
+        self.statusBackgroundView.hidden = YES;
+        
         self.dropDownMenuToolbar.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - 44.0f, deviceFrame.size.width, 44.0f);
         self.dropDownMenuToolbar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         self.dropDownMenuToolbar.hidden = YES;
@@ -83,6 +86,9 @@
         [self addGestureRecognizer:self.tapRecognizer];
         [self bringSubviewToFront:self.blackView];
         [self addSubview:self.dropDownMenuToolbar];
+        if (isiOS7) {
+           [self addSubview:self.statusBackgroundView];
+        }
         [self bringSubviewToFront:self.downloadPanel];
         _menuMode = NO;
     }
@@ -198,13 +204,19 @@
 - (void) showMenu:(BOOL)state {
     _menuMode = state;
     CGFloat Width =  self.frame.size.width;
-    CGFloat Origin = isiOS7 ? 0 : 20.0f;
+    CGFloat Origin =  20.0f;
     if (_menuMode) {
+        self.statusBackgroundView.hidden = NO;
         self.dropDownMenuToolbar.frame = CGRectMake(0, Origin, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
     } else {
+        self.statusBackgroundView.hidden = YES;
         self.dropDownMenuToolbar.frame = CGRectMake(0, Origin - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = YES;
+    }
+    if (isiOS7) {
+        AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [delegate.readerDeckController performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     }
 }
 
@@ -213,7 +225,7 @@
     [self.delegate toggleMenuState:_menuMode];
     AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
     CGFloat Width = self.frame.size.width;
-    CGFloat Origin = isiOS7 ? 0 : 20.0f;
+    CGFloat Origin =  20.0f;
     if (_menuMode) {
         self.dropDownMenuToolbar.frame = CGRectMake(0,  Origin - 44.0f, Width, 44.0f);
         self.dropDownMenuToolbar.hidden = NO;
@@ -223,7 +235,10 @@
                          animations:^{
                              if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+                             } else {
+                                 [delegate.readerDeckController performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
                              }
+                             self.statusBackgroundView.hidden = NO;
                              self.dropDownMenuToolbar.frame = CGRectMake(0, Origin, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              
@@ -235,7 +250,10 @@
                          animations:^{
                              if (delegate.isReading && !isiOS7) {
                                  [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+                             } else {
+                                 [delegate.readerDeckController performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
                              }
+                             self.statusBackgroundView.hidden = YES;
                              self.dropDownMenuToolbar.frame = CGRectMake(0, Origin - 44.0f, Width, 44.0f);
                          } completion:^(BOOL finished) {
                              self.dropDownMenuToolbar.hidden = YES;

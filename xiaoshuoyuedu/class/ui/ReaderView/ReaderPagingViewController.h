@@ -30,6 +30,7 @@
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
 @property (nonatomic, strong) WEPopoverController* wePopupController;
+@property (nonatomic, assign) BOOL menuMode;
 @property (nonatomic, unsafe_unretained) id<ChangeSectionDelegate> change_section_delegate;
 - (void) prepareForRead;
 - (void) reloadSection;
