@@ -51,9 +51,16 @@
     
     FontMenuViewController* fontMenuViewController = [[FontMenuViewController alloc] initWithNibName:@"FontMenuViewController" bundle:nil];
     fontMenuViewController.delegate = self;
-    self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
-    self.wePopupController.delegate = self;
-    self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
+    
+    if (isiPad) {
+        self.popupController = [[UIPopoverController alloc] initWithContentViewController:fontMenuViewController];
+        self.popupController.delegate = self;
+        self.popupController.popoverContentSize = fontMenuViewController.view.frame.size;
+    } else {
+        self.wePopupController = [[WEPopoverController alloc] initWithContentViewController:fontMenuViewController];
+        self.wePopupController.delegate = self;
+        self.wePopupController.popoverContentSize = fontMenuViewController.view.frame.size;
+    }
     
     UISwipeGestureRecognizer* swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didDragOnTableView:)];
     
@@ -321,7 +328,11 @@
 - (void) clickFontMenuButton:(id) sender {
     SectionPageView *cell = (SectionPageView*)[self.pagingView viewForPageAtIndex:self.pagingView.firstVisiblePageIndex];
     UIBarButtonItem* source = (UIBarButtonItem*) sender;
-    [self.wePopupController presentPopoverFromRect:[self rectForBarItem:source inToolbar:cell.dropDownMenuToolbar toView:self.view] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    if (isiPad) {
+        [self.popupController presentPopoverFromBarButtonItem:source permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    } else {
+        [self.wePopupController presentPopoverFromRect:[self rectForBarItem:source inToolbar:cell.dropDownMenuToolbar toView:self.view] inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    }
 }
 
 - (void) clickBacktoBookShelfButton:(id) sender {
@@ -329,13 +340,14 @@
     [delegate switchToNavitation];
 }
 
-#pragma mark - WEPopoverControllerDelegate
+#pragma mark - WEPopoverControllerDelegate UIPopverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(WEPopoverController *)popoverController {
     
 }
 - (BOOL)popoverControllerShouldDismissPopover:(WEPopoverController *)popoverController {
     return YES;
 }
+
 
 #pragma mark - FontMenuDelegate
 - (void) increaseFontSize {

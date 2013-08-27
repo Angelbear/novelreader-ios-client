@@ -57,7 +57,7 @@
         self.textLabelView.userInteractionEnabled = NO;
  
         self.statusBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, deviceFrame.size.height, 20.0f)];
-        self.statusBackgroundView.backgroundColor = [UIColor blackColor];
+        self.statusBackgroundView.backgroundColor = [UIColor whiteColor];
         self.statusBackgroundView.alpha = 0.8f;
         self.statusBackgroundView.hidden = YES;
         

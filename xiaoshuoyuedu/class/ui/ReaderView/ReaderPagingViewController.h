@@ -21,7 +21,7 @@
 - (void) downloadLaterSections;
 @end
 
-@interface ReaderPagingViewController : ATPagingViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIGestureRecognizerDelegate>
+@interface ReaderPagingViewController : ATPagingViewController<SectionReaderMenuDelegate, FontMenuDelegate, WEPopoverControllerDelegate, UIPopoverControllerDelegate, UIGestureRecognizerDelegate>
 {
     BOOL _initialized;
     BOOL _menuMode;
@@ -30,6 +30,7 @@
 @property (nonatomic, strong) Section* section;
 @property (nonatomic, strong) Bookmark* bookmark;
 @property (nonatomic, strong) WEPopoverController* wePopupController;
+@property (nonatomic, strong) UIPopoverController* popupController;
 @property (nonatomic, assign) BOOL menuMode;
 @property (nonatomic, unsafe_unretained) id<ChangeSectionDelegate> change_section_delegate;
 - (void) prepareForRead;
