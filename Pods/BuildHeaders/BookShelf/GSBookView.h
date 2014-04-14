@@ -1,1 +1,0 @@
-../../BookShelf/BookShelf/Classes/BookShelf/Public/GSBookView.h
