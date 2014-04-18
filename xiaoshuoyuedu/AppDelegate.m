@@ -9,13 +9,11 @@
 #import "AppDelegate.h"
 #import "MSMainPaneViewController.h"
 #import "MSMasterViewController.h"
-#import "DataBase.h"
 #import "Book.h"
 #import "BookView.h"
 #import "MSReaderViewController.h"
 #import <ViewDeck/IISideController.h>
 #import "Common.h"
-#import <Crashlytics/Crashlytics.h>
 #import "ReaderCacheManager.h"
 #import "ReaderPagingViewController.h"
 #import "GVUserDefaults+Properties.h"
@@ -28,11 +26,59 @@
 @synthesize currentBookView =_bookView;
 @synthesize isReading = _isReading;
 @synthesize orientation = _orientation;
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+
+
+// 1
+- (NSManagedObjectContext *) managedObjectContext {
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
+    }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator: coordinator];
+    }
+    
+    return _managedObjectContext;
+}
+
+//2
+- (NSManagedObjectModel *)managedObjectModel {
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    
+    return _managedObjectModel;
+}
+
+//3
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
+    }
+    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
+                                               stringByAppendingPathComponent: @"Novelreader.sqlite"]];
+    NSError *error = nil;
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
+                                   initWithManagedObjectModel:[self managedObjectModel]];
+    if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                  configuration:nil URL:storeUrl options:nil error:&error]) {
+        /*Error for store creation should be handled in here*/
+    }
+    
+    return _persistentStoreCoordinator;
+}
+
+- (NSString *)applicationDocumentsDirectory {
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Crashlytics startWithAPIKey:@"8946d07e106863f557b755bb244b513a82a3f788"];
-    
     _isReading = NO;
     _userDefaults = [GVUserDefaults standardUserDefaults];
     _userDefaults.orientationLocked = NO;
@@ -40,8 +86,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
             
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
- 
-    [[DataBase get_database_instance] initialize_database];
+
     
     if ([[UINavigationBar class]respondsToSelector:@selector(appearance)]) {
         [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_bg"] forBarMetrics:UIBarMetricsDefault];
@@ -225,6 +270,13 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    NSError *error;
+    if (_managedObjectContext != nil) {
+        //hasChanges方法是检查是否有未保存的上下文更改，如果有，则执行save方法保存上下文
+        if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
+            NSLog(@"Error: %@,%@",error,[error userInfo]);
+        }
+    }
 }
 
 #pragma mark -

@@ -9,7 +9,6 @@
 #import "BookInfoViewController.h"
 #import "Common.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import "DataBase.h"
 #import "Section.h"
 #import "AppDelegate.h"
 #import "DownloadManager.h"
@@ -170,7 +169,7 @@
     [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
             NSUInteger book_id = [[DataBase get_database_instance] insertBook:weakReferenceSelf.bookModel];
-            weakReferenceSelf.bookModel.book_id = book_id;
+            weakReferenceSelf.bookModel.book_id = @(book_id);
             
             NSMutableArray* sections = [[NSMutableArray alloc] init];
             for (int i = 0; i < [JSON count]; i++) {

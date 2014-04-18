@@ -56,7 +56,7 @@ CGFloat _cellHeight;
         NSUInteger indexForJump = 0;
         for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
             Section* section = [self.sections objectAtIndex:indexForJump];
-            if (self.bookmark.section_id == section.section_id) {
+            if (self.bookmark.section_id == section.section_id.intValue) {
                 self.currentSection = section;
                 break;
             }

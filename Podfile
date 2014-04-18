@@ -13,6 +13,7 @@ target :xiaoshuoyuedu, :exclusive => true do
   pod 'WEPopover', '~> 0.0.1'
   pod 'ViewDeck', '~> 2.2.11'
   pod 'GVUserDefaults', '~> 0.9.0'
+  pod 'Reveal-iOS-SDK', '~> 1.0.3'
 end
 
 post_install do |installer|

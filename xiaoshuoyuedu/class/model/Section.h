@@ -2,18 +2,22 @@
 //  Section.h
 //  xiaoshuoyuedu
 //
-//  Created by Yangyang Zhao on 13-6-28.
-//  Copyright (c) 2013年 Yangyang Zhao. All rights reserved.
+//  Created by Yangyang Zhao on 14-4-15.
+//  Copyright (c) 2014年 Yangyang Zhao. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface Section : NSObject
-@property(nonatomic, assign) NSUInteger section_id;
-@property(nonatomic, assign) NSUInteger book_id;
-@property(nonatomic, strong) NSString* name;
-@property(nonatomic, strong) NSString* text;
-@property(nonatomic, strong) NSString* from;
-@property(nonatomic, strong) NSString* url;
-@property(nonatomic, assign) NSUInteger last_update_time;
+
+@interface Section : NSManagedObject
+
+@property (nonatomic, retain) NSNumber * book_id;
+@property (nonatomic, retain) NSNumber * section_id;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSString * from;
+@property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) NSNumber * last_update_time;
+
 @end

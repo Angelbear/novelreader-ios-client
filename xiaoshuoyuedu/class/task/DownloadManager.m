@@ -8,7 +8,6 @@
 
 #import "DownloadManager.h"
 #import "Common.h"
-#import "DataBase.h"
 #import "Book.h"
 #import "Section.h"
 
