@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/AFNetworking.h>
-#import "DataBase.h"
 #import "Common.h"
 #import "Bookmark.h"
 #import <WEPopover/WEPopoverController.h>
@@ -124,8 +123,6 @@
     if (JSON != nil) {
         self.section.text = [JSON objectForKey:@"text"];
         self.bookmark.offset = 0;
-        [[DataBase get_database_instance] updateBookMark:self.bookmark];
-        [[DataBase get_database_instance] updateSection:self.section];
         [self prepareForRead];
     }
 }
@@ -138,7 +135,7 @@
         NSString *filename = [parts objectAtIndex:[parts count]-1];
         NSUInteger section_id = [[filename stringByReplacingOccurrencesOfString:@".html" withString:@""] integerValue];
         section_id++;
-        NSString* newPath = [NSString stringWithFormat:@"%@%d.html", [self.section.url substringToIndex:[self.section.url rangeOfString:filename options:NSBackwardsSearch].location] , section_id];
+        NSString* newPath = [NSString stringWithFormat:@"%@%ld.html", [self.section.url substringToIndex:[self.section.url rangeOfString:filename options:NSBackwardsSearch].location] , section_id];
         NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:newPath]];
         [self loadJSONRequest:searchUrl type:NO];
     } else {
@@ -154,7 +151,7 @@
         if (self.section.text == nil || self.section.text.length == 0) {
             self.splitInfo = [NSArray arrayWithObject:[NSArray arrayWithObjects:[NSNumber numberWithInt: 0], [NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], nil]];
         }
-        [[ReaderCacheManager init_instance] deleteSplitInfo:self.section.section_id];
+        [[ReaderCacheManager init_instance] deleteSplitInfo:self.section];
         [self.pagingView reloadData];
         
         NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/get_section?from=%@&url=%@", SERVER_HOST, self.section.from, [URLUtils uri_encode:self.section.url]];
@@ -166,13 +163,13 @@
     if (self.section != nil && self.section.text != nil && self.section.text.length != 0) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
             self.section.text = [[self.section.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByReplacingOccurrencesOfString:@" " withString:@""];
-            NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section.section_id];
+            NSArray* cachedInfo = [[ReaderCacheManager init_instance] getSplitInfo:self.section];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (cachedInfo) {
                     self.splitInfo = cachedInfo;
                 } else {
                     self.splitInfo = [FontUtils findPageSplits:self.section.text size:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height - 35.0f) font:[UIFont fontWithName:self.userDefaults.fontName size:self.userDefaults.fontSize] vertical:(self.userDefaults.textOrientation == 1)];
-                    [[ReaderCacheManager init_instance] addSplitInfo:self.section.section_id splitInfo:self.splitInfo];
+                    [[ReaderCacheManager init_instance] addSplitInfo:self.section splitInfo:self.splitInfo];
                 }
                 _initialized = NO;
                 [self jumpToBookmark];
@@ -255,10 +252,9 @@
 
 
 -(void) autoSaveBookmark:(NSUInteger)index {
-    self.bookmark.section_id = self.section.section_id;
+    [self.section setBookmark:self.bookmark];
     NSArray* split = [self.splitInfo objectAtIndex:index];
-    self.bookmark.offset = [[split objectAtIndex:0] intValue];
-    [[DataBase get_database_instance] updateBookMark:self.bookmark];
+    self.bookmark.offset = @([[split objectAtIndex:0] intValue]);
 }
 
 -(void) didDragOnTableView:(UISwipeGestureRecognizer*) recognizer {

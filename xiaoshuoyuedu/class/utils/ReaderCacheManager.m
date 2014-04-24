@@ -8,6 +8,7 @@
 
 #import "ReaderCacheManager.h"
 
+
 @implementation ReaderCacheManager
 
 - (id) init {
@@ -31,16 +32,16 @@
     [_cache removeAllObjects];
 }
 
-- (void) deleteSplitInfo:(NSUInteger)sectionId {
-    [_cache removeObjectForKey:@(sectionId)];
+- (void) deleteSplitInfo:(Section* )section {
+    [_cache removeObjectForKey:section.url];
 }
 
-- (void) addSplitInfo:(NSUInteger)sectionId splitInfo:(NSArray*)splitInfo {
-    [_cache setObject:splitInfo forKey:@(sectionId)];
+- (void) addSplitInfo:(Section* )section splitInfo:(NSArray*)splitInfo {
+    [_cache setObject:splitInfo forKey:section.url];
 }
 
-- (NSArray*) getSplitInfo:(NSUInteger)sectionId {
-    return [_cache objectForKey:@(sectionId)];
+- (NSArray*) getSplitInfo:(Section* )section {
+    return [_cache objectForKey:section.url];
 }
 
 @end

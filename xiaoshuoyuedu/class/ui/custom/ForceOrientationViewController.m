@@ -28,7 +28,7 @@
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
 {
-    NSLog(@"preferredInterfaceOrientationForPresentation %d", _orientation);
+    NSLog(@"preferredInterfaceOrientationForPresentation %ld", _orientation);
     return _orientation;
 }
 

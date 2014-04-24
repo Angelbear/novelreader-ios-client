@@ -7,7 +7,6 @@
 //
 
 #import "MSReaderViewController.h"
-#import "DataBase.h"
 #import "Bookmark.h"
 #import "Common.h"
 #import "Section.h"
@@ -17,7 +16,7 @@
 #import "AppDelegate.h"
 
 @interface MSReaderViewController ()
-@property(nonatomic, strong) NSMutableArray* sections;
+@property(nonatomic, strong) NSArray* sections;
 @property(nonatomic, strong) Section* currentSection;
 @property(nonatomic, copy) NSArray *filteredSections;
 @property(nonatomic, copy) NSString *currentSearchString;
@@ -47,8 +46,8 @@ CGFloat _cellHeight;
 - (void) loadBook:(Book*) book {
     self.book = book;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        self.sections = [[DataBase get_database_instance] getAllSectionsOfBook:self.book];
-        self.bookmark = [[DataBase get_database_instance] getDefaultBookmarkForBook:self.book];
+        self.sections = [self.book.sections allObjects];
+        self.bookmark = self.book.bookmark;
         if ([self.sections count] == 0) {
             return;
         }
@@ -56,7 +55,7 @@ CGFloat _cellHeight;
         NSUInteger indexForJump = 0;
         for (indexForJump = 0; indexForJump < [self.sections count]; indexForJump++) {
             Section* section = [self.sections objectAtIndex:indexForJump];
-            if (self.bookmark.section_id == section.section_id.intValue) {
+            if (self.bookmark == section.bookmark) {
                 self.currentSection = section;
                 break;
             }
@@ -265,9 +264,8 @@ CGFloat _cellHeight;
     
     [self transitionToViewController:section];
     self.currentSection = section;
-    self.bookmark.section_id = section.section_id;
     self.bookmark.offset = 0;
-    [[DataBase get_database_instance] updateBookMark:self.bookmark];
+    section.bookmark = self.bookmark;
     [tableView reloadData];
 }
 
@@ -280,10 +278,10 @@ CGFloat _cellHeight;
     }
     Section* sec = (Section*)[self.sections objectAtIndex:index];
     self.currentSection = sec;
-    self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = 0;
     [self transitionToViewController:sec];
-    [[DataBase get_database_instance] updateBookMark:self.bookmark];
+    self.book.bookmark = self.bookmark;
+    sec.bookmark = self.bookmark;
 }
 
 - (void) prevSectionEnd {
@@ -293,10 +291,10 @@ CGFloat _cellHeight;
     }
     Section* sec = (Section*)[self.sections objectAtIndex:index];
     self.currentSection = sec;
-    self.bookmark.section_id = sec.section_id;
-    self.bookmark.offset = [sec.text length];
+    self.bookmark.offset = @([sec.text length]);
     [self transitionToViewController:sec];
-    [[DataBase get_database_instance] updateBookMark:self.bookmark];
+    self.book.bookmark = self.bookmark;
+    sec.bookmark = self.bookmark;
 }
 
 - (void) prevSectionBegin {
@@ -306,10 +304,10 @@ CGFloat _cellHeight;
     }
     Section* sec = (Section*)[self.sections objectAtIndex:index];
     self.currentSection = sec;
-    self.bookmark.section_id = sec.section_id;
     self.bookmark.offset = 0;
     [self transitionToViewController:sec];
-    [[DataBase get_database_instance] updateBookMark:self.bookmark];
+    self.book.bookmark = self.bookmark;
+    sec.bookmark = self.bookmark;
 }
 
 - (void) downloadLaterSections {
@@ -323,7 +321,6 @@ CGFloat _cellHeight;
                 [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_SECTION url:searchUrl piority:NSOperationQueuePriorityLow success:^(NSURLRequest *request, NSHTTPURLResponse *response, id data) {
                     if (data != nil) {
                         section.text = [data objectForKey:@"text"];
-                        [[DataBase get_database_instance] updateSection:section];
                         [self.tableView reloadData];
                     }
                 } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {

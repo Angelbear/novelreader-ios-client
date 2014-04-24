@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Section.h"
 
 @interface ReaderCacheManager : NSObject {
     NSMutableDictionary* _cache;
 }
 + (ReaderCacheManager*) init_instance;
 - (void) clearAllSplitInfos;
-- (void) deleteSplitInfo:(NSUInteger)sectionId;
-- (void) addSplitInfo:(NSUInteger)sectionId splitInfo:(NSArray*)splitInfo;
-- (NSArray*) getSplitInfo:(NSUInteger)sectionId;
+- (void) deleteSplitInfo:(Section* )section;
+- (void) addSplitInfo:(Section* )section splitInfo:(NSArray*)splitInfo;
+- (NSArray*) getSplitInfo:(Section* )section;
 @end

@@ -45,7 +45,6 @@
     self.bookUrl = url;
     self.authorName = author;
     self.placeHolderImage = [UIImage imageNamed:@"placeholder"];
-    self.bookModel = [[Book alloc] init];
     return self;
 }
 
@@ -119,7 +118,7 @@
             }
             
             NSString* url = [JSON objectForKey:@"url"];
-            Book* book = [[DataBase get_database_instance] getBookByUrl:url];
+            Book* book = [Book MR_findFirstByAttribute:@"url" withValue:url];
             if (book != nil) {
                 weakReferenceSelf.bookModel = book;
                 [weakReferenceSelf.downloadButton removeFromSuperview];
@@ -151,7 +150,7 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    
+    self.bookModel = [Book MR_createEntity];
     // Step 1: Insert book info into db
     self.bookModel.name = self.bookName;
     self.bookModel.from = self.fromSite;
@@ -168,14 +167,10 @@
     NSString* searchUrl = [NSString stringWithFormat:@"http://%@/note/retrieve_sections?from=%@&url=%@", SERVER_HOST, self.fromSite, [URLUtils uri_encode:self.bookModel.url]];
     [[DownloadManager init_instance] addDownloadTask:NOVEL_DOWNLOAD_TASK_TYPE_BOOK_INFO url:searchUrl piority:NSOperationQueuePriorityVeryHigh success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (JSON != nil && weakReferenceSelf !=nil) {
-            NSUInteger book_id = [[DataBase get_database_instance] insertBook:weakReferenceSelf.bookModel];
-            weakReferenceSelf.bookModel.book_id = @(book_id);
-            
-            NSMutableArray* sections = [[NSMutableArray alloc] init];
+            NSMutableSet* sections = [[NSMutableSet alloc] init];
             for (int i = 0; i < [JSON count]; i++) {
                 id sec = [JSON objectAtIndex:i];
-                Section* section = [[Section alloc] init];
-                section.book_id = weakReferenceSelf.bookModel.book_id;
+                Section* section = [Section MR_createEntity];
                 section.url = [sec valueForKey:@"url"];
                 section.from = weakReferenceSelf.fromSite;
                 section.name = [sec valueForKey:@"name"];
@@ -185,12 +180,11 @@
             }
             
             if ([sections count] > 0) {
-                [[DataBase get_database_instance] insertSections:sections];
-                [[DataBase get_database_instance] createDefaultBookMark:weakReferenceSelf.bookModel];
+                [weakReferenceSelf.bookModel addSections:sections];
                 [self.downloadButton removeFromSuperview];
                 [self.view addSubview:self.readButton];
             } else {
-                [[DataBase get_database_instance] deleteBook:weakReferenceSelf.bookModel];
+                [weakReferenceSelf.bookModel deleteEntity];
             }
         }
         [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];

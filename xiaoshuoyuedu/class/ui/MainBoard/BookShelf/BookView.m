@@ -117,19 +117,19 @@
 
 
 - (void) refreshBadgeNumber {
-    Bookmark* bookmark = [[DataBase get_database_instance] getDefaultBookmarkForBook:self.book];
-    NSMutableArray* sections = [[DataBase get_database_instance] getAllSectionsOfBook:self.book];
+    Bookmark* bookmark = self.book.bookmark;
+    NSSet* sections = self.book.sections;
     
     NSUInteger unreadCount = [sections count];
     for (Section* sec in sections) {
         unreadCount--;
-        if (bookmark.section_id == sec.section_id) {
+        if (bookmark.section == sec) {
             break;
         }
     }
     
     if (unreadCount > 0) {
-        NSString* numberStr = [NSString stringWithFormat:@"%d", unreadCount];
+        NSString* numberStr = [NSString stringWithFormat:@"%ld", unreadCount];
         _badge = [CustomBadge customBadgeWithString:numberStr withStringColor:[UIColor whiteColor] withInsetColor:[UIColor redColor] withBadgeFrame:YES withBadgeFrameColor:[UIColor whiteColor] withScale:1.0f withShining:YES];
         _badge.frame = CGRectMake(_cover.frame.origin.x + _cover.frame.size.width - _badge.frame.size.width / 2, _cover.frame.origin.y - _badge.frame.size.height / 2 , _badge.frame.size.width, _badge.frame.size.height);
         _badge.hidden = NO;

@@ -74,14 +74,14 @@
                 if (JSON != nil && weakReferenceSelf !=nil) {
                     for (int i = 0; i < [JSON count]; i++) {
                         id sec = [JSON objectAtIndex:i];
-                        Section* section = [[Section alloc] init];
-                        section.book_id = book.book_id;
+                        Section* section = [Section createEntity];
                         section.url = [sec valueForKey:@"url"];
                         section.from = book.from;
                         section.name = [sec valueForKey:@"name"];
                         section.text = @"";
-                        if ([[DataBase get_database_instance] getSectionByUrl:section.url] == nil) {
-                            [[DataBase get_database_instance] insertSection:section];
+                        if ([Section findFirstByAttribute:@"url" withValue:section.url] == nil)
+                        {
+                            [book addSectionsObject:section];
                         }
                     }
                 }
@@ -112,9 +112,17 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         NSString* baseURL = [NSString stringWithFormat:@"http://%@/", SERVER_HOST];
         for (Book* book in self.books) {
-            NSMutableArray* allSections = [[DataBase get_database_instance] getAllSectionsOfBook:book];
-            NSMutableArray* downloadedSections = [[DataBase get_database_instance] getDownloadedSectionsOfBook:book];
-            NSMutableArray* notDownloadedSections = [[DataBase get_database_instance] getNotDownloadedSectionsOfBook:book limit:[allSections count]];
+            NSPredicate *predHasText = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                Section* sec = evaluatedObject;
+                return (sec.text == nil || sec.text.length == 0);
+            }];
+            NSPredicate *predNotHasText = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                Section* sec = evaluatedObject;
+                return (sec.text != nil && sec.text.length > 0);
+            }];
+
+            NSSet* downloadedSections = [book.sections filteredSetUsingPredicate:predHasText];
+            NSSet* notDownloadedSections = [book.sections filteredSetUsingPredicate:predNotHasText];
             if ([notDownloadedSections count] == 0) {
                 continue;
             }
@@ -140,7 +148,6 @@
                     if (JSON != nil) {
                         sec.text = [JSON objectForKey:@"text"];
                         sec.name = [JSON objectForKey:@"title"];
-                        [[DataBase get_database_instance] updateSection:sec];
                     }
                 } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
                     
@@ -150,7 +157,7 @@
             [client enqueueBatchOfHTTPRequestOperations:operations
                   progressBlock:^(NSUInteger numberOfCompletedOperations, NSUInteger totalNumberOfOperations) {
                       if (weakReferenceSelf) {
-                          bookView.downloadProgressView.progress = (CGFloat)(numberOfCompletedOperations + [downloadedSections count]) / (CGFloat)([allSections count]);
+                          bookView.downloadProgressView.progress = (CGFloat)(numberOfCompletedOperations + [downloadedSections count]) / (CGFloat)([book.sections count]);
                       }
                       if (numberOfCompletedOperations == totalNumberOfOperations) {
                           [bookView endDownload];
@@ -241,7 +248,7 @@ BOOL animating;
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.books = [[DataBase get_database_instance] getAllBooks];
+    self.books = [NSMutableArray arrayWithArray:[Book MR_findAll]];
     [_bookShelfView reloadData];
 }
 
@@ -419,7 +426,7 @@ BOOL animating;
 - (void) deleteBook:(Book*)book withBookView:(BookView*)view {
     NSUInteger index = [self.books indexOfObject:book];
     NSIndexSet* set = [[NSIndexSet alloc] initWithIndex:index];
-    if ([[DataBase get_database_instance] deleteBook:book] == YES) {
+    if ([book deleteEntity] == YES) {
         [_bookShelfView removeBookViewsAtIndexs:set animate:YES];
         [self.books removeObject:book];
     }

@@ -88,9 +88,6 @@
 		B4882C5418FD27F20015F178 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B4882C5218FD27F20015F178 /* Model.xcdatamodeld */; };
 		B4882C5618FD32F60015F178 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4882C5518FD32F60015F178 /* CoreData.framework */; };
 		B4882C6B18FD36AF0015F178 /* ImageTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B4882C6A18FD36AF0015F178 /* ImageTransformer.m */; };
-		B4882C6E18FD371E0015F178 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4882C6D18FD371E0015F178 /* Section.m */; };
-		B4882C7118FD371E0015F178 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4882C7018FD371E0015F178 /* Book.m */; };
-		B4882C7418FE1DE80015F178 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4882C7318FE1DE80015F178 /* Bookmark.m */; };
 		B48C56CB17B3856A00F3F8FF /* rotation~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56C917B3856A00F3F8FF /* rotation~iPad.png */; };
 		B48C56CC17B3856A00F3F8FF /* rotation~iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B48C56CA17B3856A00F3F8FF /* rotation~iPhone.png */; };
 		B497126C17C302C3005C2EE4 /* ForceOrientationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B497126B17C302C3005C2EE4 /* ForceOrientationViewController.m */; };
@@ -111,6 +108,12 @@
 		B4A68CD51783F72F00F650F5 /* slider-brightest-glyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */; };
 		B4A68CD61783F72F00F650F5 /* slider-dimmest-glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD21783F72F00F650F5 /* slider-dimmest-glyph.png */; };
 		B4A68CD71783F72F00F650F5 /* slider-dimmest-glyph@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A68CD31783F72F00F650F5 /* slider-dimmest-glyph@2x.png */; };
+		B4BDFFDE1908EFC300061EF7 /* _Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFD31908EFC300061EF7 /* _Book.m */; };
+		B4BDFFDF1908EFC300061EF7 /* _Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFD51908EFC300061EF7 /* _Bookmark.m */; };
+		B4BDFFE01908EFC300061EF7 /* _Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFD71908EFC300061EF7 /* _Section.m */; };
+		B4BDFFE11908EFC300061EF7 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFD91908EFC300061EF7 /* Book.m */; };
+		B4BDFFE21908EFC300061EF7 /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFDB1908EFC300061EF7 /* Bookmark.m */; };
+		B4BDFFE31908EFC300061EF7 /* Section.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BDFFDD1908EFC300061EF7 /* Section.m */; };
 		B4C6A43317C5EB7300073B60 /* rotation@2x~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B4C6A43117C5E62C00073B60 /* rotation@2x~iPad.png */; };
 		B4C6A43417C5EB7300073B60 /* rotation@2x~iPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = B4C6A43217C5EA3800073B60 /* rotation@2x~iPhone.png */; };
 		B4D4B92317815220008BAA84 /* badge.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D4B92117815220008BAA84 /* badge.png */; };
@@ -259,12 +262,6 @@
 		B4882C5518FD32F60015F178 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B4882C6918FD36AF0015F178 /* ImageTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTransformer.h; sourceTree = "<group>"; };
 		B4882C6A18FD36AF0015F178 /* ImageTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTransformer.m; sourceTree = "<group>"; };
-		B4882C6C18FD371E0015F178 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
-		B4882C6D18FD371E0015F178 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
-		B4882C6F18FD371E0015F178 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
-		B4882C7018FD371E0015F178 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
-		B4882C7218FE1DE80015F178 /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookmark.h; sourceTree = "<group>"; };
-		B4882C7318FE1DE80015F178 /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookmark.m; sourceTree = "<group>"; };
 		B48C56C917B3856A00F3F8FF /* rotation~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~iPad.png"; sourceTree = "<group>"; };
 		B48C56CA17B3856A00F3F8FF /* rotation~iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation~iPhone.png"; sourceTree = "<group>"; };
 		B497126A17C302C3005C2EE4 /* ForceOrientationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForceOrientationViewController.h; sourceTree = "<group>"; };
@@ -288,6 +285,18 @@
 		B4A68CD11783F72F00F650F5 /* slider-brightest-glyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-brightest-glyph@2x.png"; sourceTree = "<group>"; };
 		B4A68CD21783F72F00F650F5 /* slider-dimmest-glyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-dimmest-glyph.png"; sourceTree = "<group>"; };
 		B4A68CD31783F72F00F650F5 /* slider-dimmest-glyph@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-dimmest-glyph@2x.png"; sourceTree = "<group>"; };
+		B4BDFFD21908EFC300061EF7 /* _Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Book.h; sourceTree = "<group>"; };
+		B4BDFFD31908EFC300061EF7 /* _Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Book.m; sourceTree = "<group>"; };
+		B4BDFFD41908EFC300061EF7 /* _Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Bookmark.h; sourceTree = "<group>"; };
+		B4BDFFD51908EFC300061EF7 /* _Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Bookmark.m; sourceTree = "<group>"; };
+		B4BDFFD61908EFC300061EF7 /* _Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Section.h; sourceTree = "<group>"; };
+		B4BDFFD71908EFC300061EF7 /* _Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Section.m; sourceTree = "<group>"; };
+		B4BDFFD81908EFC300061EF7 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		B4BDFFD91908EFC300061EF7 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		B4BDFFDA1908EFC300061EF7 /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bookmark.h; sourceTree = "<group>"; };
+		B4BDFFDB1908EFC300061EF7 /* Bookmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bookmark.m; sourceTree = "<group>"; };
+		B4BDFFDC1908EFC300061EF7 /* Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Section.h; sourceTree = "<group>"; };
+		B4BDFFDD1908EFC300061EF7 /* Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Section.m; sourceTree = "<group>"; };
 		B4C6A43117C5E62C00073B60 /* rotation@2x~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation@2x~iPad.png"; sourceTree = "<group>"; };
 		B4C6A43217C5EA3800073B60 /* rotation@2x~iPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rotation@2x~iPhone.png"; sourceTree = "<group>"; };
 		B4D4B92117815220008BAA84 /* badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge.png; sourceTree = "<group>"; };
@@ -521,13 +530,19 @@
 		B4A0D83C177D4C5000157BB0 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				B4BDFFD21908EFC300061EF7 /* _Book.h */,
+				B4BDFFD31908EFC300061EF7 /* _Book.m */,
+				B4BDFFD41908EFC300061EF7 /* _Bookmark.h */,
+				B4BDFFD51908EFC300061EF7 /* _Bookmark.m */,
+				B4BDFFD61908EFC300061EF7 /* _Section.h */,
+				B4BDFFD71908EFC300061EF7 /* _Section.m */,
+				B4BDFFD81908EFC300061EF7 /* Book.h */,
+				B4BDFFD91908EFC300061EF7 /* Book.m */,
+				B4BDFFDA1908EFC300061EF7 /* Bookmark.h */,
+				B4BDFFDB1908EFC300061EF7 /* Bookmark.m */,
+				B4BDFFDC1908EFC300061EF7 /* Section.h */,
+				B4BDFFDD1908EFC300061EF7 /* Section.m */,
 				B4882C5218FD27F20015F178 /* Model.xcdatamodeld */,
-				B4882C7218FE1DE80015F178 /* Bookmark.h */,
-				B4882C7318FE1DE80015F178 /* Bookmark.m */,
-				B4882C6F18FD371E0015F178 /* Book.h */,
-				B4882C7018FD371E0015F178 /* Book.m */,
-				B4882C6C18FD371E0015F178 /* Section.h */,
-				B4882C6D18FD371E0015F178 /* Section.m */,
 				B4882C6918FD36AF0015F178 /* ImageTransformer.h */,
 				B4882C6A18FD36AF0015F178 /* ImageTransformer.m */,
 			);
@@ -1008,11 +1023,10 @@
 				B4EF673B1774406500F54681 /* main.m in Sources */,
 				B4EF673F1774406500F54681 /* AppDelegate.m in Sources */,
 				B41AD9561779CE07005F455E /* URLUtils.m in Sources */,
+				B4BDFFE21908EFC300061EF7 /* Bookmark.m in Sources */,
 				B46EC4F9177ED1EF00C6873B /* FontUtils.m in Sources */,
 				B4DD876B1789A80100A82644 /* ReaderCacheManager.m in Sources */,
 				B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */,
-				B4882C7418FE1DE80015F178 /* Bookmark.m in Sources */,
-				B4882C6E18FD371E0015F178 /* Section.m in Sources */,
 				B431887617953759007E84DF /* DownloadManager.m in Sources */,
 				B46213A217A8F3D800B8A9DF /* ReaderTextLabel.m in Sources */,
 				B47F118D17B2198900E94A2E /* ATPagingView.m in Sources */,
@@ -1023,17 +1037,21 @@
 				B4FC032A17C1CFF200E9E2C3 /* BookShelfCellView.m in Sources */,
 				B4882C6B18FD36AF0015F178 /* ImageTransformer.m in Sources */,
 				B4FC032B17C1CFF200E9E2C3 /* BookView.m in Sources */,
+				B4BDFFE31908EFC300061EF7 /* Section.m in Sources */,
+				B4BDFFDE1908EFC300061EF7 /* _Book.m in Sources */,
 				B4FC032C17C1CFF200E9E2C3 /* BookShelfViewController.m in Sources */,
 				B4882C5418FD27F20015F178 /* Model.xcdatamodeld in Sources */,
 				B4FC032D17C1CFF200E9E2C3 /* CategoryResultViewController.m in Sources */,
 				B4FC032E17C1CFF200E9E2C3 /* CategoryViewController.m in Sources */,
 				B4FC032F17C1CFF200E9E2C3 /* MSMainPaneViewController.m in Sources */,
 				B4FC033017C1CFF200E9E2C3 /* MSMasterViewController.m in Sources */,
+				B4BDFFE01908EFC300061EF7 /* _Section.m in Sources */,
 				B4FC033117C1CFF200E9E2C3 /* RankViewController.m in Sources */,
 				B4FC033217C1CFF200E9E2C3 /* SearchBookViewController.m in Sources */,
 				B4FC033317C1CFF200E9E2C3 /* FontMenuViewController.m in Sources */,
-				B4882C7118FD371E0015F178 /* Book.m in Sources */,
 				B4FC033417C1CFF200E9E2C3 /* MSReaderViewController.m in Sources */,
+				B4BDFFE11908EFC300061EF7 /* Book.m in Sources */,
+				B4BDFFDF1908EFC300061EF7 /* _Bookmark.m in Sources */,
 				B4FC033517C1CFF200E9E2C3 /* MSViewDeckController.m in Sources */,
 				B4FC033617C1CFF200E9E2C3 /* ReaderPagingViewController.m in Sources */,
 				B4FC033717C1CFF200E9E2C3 /* SectionPageView.m in Sources */,

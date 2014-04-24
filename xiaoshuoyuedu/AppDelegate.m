@@ -17,6 +17,7 @@
 #import "ReaderCacheManager.h"
 #import "ReaderPagingViewController.h"
 #import "GVUserDefaults+Properties.h"
+#import <MagicalRecord/MagicalRecord.h>
 
 @interface AppDelegate ()
 @end
@@ -26,56 +27,7 @@
 @synthesize currentBookView =_bookView;
 @synthesize isReading = _isReading;
 @synthesize orientation = _orientation;
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
-
-// 1
-- (NSManagedObjectContext *) managedObjectContext {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
-    
-    return _managedObjectContext;
-}
-
-//2
-- (NSManagedObjectModel *)managedObjectModel {
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-    
-    return _managedObjectModel;
-}
-
-//3
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
-                                               stringByAppendingPathComponent: @"Novelreader.sqlite"]];
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
-                                   initWithManagedObjectModel:[self managedObjectModel]];
-    if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                                  configuration:nil URL:storeUrl options:nil error:&error]) {
-        /*Error for store creation should be handled in here*/
-    }
-    
-    return _persistentStoreCoordinator;
-}
-
-- (NSString *)applicationDocumentsDirectory {
-    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -83,6 +35,7 @@
     _userDefaults = [GVUserDefaults standardUserDefaults];
     _userDefaults.orientationLocked = NO;
     
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"db.sqlite"];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
             
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -218,7 +171,7 @@
 
 - (void) switchToReader:(Book*) book {
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
-    if (readerMasterViewController.book.book_id != book.book_id) {
+    if (readerMasterViewController.book != book) {
        [readerMasterViewController loadBook:book];
     }
     [self animationToReader:nil];
@@ -227,7 +180,7 @@
 - (void) switchToReader:(Book*) book fromBookView:(BookView*)view {
     self.currentBookView = view;
     MSReaderViewController *readerMasterViewController = (MSReaderViewController*)self.readerDeckController.rightController;
-    if (readerMasterViewController.book.book_id != book.book_id) {
+    if (readerMasterViewController.book != book) {
          [readerMasterViewController loadBook:book];
     }
     [self animationToReader:view];
@@ -270,13 +223,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-    NSError *error;
-    if (_managedObjectContext != nil) {
-        //hasChanges方法是检查是否有未保存的上下文更改，如果有，则执行save方法保存上下文
-        if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
-            NSLog(@"Error: %@,%@",error,[error userInfo]);
-        }
-    }
+    [MagicalRecord cleanUp];
 }
 
 #pragma mark -

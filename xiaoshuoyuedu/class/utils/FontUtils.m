@@ -57,7 +57,7 @@
         
         BOOL beginParagraph = (location == 0 || [string characterAtIndex:location - 1] == '\n');
 
-        [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithInt:location], [NSNumber numberWithInt:factRange.length], [NSNumber numberWithBool:beginParagraph],nil]];
+        [clusterRanges addObject:[NSArray arrayWithObjects:[NSNumber numberWithLong:(long)location], [NSNumber numberWithLong:(long)factRange.length], [NSNumber numberWithBool:beginParagraph],nil]];
         location += factRange.length;
         
 		CFRelease(frame);
