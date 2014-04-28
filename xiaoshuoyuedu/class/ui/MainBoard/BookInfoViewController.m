@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "DownloadManager.h"
 #import <AsyncImageView/AsyncImageView.h>
+#import "CoreData+MagicalRecord.h"
 
 @interface BookInfoViewController ()
 
@@ -149,7 +150,6 @@
     }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     self.bookModel = [Book MR_createEntity];
     // Step 1: Insert book info into db
     self.bookModel.name = self.bookName;
@@ -178,17 +178,18 @@
                 section.from = weakReferenceSelf.fromSite;
                 [sections addObject:section];
             }
-            
             if ([sections count] > 0) {
                 [weakReferenceSelf.bookModel addSections:sections];
                 [self.downloadButton removeFromSuperview];
                 [self.view addSubview:self.readButton];
             } else {
-                [weakReferenceSelf.bookModel deleteEntity];
+                [weakReferenceSelf.bookModel MR_deleteEntity];
             }
         }
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, id data, NSError *error) {
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [MBProgressHUD hideHUDForView:weakReferenceSelf.view animated:YES];
     }];
 }

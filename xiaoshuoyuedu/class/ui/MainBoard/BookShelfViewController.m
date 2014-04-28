@@ -426,7 +426,7 @@ BOOL animating;
 - (void) deleteBook:(Book*)book withBookView:(BookView*)view {
     NSUInteger index = [self.books indexOfObject:book];
     NSIndexSet* set = [[NSIndexSet alloc] initWithIndex:index];
-    if ([book deleteEntity] == YES) {
+    if ([book MR_deleteEntity] == YES) {
         [_bookShelfView removeBookViewsAtIndexs:set animate:YES];
         [self.books removeObject:book];
     }
