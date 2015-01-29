@@ -15,7 +15,6 @@
 #import "MSReaderViewController.h"
 #import <ViewDeck/IISideController.h>
 #import "Common.h"
-#import <Crashlytics/Crashlytics.h>
 #import "ReaderCacheManager.h"
 #import "ReaderPagingViewController.h"
 #import "GVUserDefaults+Properties.h"
@@ -30,9 +29,7 @@
 @synthesize orientation = _orientation;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    [Crashlytics startWithAPIKey:@"8946d07e106863f557b755bb244b513a82a3f788"];
-    
+{  
     _isReading = NO;
     _userDefaults = [GVUserDefaults standardUserDefaults];
     _userDefaults.orientationLocked = NO;

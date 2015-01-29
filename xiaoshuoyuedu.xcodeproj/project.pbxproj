@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B305F5C6ACC00B04487457AA /* libPods-xiaoshuoyuedu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 136114E8F222320930526CDE /* libPods-xiaoshuoyuedu.a */; };
 		B40B3C8E178D43AF000A8C6A /* airplay.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8C178D43AF000A8C6A /* airplay.png */; };
 		B40B3C8F178D43AF000A8C6A /* airplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B40B3C8D178D43AF000A8C6A /* airplay@2x.png */; };
 		B41AD9561779CE07005F455E /* URLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = B41AD9551779CE07005F455E /* URLUtils.m */; };
 		B431887617953759007E84DF /* DownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B431887517953759007E84DF /* DownloadManager.m */; };
-		B431888A17955D32007E84DF /* libPods-xiaoshuoyuedu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B431888917955D32007E84DF /* libPods-xiaoshuoyuedu.a */; };
 		B4338B5117C6128B00248153 /* lock@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = B4338B5017C6128B00248153 /* lock@2X.png */; };
 		B43CC72E178026E1009BFA2E /* NavBar-Landscape@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC717178026E1009BFA2E /* NavBar-Landscape@2x~iphone.png */; };
 		B43CC72F178026E1009BFA2E /* NavBar-Landscape~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B43CC718178026E1009BFA2E /* NavBar-Landscape~iphone.png */; };
@@ -166,7 +166,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.xcconfig"; path = "Pods/Pods-xiaoshuoyuedu.xcconfig"; sourceTree = SOURCE_ROOT; };
+		136114E8F222320930526CDE /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-xiaoshuoyuedu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E0F8B9875CB7F3770C9707F /* Pods-xiaoshuoyuedu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.release.xcconfig"; path = "Pods/Target Support Files/Pods-xiaoshuoyuedu/Pods-xiaoshuoyuedu.release.xcconfig"; sourceTree = "<group>"; };
+		6875AE010B8D0ED3C163C6FC /* Pods-xiaoshuoyuedu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xiaoshuoyuedu/Pods-xiaoshuoyuedu.debug.xcconfig"; sourceTree = "<group>"; };
+		9FF3D7740785614C37BDE628 /* Pods-xiaoshuoyuedu.ad-hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xiaoshuoyuedu.ad-hoc.xcconfig"; path = "Pods/Target Support Files/Pods-xiaoshuoyuedu/Pods-xiaoshuoyuedu.ad-hoc.xcconfig"; sourceTree = "<group>"; };
 		B40B3C8C178D43AF000A8C6A /* airplay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = airplay.png; sourceTree = "<group>"; };
 		B40B3C8D178D43AF000A8C6A /* airplay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplay@2x.png"; sourceTree = "<group>"; };
 		B41AD9541779CE07005F455E /* URLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLUtils.h; sourceTree = "<group>"; };
@@ -174,7 +177,6 @@
 		B426FDA31779294F00205904 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B431887417953759007E84DF /* DownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadManager.h; sourceTree = "<group>"; };
 		B431887517953759007E84DF /* DownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadManager.m; sourceTree = "<group>"; };
-		B431888917955D32007E84DF /* libPods-xiaoshuoyuedu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-xiaoshuoyuedu.a"; path = "Pods/build/Release-iphoneos/libPods-xiaoshuoyuedu.a"; sourceTree = "<group>"; };
 		B4338B5017C6128B00248153 /* lock@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@2X.png"; sourceTree = "<group>"; };
 		B43CC717178026E1009BFA2E /* NavBar-Landscape@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBar-Landscape@2x~iphone.png"; sourceTree = "<group>"; };
 		B43CC718178026E1009BFA2E /* NavBar-Landscape~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBar-Landscape~iphone.png"; sourceTree = "<group>"; };
@@ -370,7 +372,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B431888A17955D32007E84DF /* libPods-xiaoshuoyuedu.a in Frameworks */,
 				B46EC4FC177ED23900C6873B /* CoreText.framework in Frameworks */,
 				B4F93F8317744EEA0025A1E8 /* QuartzCore.framework in Frameworks */,
 				B4E1A17B177880FC0068877C /* SystemConfiguration.framework in Frameworks */,
@@ -379,6 +380,7 @@
 				B4EF67311774406400F54681 /* Foundation.framework in Frameworks */,
 				B4EF67331774406400F54681 /* CoreGraphics.framework in Frameworks */,
 				B4589457178BEBDE004A5495 /* Crashlytics.framework in Frameworks */,
+				B305F5C6ACC00B04487457AA /* libPods-xiaoshuoyuedu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +397,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		83CC9EEC42A0565D68A3FFFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6875AE010B8D0ED3C163C6FC /* Pods-xiaoshuoyuedu.debug.xcconfig */,
+				4E0F8B9875CB7F3770C9707F /* Pods-xiaoshuoyuedu.release.xcconfig */,
+				9FF3D7740785614C37BDE628 /* Pods-xiaoshuoyuedu.ad-hoc.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B426FDA21779293000205904 /* utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,14 +555,13 @@
 		B4EF67221774406400F54681 = {
 			isa = PBXGroup;
 			children = (
-				B431888917955D32007E84DF /* libPods-xiaoshuoyuedu.a */,
 				B4A68C8F1782641C00F650F5 /* font */,
 				B4F93F6317744E7B0025A1E8 /* Images */,
 				B4EF67341774406400F54681 /* xiaoshuoyuedu */,
 				B4EF67521774406500F54681 /* xiaoshuoyueduTests */,
 				B4EF672D1774406400F54681 /* Frameworks */,
 				B4EF672C1774406400F54681 /* Products */,
-				A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */,
+				83CC9EEC42A0565D68A3FFFE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -575,6 +586,7 @@
 				B4EF67301774406400F54681 /* Foundation.framework */,
 				B4EF67321774406400F54681 /* CoreGraphics.framework */,
 				B4EF674C1774406500F54681 /* SenTestingKit.framework */,
+				136114E8F222320930526CDE /* libPods-xiaoshuoyuedu.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -774,7 +786,6 @@
 				B4EF67281774406400F54681 /* Frameworks */,
 				B4EF67291774406400F54681 /* Resources */,
 				34993AD69EFC43E98DD3CD09 /* Copy Pods Resources */,
-				B4589455178BEBB5004A5495 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -802,7 +813,7 @@
 			name = xiaoshuoyueduTests;
 			productName = xiaoshuoyueduTests;
 			productReference = B4EF674B1774406500F54681 /* xiaoshuoyueduTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -981,20 +992,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-xiaoshuoyuedu-resources.sh\"\n";
-		};
-		B4589455178BEBB5004A5495 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 8946d07e106863f557b755bb244b513a82a3f788";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xiaoshuoyuedu/Pods-xiaoshuoyuedu-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		B4EF67491774406500F54681 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1174,17 +1173,14 @@
 		};
 		B43188781795585D007E84DF /* Ad-Hoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */;
+			baseConfigurationReference = 9FF3D7740785614C37BDE628 /* Pods-xiaoshuoyuedu.ad-hoc.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -1273,17 +1269,14 @@
 		};
 		B4EF675E1774406500F54681 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */;
+			baseConfigurationReference = 6875AE010B8D0ED3C163C6FC /* Pods-xiaoshuoyuedu.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -1296,17 +1289,14 @@
 		};
 		B4EF675F1774406500F54681 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A965EBFEE1154A4E8219AEF0 /* Pods-xiaoshuoyuedu.xcconfig */;
+			baseConfigurationReference = 4E0F8B9875CB7F3770C9707F /* Pods-xiaoshuoyuedu.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${HEADER_SEARCH_PATHS}";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "xiaoshuoyuedu/xiaoshuoyuedu-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";

@@ -5,7 +5,7 @@ PODS:
   - CKRefreshControl (1.1.0)
   - CustomBadge (2.0)
   - FMDB (2.1):
-    - FMDB/standard
+    - FMDB/standard (= 2.1)
   - FMDB/common (2.1)
   - FMDB/standard (2.1):
     - FMDB/common
@@ -34,18 +34,23 @@ EXTERNAL SOURCES:
   BookShelf:
     :git: https://github.com/ultragtx/GSBookShelf.git
 
-SPEC CHECKSUMS:
-  AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
-  AsyncImageView: 34ac0e1c1d251087c6643b175a25c5d7a18512fa
-  BookShelf: 61b907d7708f386dcd253082753b0446cc83b830
-  CKRefreshControl: d90d7fe773e2cb0f54d9f917bc78e3a23e6cdc1b
-  CustomBadge: 07ca87331a9644bc355963ff47c9d1b1f2516acf
-  FMDB: 2769004a271eae0bbd8bd4f45a3f2acfd0d3df0e
-  GVUserDefaults: 5c24ace2008cc11953ebf72b6f9061ab898558d0
-  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
-  MSNavigationPaneViewController: 179285558ba1a61a9de68e84d91e77efccb3f3d6
-  PRTween: d0439e7917031328f81de4910c5b02e202389939
-  ViewDeck: b5eddc8559b0e47259ab7addbf2de6768061f139
-  WEPopover: 119fe521e9c35069c5ec63dfc14334ca321275b8
+CHECKOUT OPTIONS:
+  BookShelf:
+    :commit: 04fb23865d9c7755f18da16fd36ec82edb2e0083
+    :git: https://github.com/ultragtx/GSBookShelf.git
 
-COCOAPODS: 0.22.3
+SPEC CHECKSUMS:
+  AFNetworking: 13fd672bb1f6919946d259d97f31000015680dfa
+  AsyncImageView: 25c96dcf7247f2981a660c8e5b703f0e2e3a41f6
+  BookShelf: 61b907d7708f386dcd253082753b0446cc83b830
+  CKRefreshControl: 3c59e4d4d5977a604df40baa1cfa7554426e6f0e
+  CustomBadge: b7696c0a1fa1f324dd2a18d57a8976b9de330b18
+  FMDB: 2a4025247d22fb28865db84c744706385f806d7d
+  GVUserDefaults: 11084ab602d2c43969c2f674fd893d3f660a2bf4
+  MBProgressHUD: 1458a93b44933b4ccfb97c13d54202c943522bb2
+  MSNavigationPaneViewController: 66744d98747942134f5ed9bed049efc17c01b4b7
+  PRTween: 27ec4d9d84f9e3be56717447a694842f0ba9640b
+  ViewDeck: 2f38c054dfe8e69af4877c006785996faa277902
+  WEPopover: 256b8f1a8455902f8daf44aa609067fad42b05fb
+
+COCOAPODS: 0.35.0

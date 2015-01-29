@@ -10,29 +10,29 @@
 	<string>xiaoshuoyuedu</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>FF5F5B78-CCE6-4ACC-8318-AFCFAD6E514E</key>
+		<key>32D43F6D6E1870B508EDBB7ECBF3DD9E875F50F8</key>
 		<string>ssh://github.com/Angelbear/novelreader-ios-client.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>xiaoshuoyuedu.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>FF5F5B78-CCE6-4ACC-8318-AFCFAD6E514E</key>
+		<key>32D43F6D6E1870B508EDBB7ECBF3DD9E875F50F8</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/Angelbear/novelreader-ios-client.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>FF5F5B78-CCE6-4ACC-8318-AFCFAD6E514E</string>
+	<string>32D43F6D6E1870B508EDBB7ECBF3DD9E875F50F8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>FF5F5B78-CCE6-4ACC-8318-AFCFAD6E514E</string>
+			<string>32D43F6D6E1870B508EDBB7ECBF3DD9E875F50F8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>novelreader-ios-client</string>
 		</dict>
