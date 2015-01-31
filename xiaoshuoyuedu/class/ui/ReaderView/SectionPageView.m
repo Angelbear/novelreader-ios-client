@@ -147,7 +147,7 @@
     NSDateComponents *dataComps = [gregorianCal components: (NSHourCalendarUnit | NSMinuteCalendarUnit)
                                                   fromDate: [NSDate date]];
     
-    self.timeView.text = [NSString stringWithFormat:@"%02d:%02d", [dataComps hour], [dataComps minute]];
+    self.timeView.text = [NSString stringWithFormat:@"%02ld:%02ld", (long)[dataComps hour], (long)[dataComps minute]];
 
     [self showMenu:_menuMode];
 }
@@ -179,10 +179,10 @@
     GVUserDefaults* ud = [GVUserDefaults standardUserDefaults];
     AppDelegate* delegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     if (ud.orientationLocked) {
-        ud.orientationLocked = NO;
+        ud.orientationLocked = @NO;
         [item setImage:[UIImage imageNamed:@"rotation"]];
     } else {
-        ud.orientationLocked = YES;
+        ud.orientationLocked = @YES;
         ud.fixedOrientation = delegate.orientation;
         [item setImage:[UIImage imageNamed:@"lock"]];
     }

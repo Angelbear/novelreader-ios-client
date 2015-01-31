@@ -32,6 +32,7 @@
 {  
     _isReading = NO;
     _userDefaults = [GVUserDefaults standardUserDefaults];
+    [_userDefaults setupDefaults];
     _userDefaults.orientationLocked = NO;
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];

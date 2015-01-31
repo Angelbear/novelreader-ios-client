@@ -53,7 +53,6 @@
 		B454F02C178176EF0026C113 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F025178176EF0026C113 /* Default@2x~iphone.png */; };
 		B454F02D178176EF0026C113 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = B454F026178176EF0026C113 /* Default~iphone.png */; };
 		B4589451178AA730004A5495 /* JSONRequestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4589450178AA730004A5495 /* JSONRequestTableViewController.m */; };
-		B4589457178BEBDE004A5495 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4589456178BEBDE004A5495 /* Crashlytics.framework */; };
 		B458945E178BFE73004A5495 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4589459178BFE73004A5495 /* AboutViewController.xib */; };
 		B4589461178BFE73004A5495 /* SearchBookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B458945C178BFE73004A5495 /* SearchBookViewController.xib */; };
 		B46213A217A8F3D800B8A9DF /* ReaderTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B46213A117A8F3D800B8A9DF /* ReaderTextLabel.m */; };
@@ -219,7 +218,6 @@
 		B454F026178176EF0026C113 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		B458944F178AA730004A5495 /* JSONRequestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRequestTableViewController.h; sourceTree = "<group>"; };
 		B4589450178AA730004A5495 /* JSONRequestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONRequestTableViewController.m; sourceTree = "<group>"; };
-		B4589456178BEBDE004A5495 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		B4589459178BFE73004A5495 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		B458945C178BFE73004A5495 /* SearchBookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchBookViewController.xib; sourceTree = "<group>"; };
 		B46213A017A8F3D800B8A9DF /* ReaderTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderTextLabel.h; sourceTree = "<group>"; };
@@ -379,7 +377,6 @@
 				B4EF672F1774406400F54681 /* UIKit.framework in Frameworks */,
 				B4EF67311774406400F54681 /* Foundation.framework in Frameworks */,
 				B4EF67331774406400F54681 /* CoreGraphics.framework in Frameworks */,
-				B4589457178BEBDE004A5495 /* Crashlytics.framework in Frameworks */,
 				B305F5C6ACC00B04487457AA /* libPods-xiaoshuoyuedu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,7 +574,6 @@
 		B4EF672D1774406400F54681 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B4589456178BEBDE004A5495 /* Crashlytics.framework */,
 				B46EC4FA177ED22600C6873B /* CoreText.framework */,
 				B4E1A178177880D60068877C /* MobileCoreServices.framework */,
 				B4E1A176177880CA0068877C /* SystemConfiguration.framework */,
@@ -803,7 +799,7 @@
 				B4EF67461774406500F54681 /* Sources */,
 				B4EF67471774406500F54681 /* Frameworks */,
 				B4EF67481774406500F54681 /* Resources */,
-				B4EF67491774406500F54681 /* ShellScript */,
+				B4EF67491774406500F54681 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -995,13 +991,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xiaoshuoyuedu/Pods-xiaoshuoyuedu-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B4EF67491774406500F54681 /* ShellScript */ = {
+		B4EF67491774406500F54681 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1177,6 +1174,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
@@ -1273,6 +1271,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";
@@ -1293,6 +1292,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "xiaoshuoyuedu/xiaoshuoyuedu-Prefix.pch";

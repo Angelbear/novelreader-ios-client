@@ -15,7 +15,7 @@ enum {
 } LOCALE_SETTINGS;
 
 @interface GVUserDefaults (Properties)
-@property (nonatomic) BOOL orientationLocked;
+@property (nonatomic) NSNumber* orientationLocked;
 @property (nonatomic) NSUInteger fixedOrientation;
 @property (nonatomic) CGFloat fontSize;
 @property (nonatomic, weak) NSString* fontName;
